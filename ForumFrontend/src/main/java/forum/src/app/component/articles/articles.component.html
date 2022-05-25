@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+  <nav class="navbar navbar-light bg-light " >
+    <form class="form-inline input-group">
+      <input class="form-control mr-sm-2 " type="search" placeholder="Поиск" aria-label="Search">
+      <button class="btn btn-primary my-sm-0 m-2 " style="border: none; background: powderblue" type="submit">Поиск</button>
+    </form>
+  </nav>
+
+  <div class="row  g-4">
+      <div class="col "  *ngFor="let articleEntity of articles">
+        <div class="card h-100" style="width: 18rem;">
+          <img [src]="image" alt="Article image" class="card-img-top rounded-top">
+          <div class="card-body">
+            <h3 class="card-title fw-bold text-center">{{articleEntity.title}}</h3>
+            <p class="card-text">{{getTextArticle(articleEntity)}}</p>
+            <span class="card-text">Like-{{articleEntity.likes}} Dislike-{{articleEntity.dislikes}}</span>
+            <span class="card-text">(150)</span><!--todo вытощить все коменты определенной стпатьи и вставить их число сюда -->
+          </div>
+          <div class="card-group">
+              <a class="card-link" *ngFor="let tag of getTagsArticle(articleEntity)">{{tag}}</a><!--TODO Разделить теги на одиночные-->
+          </div>
+          <div class="card-footer">
+            <img class="card-img avatar"  [src]="ava" alt="Author">
+            <span class="card-text">Sobo Rikhan</span>
+            <a class="card-img" href="/">Избранное</a>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</div>
+
