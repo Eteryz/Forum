@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -41,7 +42,8 @@ public class UserService {
                 .orElseThrow(()-> new UserNotFoundException("User by id " + id + " was not found!")));
     }
 
-    public void deleteUser(Long id){
-        userRepository.deleteById(id);
+    public Long deleteUser(Long id){
+            userRepository.deleteById(id);
+        return id;
     }
 }

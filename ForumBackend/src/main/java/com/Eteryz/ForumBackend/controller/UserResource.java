@@ -31,12 +31,21 @@ public class UserResource {
         }catch (UserAlreadyExistException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch(Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка!");
+            return ResponseEntity.badRequest().body("Произошла ошибка при добавлении пользователя");
         }
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<User> getAllUsers(@PathVariable("id") Long id){
+    public ResponseEntity<User> getAllUsers(@PathVariable Long id){
         return new ResponseEntity<>(userService.getOneUser(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        try {
+            return ResponseEntity.ok(userService.deleteUser(id));
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Произошла ошибка при удалении пользователя");
+        }
     }
 }

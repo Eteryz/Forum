@@ -25,4 +25,9 @@ public class ArticleService {
                 .map(Article::toModel)
                 .collect(Collectors.toList());
     }
+
+    public Long deleteArticle(Long id){
+        articleRepository.deleteById(id);
+        return id;
+    }
 }

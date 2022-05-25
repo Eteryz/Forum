@@ -24,14 +24,24 @@ public class CommentResource {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addArticle(@RequestBody CommentEntity commentEntity,
+    public ResponseEntity<?> addComment(@RequestBody CommentEntity commentEntity,
                                         @RequestParam Long userId,
                                         @RequestParam Long articleId){
         try{
             return ResponseEntity.ok(
                     commentService.addComment(commentEntity, userId, articleId));
         }catch(Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка!");
+            return ResponseEntity.badRequest().body("Произошла ошибка при добавлении комментария");
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(
+                    commentService.deleteComment(id));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("Произошла ошибка при удалении комментария");
         }
     }
 }

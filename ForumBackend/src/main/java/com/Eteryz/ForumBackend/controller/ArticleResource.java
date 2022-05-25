@@ -27,4 +27,13 @@ public class ArticleResource {
         articleService.addArticle(article);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteArticle(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(articleService.deleteArticle(id));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body("Произошла ошибка при удалении статьи");
+        }
+    }
 }

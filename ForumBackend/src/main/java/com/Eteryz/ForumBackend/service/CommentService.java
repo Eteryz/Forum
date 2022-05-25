@@ -44,4 +44,9 @@ public class CommentService {
                 .map(Comment::toModel)
                 .collect(Collectors.toList());
     }
+
+    public Long deleteComment(Long id) {
+        commentRepository.deleteById(id);
+        return id;
+    }
 }
