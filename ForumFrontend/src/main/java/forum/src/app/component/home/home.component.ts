@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Article} from "../../model/article";
-import {ArticleService} from "../../service/article.service";
-import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
@@ -10,19 +7,11 @@ import {NgForm} from "@angular/forms";
 })
 export class HomeComponent implements OnInit {
 
-  public article?: Article;
-
-  constructor(private articleService: ArticleService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-  }
+        throw new Error('Method not implemented.');
+    }
 
-  saveArticle(addForm: NgForm): void {
-    this.articleService.save(addForm.value).subscribe(
-      (response: Article)=> {
-        console.log(response);
-      }
-    )
-  }
 }

@@ -16,6 +16,7 @@ import { ArticleComponent } from './component/article/article.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { CommentComponent } from './component/comment/comment.component';
 import {FormsModule} from "@angular/forms";
+import { ArticleCreationComponent } from './component/article-creation/article-creation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {FormsModule} from "@angular/forms";
     ArticleComponent,
     ProfileComponent,
     CommentComponent,
+    ArticleCreationComponent,
   ],
   imports: [
     BrowserModule,

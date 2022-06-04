@@ -1,0 +1,11 @@
+<form #addForm="ngForm" (ngSubmit)="saveArticle(addForm)">
+  <div class="form-group">
+    <label>Напишите свою статью</label>
+    <input class="form-control mb-2"
+           [(ngModel)]="article" id="title" placeholder="Введите тему статьи" required>
+    <textarea class="form-control mb-2"
+              [(ngModel)]="article" id="text" placeholder="Введите текст статьи" rows="3" required></textarea>
+    <button (click)="saveArticle(addForm)" class="btn btn-primary" id="save-articleEntity-form" style="border: none; background: powderblue" type="button">Отправить</button>
+  </div>
+</form>
+
