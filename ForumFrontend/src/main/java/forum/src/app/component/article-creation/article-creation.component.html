@@ -7,10 +7,29 @@
                   [(ngModel)]="article.text" name="text" placeholder="Введите текст статьи" rows="3"
                   required></textarea>
   </div>
+  <div><!--TODO нужно сделать видимым TAG при создании статьи-->
+    <mat-form-field class="example-chip-list container" appearance="fill">
+      <mat-label>Tags</mat-label>
+      <mat-chip-list #chipList aria-label="Tag selection">
+        <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
+          {{tag}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="New tag..."
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
   <div class="form-group">
     <button (click)="saveArticle()" class="btn btn-primary" id="save-articleEntity-form"
             style="border: none; background: powderblue" type="button">Отправить
     </button>
   </div>
+
 </div>
 

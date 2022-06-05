@@ -19,7 +19,6 @@ export class ArticlesComponent implements OnInit {
     this.ava = '../../assets/images/avatar1.jpg'
   }
 
-
   public getArticles(): void{
     this.articleService.findAll().subscribe(
       (response: Article[]) => {

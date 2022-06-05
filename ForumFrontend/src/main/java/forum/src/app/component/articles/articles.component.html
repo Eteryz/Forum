@@ -21,10 +21,16 @@
           <div class="card-group">
               <a class="card-link" *ngFor="let tag of getTagsArticle(articleEntity)">{{tag}}</a><!--TODO Разделить теги на одиночные-->
           </div>
-          <div class="card-footer">
-            <img class="card-img avatar"  [src]="ava" alt="Author">
-            <span class="card-text">Sobo Rikhan</span>
-            <a class="card-img" href="/">Избранное</a>
+          <div class="card-footer text-center">
+            <div class="" style="display: inline-block; margin-right: 1rem;">
+              <img class="card-img avatar" [src]="ava" alt="Author">
+            </div>
+            <div class="" style="display: inline-block; margin-right: 1rem;">
+              <span class="card-text">Sobo Rikhan</span>
+            </div>
+            <div class="" style="display: inline-block; margin-right: 1rem;">
+              <a class="card-img" href="/">Избранное</a>
+            </div>
           </div>
         </div>
       </div>
