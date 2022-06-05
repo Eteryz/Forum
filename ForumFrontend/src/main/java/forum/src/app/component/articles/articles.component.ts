@@ -9,7 +9,7 @@ import {ArticleService} from "../../service/article.service";
 })
 export class ArticlesComponent implements OnInit {
 
-  public articles: Article[] | undefined;
+  articles?: Article[];
 
   public image: string
   public ava: string;

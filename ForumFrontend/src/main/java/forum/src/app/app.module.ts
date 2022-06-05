@@ -17,6 +17,9 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { CommentComponent } from './component/comment/comment.component';
 import {FormsModule} from "@angular/forms";
 import { ArticleCreationComponent } from './component/article-creation/article-creation.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { ArticleCreationComponent } from './component/article-creation/article-c
     MatCardModule,
     MatButtonModule,
     FormsModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Article} from "../../model/article";
 import {ArticleService} from "../../service/article.service";
-import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-article-creation',
@@ -10,20 +9,20 @@ import {NgForm} from "@angular/forms";
 })
 export class ArticleCreationComponent implements OnInit {
 
-  public article?: Article;
+  article: Article = new Article();
 
   constructor(private articleService: ArticleService) {
+
   }
 
   ngOnInit(): void {
   }
 
-  saveArticle(addForm: NgForm): void {
-    this.articleService.save(addForm.value).subscribe(
-      (response: Article)=> {
+  saveArticle(): void {
+    this.articleService.save(this.article).subscribe(
+      (response : Article)=>{
         console.log(response);
       }
     )
   }
-
 }

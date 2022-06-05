@@ -18,6 +18,6 @@ export class ArticleService {
   }
 
   public save(article: Article){
-    return this.http.post<Article>(`${this.apiServerUrl}/article/add`,article);
+    return this.http.post<Article>(`${this.apiServerUrl}/article/add`, article);
   }
 }
