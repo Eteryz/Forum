@@ -1,9 +1,9 @@
 package com.Eteryz.ForumBackend.repository;
 
-import com.Eteryz.ForumBackend.entity.CommentEntity;
+import com.Eteryz.ForumBackend.models.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 }

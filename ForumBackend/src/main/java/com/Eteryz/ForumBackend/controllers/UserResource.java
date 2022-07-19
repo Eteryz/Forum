@@ -1,9 +1,10 @@
-package com.Eteryz.ForumBackend.controller;
+package com.Eteryz.ForumBackend.controllers;
 
-import com.Eteryz.ForumBackend.entity.UserEntity;
+import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
-import com.Eteryz.ForumBackend.model.User;
+import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,40 +12,41 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserResource {
 
-    private final UserService userService;
+    private UserService userService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody UserEntity userEntity){
+    public ResponseEntity<?> addUser(@RequestBody User user) {
         try {
-            return ResponseEntity.ok(userService.addUser(userEntity));
-        }catch (UserAlreadyExistException e){
+            userService.save(user);
+            return ResponseEntity.ok().build();
+        } catch (UserAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        } catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка при добавлении пользователя");
         }
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<User> getAllUsers(@PathVariable Long id){
+    public ResponseEntity<UserDTO> getAllUsers(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getOneUser(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.deleteUser(id));
-        } catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка при удалении пользователя");
         }
     }

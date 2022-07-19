@@ -1,4 +1,4 @@
-package com.Eteryz.ForumBackend.entity;
+package com.Eteryz.ForumBackend.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +10,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "articles")
-public class ArticleEntity {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,9 +29,9 @@ public class ArticleEntity {
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private UserEntity user;
+    private User user;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<CommentEntity> comments;
+    private List<Comment> comments;
 }

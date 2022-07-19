@@ -1,4 +1,4 @@
-package com.Eteryz.ForumBackend.entity;
+package com.Eteryz.ForumBackend.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,23 +8,25 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "comments")
-public class CommentEntity {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 10000)
     private String text;
     private Integer likes;
-    private  Integer dislikes;
+    private Integer dislikes;
 
     @ManyToOne
     @JoinColumn(name = "articles_id")
-    private ArticleEntity article;
+    private Article article;
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private UserEntity user;
+    private User user;
 }

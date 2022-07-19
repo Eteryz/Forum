@@ -1,19 +1,15 @@
-package com.Eteryz.ForumBackend.model;
+package com.Eteryz.ForumBackend.dto;
 
-import com.Eteryz.ForumBackend.entity.UserEntity;
+import com.Eteryz.ForumBackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserDTO {
 
     private Long id;
     private String name;
@@ -24,14 +20,14 @@ public class User {
     private String city;
 
 
-    public static User toModel(UserEntity userEntity) {
-        User user = new User();
-        BeanUtils.copyProperties(userEntity, user);
-        return user;
+    public static UserDTO toModel(User user) {
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
+        return userDTO;
     }
 
-    public UserEntity toEntity() {
-        UserEntity user = new UserEntity();
+    public User toEntity() {
+        User user = new User();
         BeanUtils.copyProperties(this, user);
         return user;
     }

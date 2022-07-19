@@ -1,49 +1,20 @@
 package com.Eteryz.ForumBackend.service;
 
-import com.Eteryz.ForumBackend.entity.UserEntity;
+import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
-import com.Eteryz.ForumBackend.model.User;
-import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.repository.UserRepository;
-import org.springframework.stereotype.Service;
+import com.Eteryz.ForumBackend.dto.UserDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    void save(User user) throws UserAlreadyExistException;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    List<UserDTO> findAllUsers();
 
-    public User addUser(UserEntity userEntity) throws UserAlreadyExistException {
-        if(userRepository.findUserByName(userEntity.getName()).isPresent()){
-            throw new UserAlreadyExistException("A user with the same name already exists");
-        }
-        return User.toModel(userRepository.save(userEntity));
-    }
+    UserDTO updateUser(UserDTO userDTO);
 
-    public List<User> findAllUsers(){
-        return userRepository.findAll().stream()
-                .map(User::toModel)
-                .collect(Collectors.toList());
-    }
+    UserDTO getOneUser(Long id);
 
-    public User updateUser(User user){
-        return  User.toModel(userRepository.save(user.toEntity()));
-    }
-
-    public User getOneUser(Long id){
-        return User.toModel(userRepository.findById(id)
-                .orElseThrow(()-> new UserNotFoundException("User by id " + id + " was not found!")));
-    }
-
-    public Long deleteUser(Long id){
-            userRepository.deleteById(id);
-        return id;
-    }
+    Long deleteUser(Long id);
 }
