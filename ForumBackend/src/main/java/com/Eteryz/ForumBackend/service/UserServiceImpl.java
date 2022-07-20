@@ -6,9 +6,11 @@ import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

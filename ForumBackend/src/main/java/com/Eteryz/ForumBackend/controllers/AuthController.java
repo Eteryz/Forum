@@ -11,7 +11,7 @@ import com.Eteryz.ForumBackend.repository.RoleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +32,22 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
 
-  private AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  private RoleRepository roleRepository;
+  private final RoleRepository roleRepository;
 
-  private PasswordEncoder encoder;
+  private final PasswordEncoder encoder;
 
-  private JwtUtils jwtUtils;
+  private final JwtUtils jwtUtils;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    System.out.println(loginRequest.getUsername()+"\n"+ loginRequest.getPassword());
     Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -72,8 +73,8 @@ public class AuthController {
     }
     // Create new user's account
     User user = new User(signUpRequest.getUsername(),
-            signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()));
+            encoder.encode(signUpRequest.getPassword()),
+            signUpRequest.getEmail());
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
     if (strRoles == null) {

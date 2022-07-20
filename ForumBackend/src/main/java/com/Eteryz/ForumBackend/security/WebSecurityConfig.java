@@ -2,9 +2,9 @@ package com.Eteryz.ForumBackend.security;
 
 import com.Eteryz.ForumBackend.security.jwt.AuthEntryPointJwt;
 import com.Eteryz.ForumBackend.security.jwt.AuthTokenFilter;
+import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,16 +24,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // securedEnabled = true,
         // jsr250Enabled = true,
         prePostEnabled = true)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    private AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        return new AuthTokenFilter(new JwtUtils(),new UserDetailsServiceImpl());
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -24,6 +23,7 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
 
     private String email;
+
     @JsonIgnore
     private String password;
 

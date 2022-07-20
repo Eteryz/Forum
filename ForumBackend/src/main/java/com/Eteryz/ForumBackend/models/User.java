@@ -3,6 +3,9 @@ package com.Eteryz.ForumBackend.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +26,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     @NonNull
+    @NotBlank
+    @Size(max=30)
     private String username;
     @NonNull
+    @NotBlank
+    @Size(max = 120, min = 8)
     private String password;
-    private String login;
     @NonNull
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
     private String phone;
     private String avatar;
