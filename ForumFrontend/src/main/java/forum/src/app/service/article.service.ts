@@ -14,10 +14,10 @@ export class ArticleService {
   constructor(private http: HttpClient) {}
 
   public findAll(): Observable<Article[]>{
-    return this.http.get<Article[]>(`${this.apiServerUrl}/article/all`);
+    return this.http.get<Article[]>(`${this.apiServerUrl}/articles/all`);
   }
 
   public save(article: Article){
-    return this.http.post<Article>(`${this.apiServerUrl}/article/add`, article);
+    return this.http.post<Article>(`${this.apiServerUrl}/articles/add`, article);
   }
 }

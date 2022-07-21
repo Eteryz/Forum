@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../model/user";
-import {UserService} from "../../service/user.service";
+import {StorageService} from "../../service/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -9,20 +9,18 @@ import {UserService} from "../../service/user.service";
 })
 export class ProfileComponent implements OnInit {
 
-  public users: User[] | undefined;
+  currentUser: any;
+  isLoggedIn = false;
 
-  constructor(private userService: UserService) {
-  }
-
-  public getUsers(): void{
-    this.userService.getUsers().subscribe(
-      (response: User[]) => {
-        return this.users = response;
-      }
-    );
-  }
-
+  constructor(private storageService: StorageService,
+              private router: Router) { }
   ngOnInit(): void {
-    this.getUsers();
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      this.currentUser = this.storageService.getUser();
+    }else {
+      this.router.navigate(['/login'])
+    }
   }
+
 }

@@ -4,5 +4,6 @@ VALUES ('Samara','user1@mail.ru','file.img', 'user1','Ivan','+79023458765'),
        ('Samara','user3@mail.ru','file.img', 'user3','Diman','+79022758765');
 
 select * from users;
+select * from user_roles;
 
 DELETE from users;

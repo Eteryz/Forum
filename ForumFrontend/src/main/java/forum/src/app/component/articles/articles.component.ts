@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Article} from "../../model/article";
 import {ArticleService} from "../../service/article.service";
+import {StorageService} from "../../service/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-articles',
@@ -13,8 +15,11 @@ export class ArticlesComponent implements OnInit {
 
   public image: string
   public ava: string;
+  isLoggedIn = false;
 
-  constructor(private articleService: ArticleService) {
+  constructor(private articleService: ArticleService,
+              private storageService: StorageService,
+              private router: Router) {
     this.image = '../../assets/images/ang1.jpg'
     this.ava = '../../assets/images/avatar1.jpg'
   }
@@ -37,7 +42,12 @@ export class ArticlesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getArticles();
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      this.getArticles();
+    }else {
+      this.router.navigate(['/login'])
+    }
   }
 
 }

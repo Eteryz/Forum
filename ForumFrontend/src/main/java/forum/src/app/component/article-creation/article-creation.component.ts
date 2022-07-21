@@ -3,6 +3,8 @@ import {Article} from "../../model/article";
 import {ArticleService} from "../../service/article.service";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {StorageService} from "../../service/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-article-creation',
@@ -11,17 +13,24 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 })
 export class ArticleCreationComponent implements OnInit {
 
-  article: Article = new Article();
+  form: Article = new Article();
 
-  constructor(private articleService: ArticleService) {
+  constructor(private articleService: ArticleService,
+              private storageService: StorageService,
+              private router: Router) {
 
   }
 
   ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    }else {
+      this.router.navigate(['/login'])
+    }
   }
 
   saveArticle(): void {
-    this.articleService.save(this.article).subscribe(
+    this.articleService.save(this.form).subscribe(
       (response: Article) => {
         console.log(response);
       }
@@ -32,13 +41,14 @@ export class ArticleCreationComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: String[] = [];
+  isLoggedIn = false;
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     // Add our fruit
     if (value) {
       this.tags.push(value);
-      this.article.tag += " #" + value;
+      this.form.tag += " #" + value;
     }
     // Clear the input value
     event.chipInput!.clear();
@@ -48,9 +58,12 @@ export class ArticleCreationComponent implements OnInit {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
-      this.article.tag = this.article.tag.replace("${#tag}","")
+      this.form.tag = this.form.tag.replace("${#tag}","")
     }
   }
 
 
+  onSubmit() {
+    this.saveArticle();
+  }
 }

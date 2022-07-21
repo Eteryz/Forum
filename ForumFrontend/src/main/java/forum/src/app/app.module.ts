@@ -7,7 +7,6 @@ import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegistrationComponent } from './component/registration/registration.component';
 import { HomeComponent } from './component/home/home.component';
 import { ArticlesComponent } from './component/articles/articles.component';
 import {MatCardModule} from "@angular/material/card";
@@ -20,19 +19,25 @@ import { ArticleCreationComponent } from './component/article-creation/article-c
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
+import { httpInterceptorProviders } from './helper/http-request-interceptor';
+import { ProfileMenuComponent } from './component/profile-menu/profile-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    RegistrationComponent,
     HomeComponent,
     ArticlesComponent,
     ArticleComponent,
     ProfileComponent,
     CommentComponent,
     ArticleCreationComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,7 @@ import {MatIconModule} from "@angular/material/icon";
     MatChipsModule,
     MatIconModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

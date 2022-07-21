@@ -1,12 +1,44 @@
-<div class="form-group">
+<div class="form-group" *ngIf="isLoggedIn"><!--TODO сделать создание статьи-->
+  <form
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
   <label>Напишите свою статью</label>
-  <input class="form-control mb-2"
-         [(ngModel)]="article.title" name="title" placeholder="Введите тему статьи" required>
-  <div class="form-group">
-        <textarea class="form-control mb-2"
-                  [(ngModel)]="article.text" name="text" placeholder="Введите текст статьи" rows="3"
-                  required></textarea>
-  </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        [(ngModel)]="form.title"
+        required
+        #title="ngModel"
+      />
+    </div>
+    <div class="form-group">
+      <label>Text</label>
+      <input
+        type="text"
+        class="form-control"
+        name="text"
+        [(ngModel)]="form.text"
+        required
+        #text="ngModel"
+      />
+    </div>
+    <div class="form-group">
+      <label>Tag</label>
+      <input
+        type="text"
+        class="form-control"
+        name="tag"
+        [(ngModel)]="form.tag"
+        required
+        #tag="ngModel"
+      />
+    </div>
   <div><!--TODO нужно сделать видимым TAG при создании статьи-->
     <mat-form-field class="example-chip-list container" appearance="fill">
       <mat-label>Tags</mat-label>
@@ -26,10 +58,10 @@
     </mat-form-field>
   </div>
   <div class="form-group">
-    <button (click)="saveArticle()" class="btn btn-primary" id="save-article-form"
+    <button class="btn btn-primary" id="save-article-form"
             style="border: none; background: powderblue" type="button">Отправить
     </button>
   </div>
-
+  </form>
 </div>
 

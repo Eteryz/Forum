@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-home',
@@ -7,11 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
-  }
-
+  content?: string;
+  
+  constructor(private userService: UserService) { }
   ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
-
+    this.userService.getPublicContent().subscribe({
+      next: data => {
+        this.content = data;
+      },
+      error: err => {console.log(err)
+        if (err.error) {
+          this.content = JSON.parse(err.error).message;
+        } else {
+          this.content = "Error with status: " + err.status;
+        }
+      }
+    });
+  }
 }

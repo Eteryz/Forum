@@ -1,8 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="isLoggedIn">
 
   <nav class="navbar navbar-light bg-light " >
     <form class="form-inline input-group">
-      <button class="btn btn-primary my-sm-0 m-2 " routerLink="/articleDTO-creation" style="border: none; background: powderblue" type="submit">Добавить статью</button>
+      <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation" style="border: none; background: powderblue" type="submit">Добавить статью</button>
       <input class="form-control mr-sm-2 " type="search" placeholder="Поиск" aria-label="Search">
       <button class="btn btn-primary my-sm-0 m-2 " style="border: none; background: powderblue" type="submit">Поиск</button>
     </form>
