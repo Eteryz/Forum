@@ -17,7 +17,7 @@ export class ArticleService {
     return this.http.get<Article[]>(`${this.apiServerUrl}/articles/all`);
   }
 
-  public save(article: Article){
+  save(article: Article) : Observable<any> {
     return this.http.post<Article>(`${this.apiServerUrl}/articles/add`, article);
   }
 }

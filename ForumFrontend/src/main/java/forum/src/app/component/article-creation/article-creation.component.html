@@ -1,67 +1,75 @@
-<div class="form-group" *ngIf="isLoggedIn"><!--TODO сделать создание статьи-->
-  <form
-    name="form"
-    (ngSubmit)="f.form.valid && onSubmit()"
-    #f="ngForm"
-    novalidate
-  >
-  <label>Напишите свою статью</label>
-    <div class="form-group">
-      <label>Title</label>
-      <input
-        type="text"
-        class="form-control"
-        name="title"
-        [(ngModel)]="form.title"
-        required
-        #title="ngModel"
-      />
-    </div>
-    <div class="form-group">
-      <label>Text</label>
-      <input
-        type="text"
-        class="form-control"
-        name="text"
-        [(ngModel)]="form.text"
-        required
-        #text="ngModel"
-      />
-    </div>
-    <div class="form-group">
-      <label>Tag</label>
-      <input
-        type="text"
-        class="form-control"
-        name="tag"
-        [(ngModel)]="form.tag"
-        required
-        #tag="ngModel"
-      />
-    </div>
-  <div><!--TODO нужно сделать видимым TAG при создании статьи-->
-    <mat-form-field class="example-chip-list container" appearance="fill">
-      <mat-label>Tags</mat-label>
-      <mat-chip-list #chipList aria-label="Tag selection">
-        <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
-          {{tag}}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <input placeholder="New tag..."
-               [matChipInputFor]="chipList"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-    </mat-form-field>
+<div class="container" *ngIf="isLoggedIn">
+  <div class="card card-container">
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <label>Create article</label>
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          [(ngModel)]="form.title"
+          required
+          #title="ngModel">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="title.errors && f.submitted"
+        >
+          Title is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Text</label>
+        <textarea
+          type="text"
+          class="form-control"
+          name="text"
+          [(ngModel)]="form.text"
+          required
+          minlength="6"
+          #text="ngModel"></textarea>
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="text.errors && f.submitted"
+        >
+         Text is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="example-chip-list container m-0 p-0" appearance="standard">
+          <label>Tags</label>
+          <!--<mat-label>Tags</mat-label>-->
+          <mat-chip-list #chipList aria-label="Tag selection" >
+            <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
+              {{tag}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input  type="text"
+                    class="form-control"
+                    name="text"
+                    placeholder="New tag..."
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+      <div class="form-group text-center">
+        <button class="btn btn-primary btn-block"
+                style="border: none; background: powderblue">Отправить
+        </button>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <button class="btn btn-primary" id="save-article-form"
-            style="border: none; background: powderblue" type="button">Отправить
-    </button>
-  </div>
-  </form>
 </div>
 

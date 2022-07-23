@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 export class ArticleCreationComponent implements OnInit {
 
   form: Article = new Article();
+  errorMessage= '';
 
   constructor(private articleService: ArticleService,
               private storageService: StorageService,
@@ -27,14 +28,6 @@ export class ArticleCreationComponent implements OnInit {
     }else {
       this.router.navigate(['/login'])
     }
-  }
-
-  saveArticle(): void {
-    this.articleService.save(this.form).subscribe(
-      (response: Article) => {
-        console.log(response);
-      }
-    )
   }
 
   //для тегов
@@ -62,8 +55,16 @@ export class ArticleCreationComponent implements OnInit {
     }
   }
 
-
   onSubmit() {
-    this.saveArticle();
+    this.articleService.save(this.form).subscribe(
+      {
+        next: data => {
+          console.log(data);
+          window.location.reload();
+        },
+        error: err => {
+          this.errorMessage = err.error.message;
+        }
+      });
   }
 }
