@@ -17,8 +17,11 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiServerUrl}/user/all`);
   }
 
-  //TODO получаем публичную информацио
-  getPublicContent(): Observable<any> {
-    return this.http.get(`${this.apiServerUrl}/auth/all`, { responseType: 'text' });
+  public getUser(username:String): Observable<User>{
+    return this.http.get<User>(`${this.apiServerUrl}/user/findByUsername/`+ username);
+  }
+
+  public updateUser(username:String, user: User): Observable<User>{
+    return this.http.put<User>(`${this.apiServerUrl}/user/updateByUsername/`+username, user);
   }
 }

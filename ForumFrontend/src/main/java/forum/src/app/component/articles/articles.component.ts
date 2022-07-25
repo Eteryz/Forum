@@ -33,11 +33,11 @@ export class ArticlesComponent implements OnInit {
   }
 
   public getTextArticle(article: Article):string{
-    return article.text.substring(0,100)+"...";
+    return article.text?.substring(0,100)+"...";
   }
 
-  public getTagsArticle(article: Article):string[]{
-    return article.tag.split('#');
+  public getTagsArticle(article: Article): any {
+    return article.tag?.split('#');
   }
 
 

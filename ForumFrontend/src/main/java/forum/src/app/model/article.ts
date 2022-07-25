@@ -1,12 +1,12 @@
 export class Article {
-
-  constructor(
-    public id: number = 0,
-    public title: string = "",
-    public text: string = "",
-    public likes: number = 0,
-    public dislikes: number = 0,
-    public tag: string="") {
+  public author: any;
+  public id: number | undefined;
+  public title: string | undefined;
+  public text: string | undefined;
+  public likes: number | undefined;
+  public dislikes: number | undefined;
+  public tag: string | undefined;
+  constructor() {
   }
 
 }

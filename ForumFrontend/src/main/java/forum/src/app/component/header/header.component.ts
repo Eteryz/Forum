@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from "../../service/storage.service";
-import {AuthService} from "../../service/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +12,11 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   private roles: string[] = [];
 
-  constructor(private storageService: StorageService, private authService: AuthService) {
+  constructor(private storageService: StorageService) {
+
+  }
+
+  ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
@@ -22,10 +25,6 @@ export class HeaderComponent implements OnInit {
     } else {
       this.showArticles = false;
     }
-  }
-
-  ngOnInit(): void {
-
   }
 
 }

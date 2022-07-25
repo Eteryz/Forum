@@ -12,9 +12,11 @@ public interface UserService {
 
     List<UserDTO> findAllUsers();
 
-    UserDTO updateUser(UserDTO userDTO);
+    UserDTO updateUser(User user);
 
-    UserDTO getOneUser(Long id);
+    User getOneUser(Long id);
+
+    User getOneUser(String username);
 
     Long deleteUser(Long id);
 }

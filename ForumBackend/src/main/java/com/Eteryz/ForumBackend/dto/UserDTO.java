@@ -6,19 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-
+    @NotNull
     private Long id;
     private String name;
-    private String login;
+    @NotBlank
+    @NotNull
+    private String username;
+    @Email
     private String email;
+    @Pattern(regexp = "^((\\+7|7|8)+([0-9]){10})$")
     private String phone;
-    private String avatar;
+    private byte[] avatar;
     private String city;
-
 
     public static UserDTO toModel(User user) {
         UserDTO userDTO = new UserDTO();
@@ -26,8 +34,7 @@ public class UserDTO {
         return userDTO;
     }
 
-    public User toEntity() {
-        User user = new User();
+    public User toEntity(User user) {
         BeanUtils.copyProperties(this, user);
         return user;
     }

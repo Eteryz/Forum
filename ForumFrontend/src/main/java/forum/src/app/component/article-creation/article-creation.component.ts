@@ -51,11 +51,12 @@ export class ArticleCreationComponent implements OnInit {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
-      this.form.tag = this.form.tag.replace("${#tag}","")
+      this.form.tag = this.form.tag?.replace("${#tag}","");
     }
   }
 
   onSubmit() {
+    this.form.author = this.storageService.getUser().username;
     this.articleService.save(this.form).subscribe(
       {
         next: data => {

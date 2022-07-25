@@ -35,14 +35,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO updateUser(UserDTO userDTO) {
-        return UserDTO.toModel(userRepository.save(userDTO.toEntity()));
+    public UserDTO updateUser(User user) {
+        return UserDTO.toModel(userRepository.save(user));
     }
 
     @Override
-    public UserDTO getOneUser(Long id) {
-        return UserDTO.toModel(userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found!")));
+    public User getOneUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found!"));
+    }
+
+    @Override
+    public User getOneUser(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
     }
 
     @Override

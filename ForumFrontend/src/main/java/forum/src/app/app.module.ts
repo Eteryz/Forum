@@ -23,6 +23,7 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { httpInterceptorProviders } from './helper/http-request-interceptor';
 import { ProfileMenuComponent } from './component/profile-menu/profile-menu.component';
+import {ImageCropperModule} from "ngx-image-cropper";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ProfileMenuComponent } from './component/profile-menu/profile-menu.comp
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
+    ImageCropperModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

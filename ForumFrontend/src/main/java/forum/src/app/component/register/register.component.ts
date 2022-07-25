@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../service/auth.service";
-import {HeaderComponent} from "../header/header.component";
-import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
+import {ImageCroppedEvent} from "ngx-image-cropper";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-register',
@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+
   constructor(private authService: AuthService,
               private router: Router) {
 
@@ -39,5 +40,26 @@ export class RegisterComponent implements OnInit {
         this.isSignUpFailed = true;
       }
     });
+  }
+
+  imgChangeEvt: any = '';
+  cropImgPreview: any = '';
+
+  onFileChange(event: any): void {
+    this.imgChangeEvt = event;
+  }
+  cropImg(e: ImageCroppedEvent) {
+    this.cropImgPreview = e.base64;
+  }
+
+  imgLoad() {
+    // display cropper tool
+  }
+  initCropper() {
+    // init cropper
+  }
+
+  imgFailed() {
+    // error msg
   }
 }
