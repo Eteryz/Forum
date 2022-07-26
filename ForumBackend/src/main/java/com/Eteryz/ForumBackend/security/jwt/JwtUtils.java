@@ -60,6 +60,11 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    public String getUserNameFromJwtCookies(HttpServletRequest request) {
+        String jwt = getJwtFromCookies(request);
+        return getUserNameFromJwtToken(jwt);
+    }
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

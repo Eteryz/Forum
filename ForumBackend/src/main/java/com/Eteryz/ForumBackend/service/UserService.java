@@ -14,9 +14,9 @@ public interface UserService {
 
     UserDTO updateUser(User user);
 
-    User getOneUser(Long id);
+    User getOneUserById(String id);
 
-    User getOneUser(String username);
+    User getOneUserByUsername(String username);
 
     Long deleteUser(Long id);
 }

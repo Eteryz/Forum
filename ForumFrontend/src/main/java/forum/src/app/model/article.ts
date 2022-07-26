@@ -1,11 +1,11 @@
 export class Article {
-  public author: any;
+  public author: string='';
   public id: number | undefined;
-  public title: string | undefined;
-  public text: string | undefined;
-  public likes: number | undefined;
-  public dislikes: number | undefined;
-  public tag: string | undefined;
+  public title: string='';
+  public text: string='';
+  public likes: number = 0;
+  public dislikes: number = 0
+  public tag: string=''
   constructor() {
   }
 

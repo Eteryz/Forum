@@ -56,7 +56,6 @@ export class ArticleCreationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.form.author = this.storageService.getUser().username;
     this.articleService.save(this.form).subscribe(
       {
         next: data => {

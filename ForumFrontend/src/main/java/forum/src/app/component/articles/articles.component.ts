@@ -16,6 +16,7 @@ export class ArticlesComponent implements OnInit {
   public image: string
   public ava: string;
   isLoggedIn = false;
+  search: string ='';
 
   constructor(private articleService: ArticleService,
               private storageService: StorageService,
@@ -25,6 +26,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   public getArticles(): void{
+    this.search ='';
     this.articleService.findAll().subscribe(
       (response: Article[]) => {
         return this.articles = response;
@@ -50,4 +52,7 @@ export class ArticlesComponent implements OnInit {
     }
   }
 
+  searchArticles() {
+    //TODO сделать поиск статей по title
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from "../../model/user";
+import {StorageService} from "../../service/storage.service";
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn = false;
+
+  constructor(private storageService: StorageService) { }
 
   ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    }
   }
 
 }

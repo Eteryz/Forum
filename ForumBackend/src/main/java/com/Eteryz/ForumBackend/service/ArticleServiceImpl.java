@@ -1,6 +1,7 @@
 package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
+import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public void save(ArticleDTO articleDTO) {
-        articleRepository.save(articleDTO.toEntity());
+    public void save(ArticleDTO articleDTO, User user) {
+        articleRepository.save(articleDTO.toEntity(user));
     }
 
     public List<ArticleDTO> findAllArticle() {

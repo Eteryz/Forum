@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StorageService} from "../../service/storage.service";
 import {AuthService} from "../../service/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile-menu',
@@ -16,7 +17,9 @@ export class ProfileMenuComponent implements OnInit {
   isLoggedIn = false;
   showButtonLoginAndLogout = false;
 
-  constructor(private storageService: StorageService, private authService: AuthService) {
+  constructor(private storageService: StorageService,
+              private authService: AuthService,
+              private router: Router) {
     this.ava = '../../assets/images/avatar1.jpg'
   }
 
@@ -43,6 +46,6 @@ export class ProfileMenuComponent implements OnInit {
         console.log(err);
       }
     });
-    window.location.reload();
+    this.router.navigate(['/login'])
   }
 }

@@ -1,23 +1,30 @@
 package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
+import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.ArticleService;
-import lombok.AllArgsConstructor;
+import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/articles")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ArticleResource {
 
-    private ArticleService articleService;
+    private final ArticleService articleService;
+
+    private final JwtUtils jwtUtils;
+
+    private final UserService userService;
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER')")
@@ -27,8 +34,10 @@ public class ArticleResource {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Void> addArticle(@RequestBody ArticleDTO articleDTO) {
-        articleService.save(articleDTO);
+    public ResponseEntity<Void> addArticle(HttpServletRequest request, @RequestBody ArticleDTO articleDTO) {
+        String username = jwtUtils.getUserNameFromJwtCookies(request);
+        User currentUser = userService.getOneUserByUsername(username);
+        articleService.save(articleDTO, currentUser);
         return ResponseEntity.ok().build();
     }
 

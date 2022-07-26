@@ -3,8 +3,8 @@
   <nav class="navbar navbar-light bg-light " >
     <form class="form-inline input-group">
       <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation" style="border: none; background: powderblue" type="submit">Добавить статью</button>
-      <input class="form-control mr-sm-2 " type="search" placeholder="Поиск" aria-label="Search">
-      <button class="btn btn-primary my-sm-0 m-2 " style="border: none; background: powderblue" type="submit">Поиск</button>
+      <input class="form-control mr-sm-2" [(ngModel)]="search" (search)="getArticles()" type="search" placeholder="Поиск"  aria-label="Search" value="{{search}}">
+      <button class="btn btn-primary my-sm-0 m-2 " (click)="searchArticles()" style="border: none; background: powderblue" type="submit">Поиск</button>
     </form>
   </nav>
 
@@ -15,18 +15,26 @@
           <div class="card-body">
             <h3 class="card-title fw-bold text-center">{{articleEntity.title}}</h3>
             <p class="card-text">{{getTextArticle(articleEntity)}}</p>
-            <span class="card-text">Like-{{articleEntity.likes}} Dislike-{{articleEntity.dislikes}}</span>
-            <span class="card-text">(150)</span><!--todo вытощить все коменты определенной стпатьи и вставить их число сюда -->
+            <label class="m-1">
+              <i class="material-icons" style="color: greenyellow">thumb_up_alt</i>
+              - {{articleEntity.likes}}
+            </label>
+            <label class="m-1">
+              <i class="material-icons" style="color: red">thumb_down_alt</i>
+              <span> - {{articleEntity.dislikes}}</span>
+            </label>
+            <span class="card-text"> (150)</span>
+            <!--todo вытощить все коменты определенной стпатьи и вставить их число сюда -->
           </div>
           <div class="card-group">
-              <a class="card-link" *ngFor="let tag of getTagsArticle(articleEntity)">{{tag}}</a><!--TODO Разделить теги на одиночные-->
+              <a class="card-link" type="button" (click)="search=tag" *ngFor="let tag of getTagsArticle(articleEntity)">{{tag}}</a>
           </div>
           <div class="card-footer text-center">
             <div class="" style="display: inline-block; margin-right: 1rem;">
               <img class="card-img avatar" [src]="ava" alt="Author">
             </div>
             <div class="" style="display: inline-block; margin-right: 1rem;">
-              <span class="card-text">Sobo Rikhan</span>
+              <span class="card-text">{{articleEntity.author}}</span>
             </div>
             <div class="" style="display: inline-block; margin-right: 1rem;">
               <a class="card-img" href="/">Избранное</a>

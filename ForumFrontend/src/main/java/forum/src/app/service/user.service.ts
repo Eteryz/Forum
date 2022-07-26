@@ -17,11 +17,15 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiServerUrl}/user/all`);
   }
 
-  public getUser(username:String): Observable<User>{
-    return this.http.get<User>(`${this.apiServerUrl}/user/findByUsername/`+ username);
+  public getUser(): Observable<User>{
+    return this.http.get<User>(`${this.apiServerUrl}/user/getUserInfo`);
   }
 
-  public updateUser(username:String, user: User): Observable<User>{
-    return this.http.put<User>(`${this.apiServerUrl}/user/updateByUsername/`+username, user);
+  public updateUser(user: User): Observable<User>{
+    return this.http.put<User>(`${this.apiServerUrl}/user/updateByUsername`, user);
+  }
+
+  updateProfileImage(fd: FormData) {
+    return this.http.post<any>(`${this.apiServerUrl}/user/updateProfileImage`, fd);
   }
 }

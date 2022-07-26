@@ -1,9 +1,5 @@
 <div class="col-md-12">
   <div class="card card-container">
-    <div class="col-md-4">
-      <label for="file">Image Preview</label>
-      <img [src]="cropImgPreview" alt="Profile image" class="m-1">
-    </div>
     <form
       *ngIf="!isSuccessful"
       name="form"
@@ -11,27 +7,6 @@
       #f="ngForm"
       novalidate
     >
-      <div class="form-group">
-        <label for="file">Choose File</label>
-        <input type="file"
-               id="file"
-               [(ngModel)]="form.avatar"
-               (change)="onFileChange($event)">
-        <div class="container">
-            <image-cropper
-              [imageChangedEvent]="imgChangeEvt"
-              [maintainAspectRatio]="false"
-              [aspectRatio]="4 / 4"
-              [resizeToWidth]="256"
-              format="png"
-              (imageCropped)="cropImg($event)"
-              (imageLoaded)="imgLoad()"
-              (cropperReady)="initCropper()"
-              (loadImageFailed)="imgFailed()">
-            </image-cropper>
-          <button (click)="imgChangeEvt=null" >Закрыть редактор</button>
-        </div>
-      </div>
       <div class="form-group">
         <label>Username</label>
         <input

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -16,10 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "articles")
 public class Article {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     private String title;
     @Type(type = "org.hibernate.type.TextType")
     private String text;
@@ -29,7 +30,7 @@ public class Article {
     private String tag;
 
     @ManyToOne
-    @JoinColumn(name = "users_username")
+    @JoinColumn(name = "users_id")
     private User author;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
