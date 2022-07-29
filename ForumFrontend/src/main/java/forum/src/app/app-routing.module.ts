@@ -6,6 +6,7 @@ import {ProfileComponent} from "./component/profile/profile.component";
 import {ArticleCreationComponent} from "./component/article-creation/article-creation.component";
 import {RegisterComponent} from "./component/register/register.component";
 import {LoginComponent} from "./component/login/login.component";
+import {ArticleComponent} from "./component/article/article.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent},
   { path: 'articles', component: ArticlesComponent},
+  {path: 'article/:id',component: ArticleComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'article-creation', component: ArticleCreationComponent},
 ];

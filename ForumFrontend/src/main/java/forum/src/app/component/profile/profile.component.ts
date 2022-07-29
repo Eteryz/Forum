@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/user";
 import {ImageCroppedEvent} from "ngx-image-cropper";
-import {Byte} from "@angular/compiler/src/util";
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
@@ -23,13 +22,12 @@ export class ProfileComponent implements OnInit {
   img: any; //для отображения
   visibleIcon: boolean = true;
 
-
   constructor(private storageService: StorageService,
               private userService: UserService,
               private router: Router,
               private sanitizer: DomSanitizer) {
   }
-
+  //TODO сделать удаление фото профиля!
   //TODO если меняю username нужно сделать автоматический выход на страницу логина
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from "../../service/storage.service";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-profile-menu',
@@ -10,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class ProfileMenuComponent implements OnInit {
 
-  public ava: string;
+  public ava: any;
 
   private roles: string[] = [];
   showProfileIcon = false;
@@ -20,7 +21,8 @@ export class ProfileMenuComponent implements OnInit {
   constructor(private storageService: StorageService,
               private authService: AuthService,
               private router: Router) {
-    this.ava = '../../assets/images/avatar1.jpg'
+    if(this.ava == null)
+        this.ava = '../../assets/images/avatar1.jpg'
   }
 
   ngOnInit(): void {
@@ -48,4 +50,5 @@ export class ProfileMenuComponent implements OnInit {
     });
     this.router.navigate(['/login'])
   }
+
 }

@@ -1,6 +1,6 @@
 export class Article {
   public author: string='';
-  public id: number | undefined;
+  public id: string ='';
   public title: string='';
   public text: string='';
   public likes: number = 0;

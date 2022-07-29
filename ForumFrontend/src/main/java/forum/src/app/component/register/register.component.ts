@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
-import {ImageCroppedEvent} from "ngx-image-cropper";
-import {User} from "../../model/user";
 
 @Component({
   selector: 'app-register',

@@ -6,19 +6,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDTO {
-
     private String id;
     private String text;
-    private Integer likes;
-    private Integer dislikes;
+    private int likes;
+    private int dislikes;
+    private LocalDateTime date_creation;
+    private String author;
 
     public static CommentDTO toModel(Comment comment) {
         CommentDTO commentDTO = new CommentDTO();
         BeanUtils.copyProperties(comment, commentDTO);
+        commentDTO.setAuthor(comment.getUser().getUsername());
         return commentDTO;
     }
 

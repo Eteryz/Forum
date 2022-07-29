@@ -1,5 +1,5 @@
-<div class="col-md-12">
-  <div class="card card-container">
+<div class="col-md-12 row justify-content-center">
+  <div class="card card-container text-center" style="max-width: 400px">
     <form
       *ngIf="!isSuccessful"
       name="form"
@@ -7,7 +7,7 @@
       #f="ngForm"
       novalidate
     >
-      <div class="form-group">
+      <div class="m-1 form-group">
         <label>Username</label>
         <input
           type="text"
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="m-1 form-group">
         <label>Email</label>
         <input
           type="email"
@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="m-1 form-group">
         <label>Password</label>
         <input
           type="password"
@@ -68,10 +68,10 @@
           </div>
         </div>
       </div>
-      <div class="form-group text-center">
+      <div class="m-2 form-group text-center">
         <button class="btn btn-primary btn-block">Sign Up</button>
       </div>
-      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      <div class="m-1 alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
         Signup failed!<br />{{ errorMessage }}
       </div>
     </form>

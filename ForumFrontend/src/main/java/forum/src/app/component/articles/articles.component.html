@@ -1,19 +1,23 @@
-<div class="container-fluid" *ngIf="isLoggedIn">
+<div *ngIf="isLoggedIn">
 
-  <nav class="navbar navbar-light bg-light " >
-    <form class="form-inline input-group">
-      <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation" style="border: none; background: powderblue" type="submit">Добавить статью</button>
-      <input class="form-control mr-sm-2" [(ngModel)]="search" (search)="getArticles()" type="search" placeholder="Поиск"  aria-label="Search" value="{{search}}">
-      <button class="btn btn-primary my-sm-0 m-2 " (click)="searchArticles()" style="border: none; background: powderblue" type="submit">Поиск</button>
+  <nav class="navbar navbar-light bg-light">
+    <form class="input-group">
+      <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation"
+              style="border: none; background: powderblue">Добавить статью
+      </button>
+      <input class="form-control mr-sm-2" [(ngModel)]="search" (search)="getArticles()" type="search" placeholder="Поиск" aria-label="Search" value="{{search}}">
+      <button class="btn btn-primary my-sm-0 m-2" (click)="searchArticles()"
+              style="border: none; background: powderblue">Поиск
+      </button>
     </form>
   </nav>
 
-  <div class="row  g-4">
-      <div class="col "  *ngFor="let articleEntity of articles">
-        <div class="card h-100" style="width: 18rem;">
+  <table class="row g-4 m-1">
+      <td class="col" *ngFor="let articleEntity of articles">
+        <div class="card h-100" style="width: 15rem;">
           <img [src]="image" alt="Article image" class="card-img-top rounded-top">
           <div class="card-body">
-            <h3 class="card-title fw-bold text-center">{{articleEntity.title}}</h3>
+            <h3 class="card-title fw-bold text-center" type="button" (click)="setArticle(articleEntity.id)">{{articleEntity.title}}</h3>
             <p class="card-text">{{getTextArticle(articleEntity)}}</p>
             <label class="m-1">
               <i class="material-icons" style="color: greenyellow">thumb_up_alt</i>
@@ -41,7 +45,7 @@
             </div>
           </div>
         </div>
-      </div>
-  </div>
+      </td>
+  </table>
 </div>
 

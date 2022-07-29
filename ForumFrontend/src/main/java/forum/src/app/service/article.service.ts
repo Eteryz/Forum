@@ -13,11 +13,15 @@ export class ArticleService {
 
   constructor(private http: HttpClient) {}
 
-  public findAll(): Observable<Article[]>{
+  getAllArticles(): Observable<Article[]>{
     return this.http.get<Article[]>(`${this.apiServerUrl}/articles/all`);
   }
 
   save(article: Article) : Observable<any> {
     return this.http.post<Article>(`${this.apiServerUrl}/articles/add`, article);
+  }
+
+  findArticleById(id: string): Observable<Article>{
+    return this.http.get<Article>(`${this.apiServerUrl}/articles/findById/`+ id);
   }
 }

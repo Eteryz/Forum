@@ -1,5 +1,6 @@
 package com.Eteryz.ForumBackend.service;
 
+import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
 import com.Eteryz.ForumBackend.models.Comment;
 import com.Eteryz.ForumBackend.dto.CommentDTO;
 
@@ -7,9 +8,11 @@ import java.util.List;
 
 public interface CommentService {
 
-    void save(Comment comment, Long userId, Long articleId);
+    CommentDTO save(CommentDTO commentDTO, String username, String articleId);
 
-    List<CommentDTO> findAllComment();
+    List<CommentDTO> getAllComment();
+
+    List<CommentDTO> getAllCommentOnArticle(String articleId) throws CommentNotFoundException;
 
     Long deleteComment(Long id);
 }

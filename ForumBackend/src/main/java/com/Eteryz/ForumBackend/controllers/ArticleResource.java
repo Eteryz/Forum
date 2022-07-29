@@ -32,6 +32,12 @@ public class ArticleResource {
         return new ResponseEntity<>(articleService.findAllArticle(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ArticleDTO> getArticleById(@PathVariable String id) {
+        return new ResponseEntity<>(ArticleDTO.toModel(articleService.getOneById(id)), HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> addArticle(HttpServletRequest request, @RequestBody ArticleDTO articleDTO) {
@@ -42,8 +48,8 @@ public class ArticleResource {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteArticle(@PathVariable Long id) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteArticle(@PathVariable String id) {
         try {
             return ResponseEntity.ok(articleService.deleteArticle(id));
         } catch (Exception ex) {

@@ -1,6 +1,9 @@
 package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
+import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
+import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +28,14 @@ public class ArticleServiceImpl implements ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public Long deleteArticle(Long id) {
+    public String deleteArticle(String id) {
         articleRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public Article getOneById(String id) {
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }
 }

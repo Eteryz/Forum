@@ -1,57 +1,57 @@
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-
-<div class="panel">
-  <div class="panel-body">
-    <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
-    <div class="mar-top clearfix">
-      <button class="btn btn-sm btn-primary pull-right" type="submit">
-        <i class="fa fa-pencil fa-fw"></i> Share
+<div class="panel card card-container">
+  <form name="newComment"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate>
+    <div class="panel-body form-group clearfix">
+      <textarea
+        type="text"
+        class="form-control"
+        name="text"
+        [(ngModel)]="newComment.text"
+        required
+        minlength="6"
+        placeholder="What are you thinking?"
+        #text="ngModel"></textarea>
+      <div class="alert alert-danger" role="alert" *ngIf="text.errors && f.submitted">
+        Text is required!
+      </div>
+      <button class="btn btn-sm btn-primary btn-block mt-2"
+              style="float: right; color: #fff;background-color: #5bc0de;border-color: #46b8da;">
+        Share
       </button>
-      <a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip" href="#"></a>
-      <a class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="#"></a>
-      <a class="btn btn-trans btn-icon fa fa-file add-tooltip" href="#"></a>
     </div>
-  </div>
+  </form>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-8" *ngFor=" let a"><!--TODO получить комментарии -->
-      <div class="media g-mb-30 media-comment">
-        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-
-          <img class="g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
-          <div class="g-mb-15">
-            <h5 class="h5 g-color-gray-dark-v1 mb-0">John Doe</h5>
-            <span class="g-color-gray-dark-v4 g-font-size-12">5 days ago</span>
-          </div>
-
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-            felis in faucibus ras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-
-          <ul class="list-inline d-sm-flex my-0">
-            <li class="list-inline-item g-mr-20">
-              <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#">
-                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-                178
-              </a>
-            </li>
-            <li class="list-inline-item g-mr-20">
-              <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#">
-                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                34
-              </a>
-            </li>
-            <li class="list-inline-item ml-auto">
-              <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#">
-                <i class="fa fa-reply g-pos-rel g-top-1 g-mr-3"></i>
-                Reply
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+<div class="" style="text-align: center;">
+  <div class="text-center">
+    <h3 class="">Comments ({{comments.length}})</h3>
   </div>
+  <table class="" style="text-align:left; display: inline-block; width: 80%">
+    <!-- Комментарий (уровень 1) -->
+    <div class="mb-5"  *ngFor="let comment of comments">
+      <tr class="border-bottom" style="vertical-align:top;"  >
+        <td class="p-2">
+          <a href="#">
+            <img class="rounded-circle" style="width: 70px; display: block;" src="..\..\assets\images\avatar1.jpg" alt="">
+          </a>
+        </td>
+        <td class="border-1" style="width: 1000px;border-color: #bce8f1;">
+          <div class="p-3" style="background-color: #d9edf7">
+            <div>
+              <b>{{comment.author}}</b>
+            </div>
+            <div>
+              <span>{{editFormatDate(comment.date_creation)}}</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="media-text text-justify">{{comment.text}}</div>
+          </div>
+        </td>
+      </tr>
+    </div>
+    <!-- Конец комментария (уровень 1) -->
+  </table>
 </div>
