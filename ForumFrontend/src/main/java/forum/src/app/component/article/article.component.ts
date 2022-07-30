@@ -12,6 +12,9 @@ export class ArticleComponent implements OnInit {
 
   article: any;
   isSignUpFailed: boolean=false;
+  colorBookmark: any;
+  colorLike: any;
+  colorDislike: any;
 
   constructor(private articleService: ArticleService,
               private route: ActivatedRoute
@@ -32,4 +35,28 @@ export class ArticleComponent implements OnInit {
       });
   }
 
+  clickBtnBookmark() {
+    if(this.colorBookmark=="yellow")
+      this.colorBookmark=null;
+    else
+      this.colorBookmark = "yellow"
+  }
+
+  clickBtnLike() {
+    if (this.colorLike=="green")
+      this.colorLike=null;
+    else {
+      this.colorLike = "green"
+      this.colorDislike = null;
+    }
+  }
+
+  clickBtnDislike() {
+    if (this.colorDislike == "red")
+      this.colorDislike = null;
+    else {
+      this.colorLike = null;
+      this.colorDislike = "red"
+    }
+  }
 }

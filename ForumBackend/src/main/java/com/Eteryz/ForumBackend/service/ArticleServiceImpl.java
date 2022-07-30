@@ -18,16 +18,22 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public void save(ArticleDTO articleDTO, User user) {
+    private final UserService userService;
+
+    @Override
+    public void save(ArticleDTO articleDTO, String username) {
+        User user = userService.getOneUserByUsername(username);
         articleRepository.save(articleDTO.toEntity(user));
     }
 
+    @Override
     public List<ArticleDTO> findAllArticle() {
         return articleRepository.findAll().stream()
                 .map(ArticleDTO::toModel)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public String deleteArticle(String id) {
         articleRepository.deleteById(id);
         return id;

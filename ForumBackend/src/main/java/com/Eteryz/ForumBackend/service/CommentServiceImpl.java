@@ -24,15 +24,11 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
     private final ArticleService articleService;
 
-    //TODO переделать везде как тут.Лучшее решение.DTO
     @Override
     public CommentDTO save(CommentDTO commentDTO, String username, String articleId) {
-        System.out.println(articleId);
         User user = userService.getOneUserByUsername(username);
         Article article = articleService.getOneById(articleId);
-        Comment comment = commentDTO.toEntity();
-        comment.setUser(user);
-        comment.setArticle(article);
+        Comment comment = commentDTO.toEntity(user, article);
         return CommentDTO.toModel(commentRepository.save(comment));
     }
 

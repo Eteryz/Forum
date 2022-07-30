@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    void save(ArticleDTO articleDTO, User user);
+    void save(ArticleDTO articleDTO, String username);
 
     List<ArticleDTO> findAllArticle();
 

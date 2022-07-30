@@ -4,6 +4,7 @@ import {CommentService} from "../../service/comment.service";
 import {Comment} from "../../model/comment";
 import {ActivatedRoute} from "@angular/router";
 import {NgForm} from "@angular/forms";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-comment',
@@ -39,13 +40,11 @@ export class CommentComponent implements OnInit {
     );
   }
 
-  editFormatDate(data:any): string {
-    return data.toString().replace("T"," ");
-  }
 //TODO сделать вывод фото профиля в комментарии
   onSubmit() {
     this.newComment.author = this.storageService.getUser().username;
     this.newComment.date_creation = new Date();
+    this.newComment.date_creation.setUTCHours(this.newComment.date_creation.getHours())
     this.commentService.save(this.newComment,this.route.snapshot.params['id']).subscribe(
       {
         next: data => {

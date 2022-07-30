@@ -24,8 +24,6 @@ public class ArticleResource {
 
     private final JwtUtils jwtUtils;
 
-    private final UserService userService;
-
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ArticleDTO>> getAllArticles() {
@@ -42,8 +40,7 @@ public class ArticleResource {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> addArticle(HttpServletRequest request, @RequestBody ArticleDTO articleDTO) {
         String username = jwtUtils.getUserNameFromJwtCookies(request);
-        User currentUser = userService.getOneUserByUsername(username);
-        articleService.save(articleDTO, currentUser);
+        articleService.save(articleDTO, username);
         return ResponseEntity.ok().build();
     }
 
