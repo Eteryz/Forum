@@ -40,9 +40,9 @@
         <div class="card-footer text-center justify-content-between" style="display: flex; align-items:center;">
           <img class="card-img avatar" [src]="ava" alt="Author">
           <span class="card-text">{{articleEntity.author}}</span>
-          <label class="" >
+          <label class="">
             <!--                TODO сделать изменение цвета по нажатию-->
-            <i type="button" class="material-icons"
+            <i type="button" class="material-icons" *ngIf="articleEntity.author != currentUser.username" [style.color]="getColorBookmark(articleEntity.id)"
                (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
           </label>
         </div>

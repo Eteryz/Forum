@@ -30,6 +30,15 @@ export class ArticleService {
   }
 
   addToFavorites(articleId: string){
-    return this.http.get<void>(`${this.apiServerUrl}/articles/addToFavorites/` + articleId);
+    return this.http.get(`${this.apiServerUrl}/articles/addToFavorites/` + articleId);
   }
+
+  deleteArticleFromFavorites(articleId: string){
+    return this.http.delete(`${this.apiServerUrl}/articles/deleteArticleFromFavorites/` + articleId);
+  }
+
+  getAllArticlesFromFavorites(): Observable<Article[]>{
+    return this.http.get<Article[]>(`${this.apiServerUrl}/articles/allArticlesFromFavorites`);
+  }
+
 }

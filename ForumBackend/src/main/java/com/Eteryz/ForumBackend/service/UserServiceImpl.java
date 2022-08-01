@@ -1,7 +1,8 @@
 package com.Eteryz.ForumBackend.service;
 
+import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.dto.UserDTO;
-import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
+import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,21 +21,14 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public void save(User user) throws UserAlreadyExistException {
-        if (userRepository.findByUsername(user.getName()).isPresent())
-            throw new UserAlreadyExistException("A user with the same name already exists");
-        else
-            userRepository.save(user);
-    }
-
-    @Override
-    public void addToFavorites(String username, Article article) {
+    public void addToFavorites(String username, Article article) throws FavoritesException {
         User user = getOneUserByUsername(username);
-        System.out.println(username);
-        System.out.println(article);
-        user.getFavorites().add(article);
-        System.out.println(user.getFavorites().toString());
-        userRepository.save(user);
+        if (!article.getAuthor().equals(user)) {
+            user.getFavorites().add(article);
+            userRepository.save(user);
+        } else {
+            throw new FavoritesException("You can't add your article to favorites!");
+        }
     }
 
     @Override
@@ -64,5 +59,20 @@ public class UserServiceImpl implements UserService{
     public Long deleteUser(Long id) {
         userRepository.deleteById(id);
         return id;
+    }
+
+    @Override
+    public void deleteArticleFromFavorites(String username, Article article) {
+        User user = getOneUserByUsername(username);
+        user.getFavorites().remove(article);
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<ArticleDTO> getArticleIdFromFavorites(String username) {
+        User user = getOneUserByUsername(username);
+        return user.getFavorites().stream()
+                .map(ArticleDTO::toModel)
+                .collect(Collectors.toList());
     }
 }

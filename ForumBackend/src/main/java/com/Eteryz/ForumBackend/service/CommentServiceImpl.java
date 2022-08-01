@@ -1,15 +1,11 @@
 package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.CommentDTO;
-import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
-import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.Comment;
 import com.Eteryz.ForumBackend.models.User;
-import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.repository.CommentRepository;
-import com.Eteryz.ForumBackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

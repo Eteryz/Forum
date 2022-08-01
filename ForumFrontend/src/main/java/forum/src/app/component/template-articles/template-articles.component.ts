@@ -3,7 +3,6 @@ import {ArticleService} from "../../service/article.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {Article} from "../../model/article";
-import {combineAll} from "rxjs";
 
 @Component({
   selector: 'app-template-articles',
@@ -13,12 +12,13 @@ import {combineAll} from "rxjs";
 export class TemplateArticlesComponent implements OnInit {
 
   @Input() articles: any;
-
+  colorBookmark: Map<String, any> = new Map();
   public image: string
   public ava: string;
   isLoggedIn = false;
   @Input() search: string='';
-  colorBookmark: any;
+  currentUser: any;
+
 
 
   constructor(private articleService: ArticleService,
@@ -40,6 +40,12 @@ export class TemplateArticlesComponent implements OnInit {
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
+      this.currentUser = this.storageService.getUser()
+      this.articleService.getAllArticlesFromFavorites().subscribe(
+        (data: Article[])=>{
+          data.forEach(value=> this.buttonClickBookmark(value.id));
+        }
+      );
     }else {
       this.router.navigate(['/login'])
     }
@@ -64,19 +70,17 @@ export class TemplateArticlesComponent implements OnInit {
 
   }
 
-  //при нажатии красятся все кнопки избранное.
   buttonClickBookmark(articleId:string) {
-    if(this.colorBookmark=="yellow")
-      this.colorBookmark=null;
-    else{
-      //красить только при хорошем исходе
-      console.log(articleId);
+    if(this.colorBookmark.get(articleId) =="#FFBE18"){
+      this.colorBookmark.set(articleId,null);
+      this.articleService.deleteArticleFromFavorites(articleId).subscribe();
+    } else{
       this.articleService.addToFavorites(articleId).subscribe();
-      this.colorBookmark = "yellow"
+      this.colorBookmark.set(articleId,"#FFBE18");
     }
   }
 
-  setColorBookmark($event: any) {
-
+  getColorBookmark(id: string) : any {
+    return this.colorBookmark.get(id);
   }
 }

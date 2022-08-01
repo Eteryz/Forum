@@ -47,17 +47,36 @@ public class ArticleResource {
         return new ResponseEntity<>(ArticleDTO.toModel(articleService.getOneById(id)), HttpStatus.OK);
     }
 
+    @GetMapping("/allArticlesFromFavorites")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllArticleIdFromFavorites(HttpServletRequest request) {
+        String username = jwtUtils.getUserNameFromJwtCookies(request);
+        return new ResponseEntity<>(userService.getArticleIdFromFavorites(username), HttpStatus.OK);
+    }
+
     @GetMapping("/addToFavorites/{articleId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addToFavorites(HttpServletRequest request, @PathVariable String articleId) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            System.out.println(articleId);
             Article article = articleService.getOneById(articleId);
             userService.addToFavorites(username, article);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Произошла ошибка gри добавлении статьи в избранное!");
+            return ResponseEntity.badRequest().body("Произошла ошибка при добавлении статьи в избранное!");
+        }
+    }
+
+    @DeleteMapping("/deleteArticleFromFavorites/{articleId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteArticleFromFavorites(HttpServletRequest request, @PathVariable String articleId) {
+        try {
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            Article article = articleService.getOneById(articleId);
+            userService.deleteArticleFromFavorites(username, article);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Произошла ошибка при удалении статьи из избранного!");
         }
     }
 

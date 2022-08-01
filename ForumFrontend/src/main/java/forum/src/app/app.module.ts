@@ -26,6 +26,7 @@ import { ProfileMenuComponent } from './component/profile-menu/profile-menu.comp
 import {ImageCropperModule} from "ngx-image-cropper";
 import { TemplateArticlesComponent } from './component/template-articles/template-articles.component';
 import { MyArticlesComponent } from './component/my-articles/my-articles.component';
+import { FavoritesComponent } from './component/favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MyArticlesComponent } from './component/my-articles/my-articles.compone
     ProfileMenuComponent,
     TemplateArticlesComponent,
     MyArticlesComponent,
+    FavoritesComponent,
   ],
   imports: [
     BrowserModule,

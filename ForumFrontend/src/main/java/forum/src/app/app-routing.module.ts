@@ -8,6 +8,7 @@ import {RegisterComponent} from "./component/register/register.component";
 import {LoginComponent} from "./component/login/login.component";
 import {ArticleComponent} from "./component/article/article.component";
 import {MyArticlesComponent} from "./component/my-articles/my-articles.component";
+import {FavoritesComponent} from "./component/favorites/favorites.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent},
   { path: 'article-creation', component: ArticleCreationComponent},
   { path: 'my-articles', component: MyArticlesComponent},
+  { path: 'favorites', component: FavoritesComponent},
 ];
 
 @NgModule({
