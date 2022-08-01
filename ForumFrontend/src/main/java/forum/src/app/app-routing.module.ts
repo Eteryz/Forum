@@ -7,6 +7,7 @@ import {ArticleCreationComponent} from "./component/article-creation/article-cre
 import {RegisterComponent} from "./component/register/register.component";
 import {LoginComponent} from "./component/login/login.component";
 import {ArticleComponent} from "./component/article/article.component";
+import {MyArticlesComponent} from "./component/my-articles/my-articles.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'article/:id',component: ArticleComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'article-creation', component: ArticleCreationComponent},
+  { path: 'my-articles', component: MyArticlesComponent},
 ];
 
 @NgModule({

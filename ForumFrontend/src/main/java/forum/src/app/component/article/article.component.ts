@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ArticleService} from "../../service/article.service";
 import {Article} from "../../model/article";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {StorageService} from "../../service/storage.service";
 
 @Component({
   selector: 'app-article',
@@ -15,24 +16,33 @@ export class ArticleComponent implements OnInit {
   colorBookmark: any;
   colorLike: any;
   colorDislike: any;
+  isLoggedIn = false;
 
   constructor(private articleService: ArticleService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private storageService: StorageService,
+              private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.articleService.findArticleById(this.route.snapshot.params['id'])
-      .subscribe({
-        next: (data: Article) => {
-          this.article = data;
-          console.log(data);
-        },
-        error: err => {
-          this.isSignUpFailed = true;
-          console.log(this.isSignUpFailed);
-        }
-      });
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      this.articleService.findArticleById(this.route.snapshot.params['id'])
+        .subscribe({
+          next: (data: Article) => {
+            this.article = data;
+            console.log(data);
+          },
+          error: err => {
+            this.isSignUpFailed = true;
+            console.log(this.isSignUpFailed);
+          }
+        });
+    }else {
+      this.router.navigate(['/login'])
+    }
+
   }
 
   clickBtnBookmark() {

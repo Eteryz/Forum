@@ -13,8 +13,13 @@ import {Router} from "@angular/router";
 })
 export class ArticleCreationComponent implements OnInit {
 
+  isLoggedIn = false;
   form: Article = new Article();
   errorMessage= '';
+  //для тегов
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  tags: String[] = [];
 
   constructor(private articleService: ArticleService,
               private storageService: StorageService,
@@ -29,12 +34,6 @@ export class ArticleCreationComponent implements OnInit {
       this.router.navigate(['/login'])
     }
   }
-
-  //для тегов
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  tags: String[] = [];
-  isLoggedIn = false;
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

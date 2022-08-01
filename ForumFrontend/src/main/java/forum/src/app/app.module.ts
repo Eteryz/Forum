@@ -24,6 +24,8 @@ import { RegisterComponent } from './component/register/register.component';
 import { httpInterceptorProviders } from './helper/http-request-interceptor';
 import { ProfileMenuComponent } from './component/profile-menu/profile-menu.component';
 import {ImageCropperModule} from "ngx-image-cropper";
+import { TemplateArticlesComponent } from './component/template-articles/template-articles.component';
+import { MyArticlesComponent } from './component/my-articles/my-articles.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import {ImageCropperModule} from "ngx-image-cropper";
     LoginComponent,
     RegisterComponent,
     ProfileMenuComponent,
+    TemplateArticlesComponent,
+    MyArticlesComponent,
   ],
   imports: [
     BrowserModule,

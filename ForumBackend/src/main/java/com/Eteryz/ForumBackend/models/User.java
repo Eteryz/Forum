@@ -54,6 +54,13 @@ public class User {
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_article",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
+    @ToString.Exclude
+    private Set<Article> favorites = new HashSet<>();
+
     @OneToMany(mappedBy = "author")
     @ToString.Exclude
     private List<Article> articles;

@@ -1,16 +1,15 @@
 package com.Eteryz.ForumBackend.service;
 
-import com.Eteryz.ForumBackend.models.User;
-import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
 import com.Eteryz.ForumBackend.dto.UserDTO;
+import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
+import com.Eteryz.ForumBackend.models.Article;
+import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +24,16 @@ public class UserServiceImpl implements UserService{
             throw new UserAlreadyExistException("A user with the same name already exists");
         else
             userRepository.save(user);
+    }
+
+    @Override
+    public void addToFavorites(String username, Article article) {
+        User user = getOneUserByUsername(username);
+        System.out.println(username);
+        System.out.println(article);
+        user.getFavorites().add(article);
+        System.out.println(user.getFavorites().toString());
+        userRepository.save(user);
     }
 
     @Override

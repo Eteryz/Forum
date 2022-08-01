@@ -24,4 +24,12 @@ export class ArticleService {
   findArticleById(id: string): Observable<Article>{
     return this.http.get<Article>(`${this.apiServerUrl}/articles/findById/`+ id);
   }
+
+  getMyArticles() {
+    return this.http.get<Article[]>(`${this.apiServerUrl}/articles/my`);
+  }
+
+  addToFavorites(articleId: string){
+    return this.http.get<void>(`${this.apiServerUrl}/articles/addToFavorites/` + articleId);
+  }
 }
