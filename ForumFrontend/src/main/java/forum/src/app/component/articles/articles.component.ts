@@ -10,15 +10,12 @@ import {ArticleService} from "../../service/article.service";
 export class ArticlesComponent implements OnInit{
 
   articles: any;
-  search: string='';
-
 
   constructor(private articleService: ArticleService) {
   }
 
 
   public getArticles(): void{
-    this.search ='';
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
         return this.articles = response;

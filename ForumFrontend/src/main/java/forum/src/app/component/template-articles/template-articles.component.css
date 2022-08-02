@@ -7,3 +7,9 @@
   margin-bottom: 0;
   padding-bottom: 0;
 }
+
+.noSelect{
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}

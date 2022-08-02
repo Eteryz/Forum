@@ -49,6 +49,7 @@ export class ProfileMenuComponent implements OnInit {
       }
     });
     this.router.navigate(['/login'])
+    window.location.reload();
   }
 
 }

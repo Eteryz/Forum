@@ -16,9 +16,8 @@ export class TemplateArticlesComponent implements OnInit {
   public image: string
   public ava: string;
   isLoggedIn = false;
-  @Input() search: string='';
+  search: string = '';
   currentUser: any;
-
 
 
   constructor(private articleService: ArticleService,
@@ -28,8 +27,8 @@ export class TemplateArticlesComponent implements OnInit {
     this.ava = '../../assets/images/avatar1.jpg'
   }
 
-  public getTextArticle(article: Article):string{
-    return article.text?.substring(0,100)+"...";
+  public getTextArticle(article: Article): string {
+    return article.text?.substring(0, 100) + "...";
   }
 
   public getTagsArticle(article: Article): any {
@@ -42,45 +41,52 @@ export class TemplateArticlesComponent implements OnInit {
       this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser()
       this.articleService.getAllArticlesFromFavorites().subscribe(
-        (data: Article[])=>{
-          data.forEach(value=> this.buttonClickBookmark(value.id));
+        (data: Article[]) => {
+          data.forEach(value => this.buttonClickBookmark(value.id));
         }
       );
-    }else {
+    } else {
       this.router.navigate(['/login'])
     }
   }
 
   searchArticles() {
-    //TODO сделать поиск статей по title
-    this.articles?.filter((value: { tag: string; }) => {
-        value.tag.includes(this.search);
-      }
-    )
-    console.log(this.search)
-    console.log(this.articles)
+    if (this.search != '') {
+      let list: Article[] = [];
+      this.articles.forEach((value: Article) => {
+          if (value.tag.includes(this.search)
+            || value.title.includes(this.search)) {
+            list.push(value);
+          }
+        }
+      );
+      this.articles = list;
+    } else {
+      this.getArticles();
+    }
+
   }
 
-  setArticle(id:string) {
-    this.router.navigate(['/article/'+id])
+  setArticle(id: string) {
+    this.router.navigate(['/article/' + id])
   }
 
   @Input()
   getArticles(): void {
-
+    console.log(this.search);
   }
 
-  buttonClickBookmark(articleId:string) {
-    if(this.colorBookmark.get(articleId) =="#FFBE18"){
-      this.colorBookmark.set(articleId,null);
+  buttonClickBookmark(articleId: string) {
+    if (this.colorBookmark.get(articleId) == "#FFBE18") {
+      this.colorBookmark.set(articleId, null);
       this.articleService.deleteArticleFromFavorites(articleId).subscribe();
-    } else{
+    } else {
       this.articleService.addToFavorites(articleId).subscribe();
-      this.colorBookmark.set(articleId,"#FFBE18");
+      this.colorBookmark.set(articleId, "#FFBE18");
     }
   }
 
-  getColorBookmark(id: string) : any {
+  getColorBookmark(id: string): any {
     return this.colorBookmark.get(id);
   }
 }

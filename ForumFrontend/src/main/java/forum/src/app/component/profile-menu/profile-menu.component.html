@@ -1,17 +1,16 @@
 <div class="nav-item dropdown" *ngIf="showProfileIcon">
   <img [src]="ava" class="avatar" alt="Avatar" type="button" data-bs-toggle="dropdown" aria-expanded="false">
   <ul class=" dropdown-menu" style="margin-left: -5rem">
-    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/profile">Профиль</a></li>
-    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/my-articles">Мои статьи</a></li>
-    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/favorites">Избранное</a></li>
-    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/settings">Настройки</a></li>
+    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/my-articles">My Articles</a></li>
+    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/favorites">Favorites</a></li>
     <li>
       <hr class="dropdown-divider">
     </li>
-    <li><a class="dropdown-item" (click)="logout()" href="#">Выход</a></li>
+    <li><a class="dropdown-item" (click)="logout()" >Sign out</a></li>
   </ul>
 </div>
-<div class="nav-item dropdown" *ngIf="showButtonLoginAndLogout">
+<div class="nav-item dropdown"  *ngIf="showButtonLoginAndLogout">
   <button routerLinkActive="active" class="btn btn-primary btn-block m-1" routerLink="/login">Sign In</button>
   <button routerLinkActive="active" class="btn btn-primary btn-block m-1" routerLink="/register">Sign Up
   </button>
