@@ -1,9 +1,9 @@
-<div *ngIf="isLoggedIn">
   <nav class="navbar navbar-light bg-light">
     <form class="input-group">
       <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation"
               style="border: none; background: powderblue">Add article
       </button>
+      <!--TODO Реализовать поиск через фильтр ( | filter)-->
         <input name="search" class="form-control mr-sm-2" [(ngModel)]="this.search"
                (search)="getArticles()" type="search" placeholder="Enter a query to search" value="{{this.search}}">
         <button class="btn btn-primary my-sm-0 m-2" (click)="searchArticles()"
@@ -49,4 +49,3 @@
       </div>
     </td>
   </table>
-</div>

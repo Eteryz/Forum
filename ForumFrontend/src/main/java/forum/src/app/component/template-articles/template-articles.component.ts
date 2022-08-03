@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {ArticleService} from "../../service/article.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
-import {Article} from "../../model/article";
+import {Article} from "../../model/Article";
 import {environment} from "../../../environments/environment.prod";
 import {UserService} from "../../service/user.service";
 import {ImageService} from "../../service/image.service";
@@ -19,7 +19,6 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   listColorBookmark: Map<String, any> = new Map();
   listUserPhoto: Map<String, any> = new Map();
   public image: string
-  isLoggedIn = false;
   search: string = '';
   currentUser: any;
 
@@ -43,17 +42,10 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser();
-    } else {
-      this.router.navigate(['/login'])
-    }
   }
 
   searchArticles() {
-    console.log(this.search);
-    console.log(this.articles);
     if (this.search != '') {
       let list: Article[] = [];
       this.articles.forEach((value: Article) => {
@@ -64,7 +56,6 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
           }
         }
       );
-      console.log(this.articles);
       this.articles = list;
     } else {
       this.getArticles();
@@ -103,6 +94,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("change");
     const obs = [];
     obs.push(this.articleService.getAllArticlesFromFavorites());
     forkJoin(obs)

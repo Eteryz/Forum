@@ -1,7 +1,7 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {StorageService} from "../../service/storage.service";
 import {CommentService} from "../../service/comment.service";
-import {Comment} from "../../model/comment";
+import {Comment} from "../../model/Comment";
 import {ActivatedRoute} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {UserService} from "../../service/user.service";
@@ -60,8 +60,10 @@ export class CommentComponent implements OnInit {
   addProfilePhotoInList(data: any){
     this.userService.getUserInfo(data.author).subscribe(
       value => {
-        this.listUserPhoto.set(data.author,
-          this.imageService.showProfileImage(value.avatar));
+        if(value.avatar != null) {
+          this.listUserPhoto.set(data.author,
+            this.imageService.showProfileImage(value.avatar));
+        }
       });
   }
 

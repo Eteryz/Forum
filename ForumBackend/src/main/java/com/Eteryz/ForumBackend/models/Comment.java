@@ -1,17 +1,13 @@
 package com.Eteryz.ForumBackend.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,8 +23,6 @@ public class Comment {
     private String id;
     @Column(length = 10000)
     private String text;
-    private int likes;
-    private int dislikes;
     private LocalDateTime date_creation;
 
     @ManyToOne

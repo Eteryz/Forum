@@ -9,22 +9,18 @@ import {StorageService} from "../../service/storage.service";
 export class HeaderComponent implements OnInit {
 
   showArticles = false;
-  isLoggedIn = false;
   private roles: string[] = [];
+  showUsers = false;
 
   constructor(private storageService: StorageService) {
 
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
-    if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
       this.showArticles = this.roles.includes('ROLE_USER');
-    } else {
-      this.showArticles = false;
-    }
+      this.showUsers = this.roles.includes('ROLE_ADMIN');
   }
 
 }

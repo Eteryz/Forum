@@ -24,8 +24,6 @@ public class Article {
     private String title;
     @Type(type = "org.hibernate.type.TextType")
     private String text;
-    private Integer likes;
-    private Integer dislikes;
     @Column(length = 5000)
     private String tag;
 

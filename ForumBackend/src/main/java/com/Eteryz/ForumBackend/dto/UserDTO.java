@@ -1,5 +1,7 @@
 package com.Eteryz.ForumBackend.dto;
 
+import com.Eteryz.ForumBackend.models.ERole;
+import com.Eteryz.ForumBackend.models.Role;
 import com.Eteryz.ForumBackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -32,10 +36,15 @@ public class UserDTO {
     private String phone;
     private byte[] avatar;
     private String city;
+    private Set<String> roles;
 
     public static UserDTO toModel(User user) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
+        userDTO.setRoles(user.getRoles().stream()
+                .map(Role::getName)
+                .map(Enum::name)
+                .collect(Collectors.toSet()));
         return userDTO;
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ArticleService} from "../../service/article.service";
-import {Article} from "../../model/article";
+import {Article} from "../../model/Article";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../service/storage.service";
 import {environment} from "../../../environments/environment.prod";

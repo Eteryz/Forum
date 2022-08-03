@@ -5,14 +5,15 @@
     <li routerLinkActive="active"><a class="dropdown-item" routerLink="/profile">Profile</a></li>
     <li routerLinkActive="active"><a class="dropdown-item" routerLink="/my-articles">My Articles</a></li>
     <li routerLinkActive="active"><a class="dropdown-item" routerLink="/favorites">Favorites</a></li>
+    <li routerLinkActive="active"><a class="dropdown-item" routerLink="/settings">Settings</a></li>
     <li>
       <hr class="dropdown-divider">
     </li>
     <li><a class="dropdown-item" (click)="logout()" >Sign out</a></li>
   </ul>
 </div>
+
 <div class="nav-item dropdown"  *ngIf="showButtonLoginAndLogout">
   <button routerLinkActive="active" class="btn btn-primary btn-block m-1" routerLink="/login">Sign In</button>
-  <button routerLinkActive="active" class="btn btn-primary btn-block m-1" routerLink="/register">Sign Up
-  </button>
+  <button routerLinkActive="active" class="btn btn-primary btn-block m-1" routerLink="/register">Sign Up</button>
 </div>

@@ -31,16 +31,10 @@ public class UserResource {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/findById/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserById(id)), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/findByUsername/{username}")
-    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
-        return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('USER')")

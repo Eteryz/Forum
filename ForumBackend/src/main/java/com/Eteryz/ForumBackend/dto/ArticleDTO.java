@@ -16,8 +16,6 @@ public class ArticleDTO {
     private String id;
     private String title;
     private String text;
-    private Integer likes;
-    private Integer dislikes;
     private String tag;
     private String author;
     private Integer numberComments;

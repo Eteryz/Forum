@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ArticleService} from "../../service/article.service";
-import {Article} from "../../model/article";
+import {Article} from "../../model/Article";
 
 @Component({
   selector: 'app-favorites',

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../service/user.service";
-import {User} from "../../model/user";
+import {User} from "../../model/User";
 import {ImageCroppedEvent} from "ngx-image-cropper";
 import {ImageService} from "../../service/image.service";
 
@@ -14,7 +14,6 @@ import {ImageService} from "../../service/image.service";
 export class ProfileComponent implements OnInit {
 
   currentUser: any;
-  isLoggedIn = false;
   user: any;
   image: any;
   imgChangeEvt: any = '';
@@ -31,8 +30,6 @@ export class ProfileComponent implements OnInit {
   //TODO сделать удаление фото профиля!
   //TODO если меняю username нужно сделать автоматический выход на страницу логина
   ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser();
       this.userService.getUserInfo(this.currentUser.username).subscribe(
         (response: User) => {
@@ -43,9 +40,6 @@ export class ProfileComponent implements OnInit {
             this.img = '../../assets/images/Profile.png'
         }
       );
-    }else {
-      this.router.navigate(['/login'])
-    }
   }
 
   saveChanges() {

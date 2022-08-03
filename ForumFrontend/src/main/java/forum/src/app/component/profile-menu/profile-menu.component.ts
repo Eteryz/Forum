@@ -4,7 +4,7 @@ import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
 import {UserService} from "../../service/user.service";
-import {User} from "../../model/user";
+import {User} from "../../model/User";
 import {ImageService} from "../../service/image.service";
 
 @Component({
@@ -18,19 +18,17 @@ export class ProfileMenuComponent implements OnInit {
 
   private roles: string[] = [];
   showProfileIcon = false;
-  isLoggedIn = false;
   showButtonLoginAndLogout = false;
 
   constructor(private storageService: StorageService,
               private authService: AuthService,
               private userService: UserService,
               private imageService:ImageService,
-              private router: Router) {
+  ) {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
-    if (this.isLoggedIn) {
+    if (this.storageService.isLoggedIn()) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
       this.showProfileIcon = this.roles.includes('ROLE_USER');
@@ -45,7 +43,6 @@ export class ProfileMenuComponent implements OnInit {
       );
     } else {
       this.showButtonLoginAndLogout = true;
-      this.showProfileIcon = false;
     }
   }
 

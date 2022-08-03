@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Article} from "../../model/article";
+import {Article} from "../../model/Article";
 import {ArticleService} from "../../service/article.service";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
