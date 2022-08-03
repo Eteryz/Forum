@@ -36,7 +36,6 @@ public class UserDTO {
     public static UserDTO toModel(User user) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
-//        userDTO.setAvatar(user.getAvatar());
         return userDTO;
     }
 

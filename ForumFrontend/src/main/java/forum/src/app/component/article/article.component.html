@@ -20,8 +20,8 @@
         </label>
       <div>
         <label class="mt-1" style="float: right;">
-          <!--TODO сделать изменение цвета по нажатию-->
           <i type="button" class="material-icons" [style.color]="this.colorBookmark"
+             *ngIf="article.author != currentUser.username"
              (click)="clickBtnBookmark()">bookmark</i>
         </label>
       </div>

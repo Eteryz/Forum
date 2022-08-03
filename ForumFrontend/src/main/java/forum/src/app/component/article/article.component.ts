@@ -3,6 +3,7 @@ import {ArticleService} from "../../service/article.service";
 import {Article} from "../../model/article";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../service/storage.service";
+import {environment} from "../../../environments/environment.prod";
 
 @Component({
   selector: 'app-article',
@@ -17,6 +18,7 @@ export class ArticleComponent implements OnInit {
   colorLike: any;
   colorDislike: any;
   isLoggedIn = false;
+  currentUser: any;
 
   constructor(private articleService: ArticleService,
               private route: ActivatedRoute,
@@ -28,33 +30,43 @@ export class ArticleComponent implements OnInit {
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
+      this.currentUser = this.storageService.getUser()
       this.articleService.findArticleById(this.route.snapshot.params['id'])
         .subscribe({
           next: (data: Article) => {
             this.article = data;
-            console.log(data);
           },
           error: err => {
             this.isSignUpFailed = true;
-            console.log(this.isSignUpFailed);
           }
         });
-    }else {
+      this.articleService.getAllArticlesFromFavorites().subscribe(
+        (data: Article[]) => {
+          data.forEach(value => {
+              if(value.id == this.article.id){
+                this.colorBookmark = environment.colorBookmark;
+              }
+          })
+        });
+    } else {
       this.router.navigate(['/login'])
     }
-
   }
 
   clickBtnBookmark() {
-    if(this.colorBookmark=="yellow")
-      this.colorBookmark=null;
-    else
-      this.colorBookmark = "yellow"
+    if (this.colorBookmark == environment.colorBookmark) {
+      this.colorBookmark = null;
+      this.articleService.deleteArticleFromFavorites(this.article.id).subscribe();
+    } else {
+      this.articleService.addToFavorites(this.article.id).subscribe();
+      this.colorBookmark = environment.colorBookmark;
+
+    }
   }
 
   clickBtnLike() {
     if (this.colorLike=="green")
-      this.colorLike=null;
+      this.colorLike = null;
     else {
       this.colorLike = "green"
       this.colorDislike = null;

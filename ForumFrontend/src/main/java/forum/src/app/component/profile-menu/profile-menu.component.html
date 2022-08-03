@@ -1,5 +1,6 @@
 <div class="nav-item dropdown" *ngIf="showProfileIcon">
-  <img [src]="ava" class="avatar" alt="Avatar" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <img [src]="ava" style="border-radius: 50%; vertical-align: middle; max-width: 50px;max-height: 50px;"
+         alt="Avatar" type="button" data-bs-toggle="dropdown" aria-expanded="false">
   <ul class=" dropdown-menu" style="margin-left: -5rem">
     <li routerLinkActive="active"><a class="dropdown-item" routerLink="/profile">Profile</a></li>
     <li routerLinkActive="active"><a class="dropdown-item" routerLink="/my-articles">My Articles</a></li>

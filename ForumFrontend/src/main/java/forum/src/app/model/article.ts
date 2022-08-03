@@ -6,6 +6,7 @@ export class Article {
   public likes: number = 0;
   public dislikes: number = 0
   public tag: string=''
+  public numberComments: number = 0;
   constructor() {
   }
 

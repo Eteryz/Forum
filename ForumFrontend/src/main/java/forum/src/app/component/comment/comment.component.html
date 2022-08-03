@@ -10,7 +10,7 @@
         name="text"
         [(ngModel)]="newComment.text"
         required
-        minlength="6"
+        minlength="1"
         placeholder="What are you thinking?"
         #text="ngModel"></textarea>
       <div class="alert alert-danger" role="alert" *ngIf="text.errors && f.submitted">
@@ -34,7 +34,7 @@
       <tr class="border-bottom" style="vertical-align:top;"  >
         <td class="p-2">
           <a href="#">
-            <img class="rounded-circle" style="width: 70px; display: block;" src="..\..\assets\images\avatar1.jpg" alt="">
+            <img class="rounded-circle" style="width: 70px; display: block;" [src]="getUserPhoto(comment.author)" alt="">
           </a>
         </td>
         <td class="border-1" style="width: 1000px;border-color: #bce8f1;">

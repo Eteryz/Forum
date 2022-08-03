@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/user";
 import {ImageCroppedEvent} from "ngx-image-cropper";
-import {DomSanitizer} from "@angular/platform-browser";
+import {ImageService} from "../../service/image.service";
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +25,8 @@ export class ProfileComponent implements OnInit {
   constructor(private storageService: StorageService,
               private userService: UserService,
               private router: Router,
-              private sanitizer: DomSanitizer) {
+              private imageService:ImageService,
+              ) {
   }
   //TODO сделать удаление фото профиля!
   //TODO если меняю username нужно сделать автоматический выход на страницу логина
@@ -33,11 +34,11 @@ export class ProfileComponent implements OnInit {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser();
-      this.userService.getUser().subscribe(
+      this.userService.getUserInfo(this.currentUser.username).subscribe(
         (response: User) => {
           this.user = response;
           if(this.user.avatar != null)
-            this.showProfileImage(this.user.avatar);
+            this.img = this.imageService.showProfileImage(this.user.avatar);
           else
             this.img = '../../assets/images/Profile.png'
         }
@@ -60,10 +61,7 @@ export class ProfileComponent implements OnInit {
       window.location.reload();
   }
 
-  showProfileImage(buffer: Iterable<number>) {
-    let objectURL = 'data:image/jpg;base64,' + buffer;
-    this.img = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-  }
+
 
   onFileChange(event: any): void {
     this.imgChangeEvt = event;

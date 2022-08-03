@@ -44,9 +44,8 @@ public class UserResource {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/getUserInfo")
-    public ResponseEntity<UserDTO> getUserInfo(HttpServletRequest request) {
-        String username = jwtUtils.getUserNameFromJwtCookies(request);
+    @GetMapping("/getUserInfo/{username}")
+    public ResponseEntity<UserDTO> getUserInfo(@PathVariable String username) {
         return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
     }
 

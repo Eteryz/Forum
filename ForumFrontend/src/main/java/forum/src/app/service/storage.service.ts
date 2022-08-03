@@ -8,6 +8,7 @@ export class StorageService {
 
   clean(): void {
     window.sessionStorage.clear();
+    window.location.reload();
   }
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);

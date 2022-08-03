@@ -20,12 +20,15 @@ public class ArticleDTO {
     private Integer dislikes;
     private String tag;
     private String author;
+    private Integer numberComments;
 
 
     public static ArticleDTO toModel(Article article) {
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(article, articleDTO);
         articleDTO.author = article.getAuthor().getUsername();
+        articleDTO.numberComments = article.getComments().size();
+
         return articleDTO;
     }
 

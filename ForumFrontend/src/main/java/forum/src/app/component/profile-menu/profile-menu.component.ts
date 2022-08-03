@@ -3,6 +3,9 @@ import {StorageService} from "../../service/storage.service";
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
+import {UserService} from "../../service/user.service";
+import {User} from "../../model/user";
+import {ImageService} from "../../service/image.service";
 
 @Component({
   selector: 'app-profile-menu',
@@ -20,9 +23,9 @@ export class ProfileMenuComponent implements OnInit {
 
   constructor(private storageService: StorageService,
               private authService: AuthService,
+              private userService: UserService,
+              private imageService:ImageService,
               private router: Router) {
-    if(this.ava == null)
-        this.ava = '../../assets/images/avatar1.jpg'
   }
 
   ngOnInit(): void {
@@ -32,6 +35,14 @@ export class ProfileMenuComponent implements OnInit {
       this.roles = user.roles;
       this.showProfileIcon = this.roles.includes('ROLE_USER');
       this.showButtonLoginAndLogout = false;
+      this.userService.getUserInfo(this.storageService.getUser().username).subscribe(
+        (data: any) => {
+          if(data.avatar != null)
+            this.ava = this.imageService.showProfileImage(data.avatar);
+          else
+            this.ava = '../../assets/images/avatar1.jpg';
+        }
+      );
     } else {
       this.showButtonLoginAndLogout = true;
       this.showProfileIcon = false;
@@ -48,8 +59,6 @@ export class ProfileMenuComponent implements OnInit {
         console.log(err);
       }
     });
-    this.router.navigate(['/login'])
-    window.location.reload();
   }
 
 }

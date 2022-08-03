@@ -14,17 +14,15 @@ export class ArticlesComponent implements OnInit{
   constructor(private articleService: ArticleService) {
   }
 
-
   public getArticles(): void{
     this.articleService.getAllArticles().subscribe(
       (response: Article[]) => {
-        return this.articles = response;
+        this.articles = response;
       }
     );
   }
 
   ngOnInit(): void {
-    if (this.articles == null)
       this.getArticles();
   }
 }

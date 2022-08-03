@@ -14,6 +14,7 @@
   <table class="row g-4 m-1">
     <td class="col" *ngFor="let articleEntity of articles">
       <div class="card h-100" style="width: 15rem;">
+<!--        TODO преализовать просмотр страницы автора-->
         <img [src]="image" alt="Article image" class="noSelect card-img-top rounded-top">
         <div class="card-body">
           <h3 class="card-title fw-bold text-center" type="button" (click)="setArticle(articleEntity.id)">{{articleEntity.title}}</h3>
@@ -29,20 +30,18 @@
             </label>
             <label class="" style="display: flex; align-items:center;">
               <i class="material-icons" style="color: grey">comments</i>
-              <span style="margin-left: -22px">-</span>
+              <span style="margin-left: -22px">- {{articleEntity.numberComments}}</span>
             </label>
           </label>
-          <!--todo вытощить все коменты определенной стпатьи и вставить их число сюда -->
         </div>
         <div class="card-group">
           <a class="card-link" type="button" (click)="this.search=tag"
              *ngFor="let tag of getTagsArticle(articleEntity); ">{{tag}}</a>
         </div>
         <div class="noSelect card-footer text-center justify-content-between" style="display: flex; align-items:center;">
-          <img class="card-img avatar" [src]="ava" alt="Author">
-          <span class="card-text">{{articleEntity.author}}</span>
-          <label class="">
-            <!--                TODO сделать изменение цвета по нажатию-->
+          <img class="card-img avatar" [src]="getUserPhoto(articleEntity.author)" alt="Author">
+          <span class="card-text" type="button" (click)="this.search=articleEntity.author">{{articleEntity.author}}</span>
+          <label>
             <i type="button" class="material-icons" *ngIf="articleEntity.author != currentUser.username" [style.color]="getColorBookmark(articleEntity.id)"
                (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
           </label>
