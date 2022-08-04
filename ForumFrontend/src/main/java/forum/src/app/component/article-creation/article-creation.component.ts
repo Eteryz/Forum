@@ -13,7 +13,6 @@ import {Router} from "@angular/router";
 })
 export class ArticleCreationComponent implements OnInit {
 
-  isLoggedIn = false;
   form: Article = new Article();
   errorMessage= '';
   //для тегов
@@ -28,11 +27,6 @@ export class ArticleCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
-    }else {
-      this.router.navigate(['/login'])
-    }
   }
 
   add(event: MatChipInputEvent): void {

@@ -1,4 +1,4 @@
-package com.Eteryz.ForumBackend.service;
+package com.Eteryz.ForumBackend.service.implementation;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.dto.UserDTO;
@@ -7,6 +7,7 @@ import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.UserRepository;
+import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 

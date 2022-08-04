@@ -1,11 +1,11 @@
-package com.Eteryz.ForumBackend.service;
+package com.Eteryz.ForumBackend.service.implementation;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
-import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
+import com.Eteryz.ForumBackend.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

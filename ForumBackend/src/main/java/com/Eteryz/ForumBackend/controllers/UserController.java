@@ -19,32 +19,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-public class UserResource {
+public class UserController {
 
     private final UserService userService;
 
     private final JwtUtils jwtUtils;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/findById/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserById(id)), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/getUserInfo/{username}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserDTO> getUserInfo(@PathVariable String username) {
         return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
     @PutMapping("/updateByUsername")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO user) {
         try {
             User currentUser = userService.getOneUserById(user.getId());
@@ -56,8 +56,8 @@ public class UserResource {
         }
     }
 
-   @PreAuthorize("hasRole('USER')")
    @PostMapping("/updateProfileImage")
+   @PreAuthorize("hasRole('USER')")
    public ResponseEntity<?> updateProfileImage(HttpServletRequest request,
                                                @RequestParam("image") MultipartFile file) {
        try {
@@ -71,8 +71,8 @@ public class UserResource {
        }
    }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.deleteUser(id));

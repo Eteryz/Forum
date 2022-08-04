@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -11,34 +11,44 @@ export class ArticleService {
 
   private apiServerUrl = environment.apiServerUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
-  getAllArticles(): Observable<Article[]>{
+  getAllArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(`${this.apiServerUrl}/articles/all`);
   }
 
-  save(article: Article) : Observable<any> {
+  save(article: Article): Observable<any> {
     return this.http.post<Article>(`${this.apiServerUrl}/articles/add`, article);
   }
 
-  findArticleById(id: string): Observable<Article>{
-    return this.http.get<Article>(`${this.apiServerUrl}/articles/findById/`+ id);
+  findArticleById(id: string): Observable<Article> {
+    return this.http.get<Article>(`${this.apiServerUrl}/articles/findById/` + id);
   }
 
   getMyArticles() {
     return this.http.get<Article[]>(`${this.apiServerUrl}/articles/my`);
   }
 
-  addToFavorites(articleId: string){
+  addToFavorites(articleId: string) {
     return this.http.get(`${this.apiServerUrl}/articles/addToFavorites/` + articleId);
   }
 
-  deleteArticleFromFavorites(articleId: string){
+  deleteArticleFromFavorites(articleId: string) {
     return this.http.delete(`${this.apiServerUrl}/articles/deleteArticleFromFavorites/` + articleId);
   }
 
-  getAllArticlesFromFavorites(): Observable<Article[]>{
+  getAllArticlesFromFavorites(): Observable<Article[]> {
     return this.http.get<Article[]>(`${this.apiServerUrl}/articles/allArticlesFromFavorites`);
+  }
+
+  likeAndDislikeArticle(articleId: string, status: boolean) {
+    return this.http.post<any>(`${this.apiServerUrl}/articleRating/likeAndDislikeArticle/` + articleId, status);
+  }
+
+
+  getLikeOrDislikeClickedByUser(articleId: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiServerUrl}/articleRating/likeOrDislikeArticle/` + articleId);
   }
 
 }

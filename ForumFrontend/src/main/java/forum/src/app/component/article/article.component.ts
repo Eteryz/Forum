@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ArticleService} from "../../service/article.service";
 import {Article} from "../../model/Article";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../service/storage.service";
 import {environment} from "../../../environments/environment.prod";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-article',
@@ -13,7 +14,6 @@ import {environment} from "../../../environments/environment.prod";
 export class ArticleComponent implements OnInit {
 
   article: any;
-  isSignUpFailed: boolean=false;
   colorBookmark: any;
   colorLike: any;
   colorDislike: any;
@@ -32,24 +32,28 @@ export class ArticleComponent implements OnInit {
       this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser()
       this.articleService.findArticleById(this.route.snapshot.params['id'])
-        .subscribe({
-          next: (data: Article) => {
-            this.article = data;
-          },
-          error: err => {
-            this.isSignUpFailed = true;
-          }
-        });
-      this.articleService.getAllArticlesFromFavorites().subscribe(
-        (data: Article[]) => {
-          data.forEach(value => {
-              if(value.id == this.article.id){
-                this.colorBookmark = environment.colorBookmark;
+        .subscribe((response) => {
+          this.article = response;
+          this.articleService.getAllArticlesFromFavorites().subscribe(
+            (data: Article[]) => {
+              data.forEach(value => {
+                if (value.id == this.article.id) {
+                  this.colorBookmark = environment.colorBookmark;
+                }
+              })
+            });
+          this.articleService.getLikeOrDislikeClickedByUser(this.article.id).subscribe(
+            (value) => {
+              if (value != null) {
+                if (value) {
+                  this.colorLike = "green"
+                } else {
+                  this.colorDislike = "red"
+                }
               }
-          })
+            }
+          );
         });
-    } else {
-      this.router.navigate(['/login'])
     }
   }
 
@@ -65,19 +69,32 @@ export class ArticleComponent implements OnInit {
   }
 
   clickBtnLike() {
-    if (this.colorLike=="green")
+    this.articleService.likeAndDislikeArticle(this.article.id, true).subscribe();
+    if (this.colorLike == "green") {
       this.colorLike = null;
-    else {
+      this.article.likes--;
+    } else {
+      if(this.colorDislike != null){
+        this.article.dislikes--;
+        this.colorDislike = null;
+      }
       this.colorLike = "green"
-      this.colorDislike = null;
+      this.article.likes++;
+
     }
   }
 
   clickBtnDislike() {
-    if (this.colorDislike == "red")
+    this.articleService.likeAndDislikeArticle(this.article.id, false).subscribe();
+    if (this.colorDislike == "red") {
       this.colorDislike = null;
-    else {
-      this.colorLike = null;
+      this.article.dislikes--;
+    } else {
+      if( this.colorLike != null){
+        this.colorLike = null;
+        this.article.likes--;
+      }
+      this.article.dislikes++;
       this.colorDislike = "red"
     }
   }
