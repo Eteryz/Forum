@@ -1,6 +1,9 @@
 package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.dto.CommentDTO;
+import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
+import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/comment")
 @RequiredArgsConstructor
@@ -26,8 +29,8 @@ public class CommentController {
     public ResponseEntity<?> getAllCommentsOnArticle(@PathVariable String articleId) {
         try {
             return new ResponseEntity<>(commentService.getAllCommentOnArticle(articleId), HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (CommentNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
@@ -39,18 +42,15 @@ public class CommentController {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
             return ResponseEntity.ok(commentService.save(commentDTO, username, articleId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка при добавлении комментария");
+        } catch (UserNotFoundException | ArticleNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(
-                    commentService.deleteComment(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка при удалении комментария");
-        }
+        return ResponseEntity.ok(
+                commentService.deleteComment(id));
+
     }
 }

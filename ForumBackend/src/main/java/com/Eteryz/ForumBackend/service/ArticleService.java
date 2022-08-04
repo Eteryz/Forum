@@ -1,6 +1,7 @@
 package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
+import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,5 @@ public interface ArticleService {
 
     String deleteArticle(String id);
 
-    Article getOneById(String id);
+    Article getOneById(String id) throws ArticleNotFoundException;
 }

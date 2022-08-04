@@ -4,8 +4,12 @@ import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
+import com.Eteryz.ForumBackend.models.ERole;
+import com.Eteryz.ForumBackend.models.Role;
 import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.repository.RoleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +25,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     @Override
-    public void addToFavorites(String username, Article article) throws FavoritesException {
+    public void addToFavorites(String username, Article article) throws FavoritesException, UserNotFoundException {
         User user = getOneUserByUsername(username);
         if (!article.getAuthor().equals(user)) {
             user.getFavorites().add(article);
@@ -45,35 +51,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getOneUserById(String id) {
+    public User getOneUserById(String id) throws UserNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found!"));
     }
 
     @Override
-    public User getOneUserByUsername(String username) {
+    public User getOneUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
     }
 
     @Override
-    public Long deleteUser(Long id) {
-        userRepository.deleteById(id);
-        return id;
+    public void deleteUser(String id) throws UserNotFoundException {
+        if(userRepository.existsById(id))
+            userRepository.deleteById(id);
+        else
+            throw new UserNotFoundException("User by id " + id + " was not found!");
     }
 
     @Override
-    public void deleteArticleFromFavorites(String username, Article article) {
+    public void deleteArticleFromFavorites(String username, Article article) throws UserNotFoundException {
         User user = getOneUserByUsername(username);
         user.getFavorites().remove(article);
         userRepository.save(user);
     }
 
     @Override
-    public List<ArticleDTO> getArticleIdFromFavorites(String username) {
+    public List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException {
         User user = getOneUserByUsername(username);
         return user.getFavorites().stream()
                 .map(ArticleDTO::toModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<String> addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
+        User user = getOneUserByUsername(username);
+        Role role1 = roleRepository.findByName(role)
+                .orElseThrow(() -> new UserRoleNotFoundException("User role " + role + " was not found!"));
+        user.getRoles().add(role1);
+        return  userRepository.save(user).getRoles().stream()
+                .map(Role::getName)
+                .map(Enum::name)
+                .collect(Collectors.toSet());
     }
 }

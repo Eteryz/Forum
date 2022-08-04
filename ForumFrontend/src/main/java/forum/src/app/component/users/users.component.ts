@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/User";
 import {StorageService} from "../../service/storage.service";
+import {RoleService} from "../../service/role.service";
 
 @Component({
   selector: 'app-users',
@@ -12,8 +13,13 @@ export class UsersComponent implements OnInit {
 
   users: any;
 
+  selectUser: any;
+
+  buttonEnableAddAdminRole = true;
+
   constructor(private storageService: StorageService,
-              private userService: UserService
+              private userService: UserService,
+              private roleService: RoleService
   ) {
   }
 
@@ -25,4 +31,30 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  listClick($event: MouseEvent, user: any) {
+    user.isSelected = !user.isSelected;
+    if (user.isSelected == true) {
+      if(this.selectUser!=null){
+        this.selectUser.isSelected = false;
+      }
+      this.buttonEnableAddAdminRole = false;
+      this.selectUser = user;
+    } else {
+      this.buttonEnableAddAdminRole = true;
+      this.selectUser = null;
+    }
+  }
+
+  getColorRow(userId: string): any {
+    if (this.selectUser != null && userId == this.selectUser.id) {
+      return "greenyellow"
+    } else {
+      return "white"
+    }
+  }
+
+  clickButtonAddAdminRole() {
+    this.roleService.addAdminRoleToUser(this.selectUser.username).subscribe();
+    this.buttonEnableAddAdminRole = true;
+  }
 }

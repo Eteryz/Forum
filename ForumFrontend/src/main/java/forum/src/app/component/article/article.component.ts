@@ -17,7 +17,6 @@ export class ArticleComponent implements OnInit {
   colorBookmark: any;
   colorLike: any;
   colorDislike: any;
-  isLoggedIn = false;
   currentUser: any;
 
   constructor(private articleService: ArticleService,
@@ -29,30 +28,34 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
       this.currentUser = this.storageService.getUser()
       this.articleService.findArticleById(this.route.snapshot.params['id'])
-        .subscribe((response) => {
-          this.article = response;
-          this.articleService.getAllArticlesFromFavorites().subscribe(
-            (data: Article[]) => {
-              data.forEach(value => {
-                if (value.id == this.article.id) {
-                  this.colorBookmark = environment.colorBookmark;
-                }
-              })
-            });
-          this.articleService.getLikeOrDislikeClickedByUser(this.article.id).subscribe(
-            (value) => {
-              if (value != null) {
-                if (value) {
-                  this.colorLike = "green"
-                } else {
-                  this.colorDislike = "red"
+        .subscribe({
+          next: (response) => {
+            this.article = response;
+            this.articleService.getAllArticlesFromFavorites().subscribe(
+              (data: Article[]) => {
+                data.forEach(value => {
+                  if (value.id == this.article.id) {
+                    this.colorBookmark = environment.colorBookmark;
+                  }
+                })
+              });
+            this.articleService.getLikeOrDislikeClickedByUser(this.article.id).subscribe(
+              (value) => {
+                if (value != null) {
+                  if (value) {
+                    this.colorLike = "green"
+                  } else {
+                    this.colorDislike = "red"
+                  }
                 }
               }
-            }
-          );
+            );
+          },
+          error: error => {
+            this.router.navigate(['/articles']);
+          }
         });
     }
   }
@@ -74,7 +77,7 @@ export class ArticleComponent implements OnInit {
       this.colorLike = null;
       this.article.likes--;
     } else {
-      if(this.colorDislike != null){
+      if (this.colorDislike != null) {
         this.article.dislikes--;
         this.colorDislike = null;
       }
@@ -90,7 +93,7 @@ export class ArticleComponent implements OnInit {
       this.colorDislike = null;
       this.article.dislikes--;
     } else {
-      if( this.colorLike != null){
+      if (this.colorLike != null) {
         this.colorLike = null;
         this.article.likes--;
       }

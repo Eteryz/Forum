@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getOneById(String id) {
+    public Article getOneById(String id) throws ArticleNotFoundException {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }

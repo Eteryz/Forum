@@ -1,5 +1,7 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
+import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.ArticleRating;
 import com.Eteryz.ForumBackend.models.User;
@@ -21,7 +23,7 @@ public class ArticleRatingServiceImpl implements ArticleRatingService {
     private final ArticleRatingRepository articleRatingRepository;
 
     @Override
-    public void likeAndDislikeArticle(String username, String articleId, boolean status) {
+    public void likeAndDislikeArticle(String username, String articleId, boolean status) throws ArticleNotFoundException, UserNotFoundException {
         User user = userService.getOneUserByUsername(username);
         Article article = articleService.getOneById(articleId);
         Optional<ArticleRating> articleRating =
@@ -44,7 +46,7 @@ public class ArticleRatingServiceImpl implements ArticleRatingService {
     }
 
     @Override
-    public Optional<Boolean> getLikeOrDislikeArticleClickedByUser(String username, String articleId) {
+    public Optional<Boolean> getLikeOrDislikeArticleClickedByUser(String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
         User user = userService.getOneUserByUsername(username);
         Article article = articleService.getOneById(articleId);
         Optional<ArticleRating> articleRating =

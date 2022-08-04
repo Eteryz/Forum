@@ -1,7 +1,9 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
 import com.Eteryz.ForumBackend.dto.CommentDTO;
+import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.Comment;
 import com.Eteryz.ForumBackend.models.User;
@@ -24,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     private final ArticleService articleService;
 
     @Override
-    public CommentDTO save(CommentDTO commentDTO, String username, String articleId) {
+    public CommentDTO save(CommentDTO commentDTO, String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
         User user = userService.getOneUserByUsername(username);
         Article article = articleService.getOneById(articleId);
         Comment comment = commentDTO.toEntity(user, article);

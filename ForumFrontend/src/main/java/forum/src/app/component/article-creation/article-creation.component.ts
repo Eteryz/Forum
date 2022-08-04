@@ -3,8 +3,6 @@ import {Article} from "../../model/Article";
 import {ArticleService} from "../../service/article.service";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {StorageService} from "../../service/storage.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-article-creation',
@@ -20,9 +18,7 @@ export class ArticleCreationComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: String[] = [];
 
-  constructor(private articleService: ArticleService,
-              private storageService: StorageService,
-              private router: Router) {
+  constructor(private articleService: ArticleService) {
 
   }
 

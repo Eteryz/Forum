@@ -1,7 +1,9 @@
 package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.dto.UserDTO;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -31,16 +34,14 @@ public class UserController {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/findById/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
-        return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserById(id)), HttpStatus.OK);
-    }
-
     @GetMapping("/getUserInfo/{username}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<UserDTO> getUserInfo(@PathVariable String username) {
-        return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
+    public ResponseEntity<?> getUserInfo(@PathVariable String username) {
+        try {
+            return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @PutMapping("/updateByUsername")
@@ -50,34 +51,35 @@ public class UserController {
             User currentUser = userService.getOneUserById(user.getId());
             currentUser = user.toEntity(currentUser);
             return ResponseEntity.ok(userService.updateUser(currentUser));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("Произошла ошибка при обновлении информации о пользователе");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-   @PostMapping("/updateProfileImage")
-   @PreAuthorize("hasRole('USER')")
-   public ResponseEntity<?> updateProfileImage(HttpServletRequest request,
-                                               @RequestParam("image") MultipartFile file) {
-       try {
-           String username = jwtUtils.getUserNameFromJwtCookies(request);
-           User currentUser = userService.getOneUserByUsername(username);
-           currentUser.setAvatar(file.getBytes());
-           return ResponseEntity.ok(userService.updateUser(currentUser));
-       } catch (Exception e) {
-           return ResponseEntity.badRequest()
-                   .body("Произошла ошибка при обновлении фотографии пользователя");
-       }
-   }
+    @PostMapping("/updateProfileImage")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updateProfileImage(HttpServletRequest request,
+                                                @RequestParam("image") MultipartFile file) {
+        try {
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            User currentUser = userService.getOneUserByUsername(username);
+            currentUser.setAvatar(file.getBytes());
+            return ResponseEntity.ok(userService.updateUser(currentUser));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("Ошибка при чтении файла!");
+        }
+    }
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(userService.deleteUser(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка при удалении пользователя");
+            userService.deleteUser(id);
+        return ResponseEntity.ok(new MessageResponse("User deleted successfully"));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
