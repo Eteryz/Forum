@@ -94,7 +94,6 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("change");
     const obs = [];
     obs.push(this.articleService.getAllArticlesFromFavorites());
     forkJoin(obs)

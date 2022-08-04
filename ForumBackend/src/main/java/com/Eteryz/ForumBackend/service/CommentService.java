@@ -3,6 +3,7 @@ package com.Eteryz.ForumBackend.service;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
 import com.Eteryz.ForumBackend.models.Comment;
 import com.Eteryz.ForumBackend.dto.CommentDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

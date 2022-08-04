@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,4 +69,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Comment> comments;
+
+    //TODO сделать дату создания аккаунта
+    @Column(updatable=false)
+    private Date createdAt;
 }

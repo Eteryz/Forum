@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/User";
 import {StorageService} from "../../service/storage.service";
@@ -14,14 +14,15 @@ export class UsersComponent implements OnInit {
 
   constructor(private storageService: StorageService,
               private userService: UserService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-      this.userService.getUsers().subscribe(
-        (response: User[]) => {
-          this.users = response;
-        }
-      );
+    this.userService.getUsers().subscribe(
+      (response: User[]) => {
+        this.users = response;
+      }
+    );
   }
 
 }

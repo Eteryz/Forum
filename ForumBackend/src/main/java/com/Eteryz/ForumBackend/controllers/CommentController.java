@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/comment")
 @RequiredArgsConstructor
-public class CommentResource {
+public class CommentController {
 
     private final CommentService commentService;
 
     private final JwtUtils jwtUtils;
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{articleId}/all")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getAllCommentsOnArticle(@PathVariable String articleId) {
         try {
             return new ResponseEntity<>(commentService.getAllCommentOnArticle(articleId), HttpStatus.OK);
@@ -31,8 +31,8 @@ public class CommentResource {
         }
     }
 
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{articleId}/add")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addComment(HttpServletRequest request,
                                         @PathVariable String articleId,
                                         @RequestBody CommentDTO commentDTO) {
