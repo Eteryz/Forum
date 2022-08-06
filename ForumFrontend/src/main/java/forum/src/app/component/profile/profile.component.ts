@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   cropImgPreview: any;
   img: any; //для отображения
   visibleIcon: boolean = true;
+  errors= false;
 
   constructor(private storageService: StorageService,
               private userService: UserService,
@@ -106,5 +107,22 @@ export class ProfileComponent implements OnInit {
     this.imgChangeEvt = null;
     this.cropImgPreview = null;
     this.visibleIcon = true;
+  }
+
+  cancelChanges() {
+    //TODO реализовать
+  }
+
+  deleteAccount() {
+    this.userService.deleteAccount().subscribe(
+      {
+        next: value => {
+          this.storageService.clean();
+        },
+        error: err => {
+          this.errors = true;
+        }
+      }
+    );
   }
 }

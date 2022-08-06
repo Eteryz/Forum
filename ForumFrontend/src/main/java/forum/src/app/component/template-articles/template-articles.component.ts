@@ -3,7 +3,6 @@ import {ArticleService} from "../../service/article.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {Article} from "../../model/Article";
-import {environment} from "../../../environments/environment.prod";
 import {UserService} from "../../service/user.service";
 import {ImageService} from "../../service/image.service";
 import {forkJoin} from "rxjs";
@@ -21,6 +20,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   public image: string
   search: string = '';
   currentUser: any;
+  private color:any = "#FFBE18";
 
 
   constructor(private articleService: ArticleService,
@@ -72,12 +72,12 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   }
 
   buttonClickBookmark(articleId: string) {
-    if (this.listColorBookmark.get(articleId) == environment.colorBookmark) {
+    if (this.listColorBookmark.get(articleId) == this.color) {
       this.listColorBookmark.set(articleId, null);
       this.articleService.deleteArticleFromFavorites(articleId).subscribe();
     } else {
       this.articleService.addToFavorites(articleId).subscribe();
-      this.listColorBookmark.set(articleId, environment.colorBookmark);
+      this.listColorBookmark.set(articleId, this.color);
     }
   }
 
@@ -99,7 +99,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
     forkJoin(obs)
       .subscribe(([response1]) => {
         response1.forEach(value => {
-          this.listColorBookmark.set(value.id, environment.colorBookmark);
+          this.listColorBookmark.set(value.id, this.color);
         });
         this.articles.forEach((value: { author: string }) => {
           this.userService.getUserInfo(value.author).subscribe(

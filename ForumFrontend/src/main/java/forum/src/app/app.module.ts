@@ -28,7 +28,6 @@ import { TemplateArticlesComponent } from './component/template-articles/templat
 import { MyArticlesComponent } from './component/my-articles/my-articles.component';
 import { FavoritesComponent } from './component/favorites/favorites.component';
 import { UsersComponent } from './component/users/users.component';
-import { ProfileSettingsComponent } from './component/profile-settings/profile-settings.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,6 @@ import { ProfileSettingsComponent } from './component/profile-settings/profile-s
     MyArticlesComponent,
     FavoritesComponent,
     UsersComponent,
-    ProfileSettingsComponent,
   ],
   imports: [
     BrowserModule,

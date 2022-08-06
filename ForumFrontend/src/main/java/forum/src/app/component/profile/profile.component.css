@@ -2,14 +2,14 @@ body{
   background: #f7f7ff;
   margin-top:20px;
 }
+
 .card {
   position: relative;
-  display: flex;
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
   background-color: #fff;
-  background-clip: border-box;
+  background-clip: padding-box;
   border: 0 solid transparent;
   border-radius: .25rem;
   margin-bottom: 1.5rem;
@@ -21,4 +21,26 @@ body{
 
 .material-icons{
   color: lightskyblue;
+}
+
+.custom-btn{
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.list-group-item.active {
+  font-weight: bold;
+}
+
+.list-group-item.active {
+  color: #4E5155 !important;
+}
+.list-group-item.active {
+  background: transparent !important;
+}
+
+.list-group-item {
+  padding: 0.85rem 1.5rem;
+  border-color: #4E5155 !important;
 }

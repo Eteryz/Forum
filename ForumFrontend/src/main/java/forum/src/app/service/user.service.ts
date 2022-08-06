@@ -1,32 +1,36 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {User} from "../model/User";
 import {environment} from "../../environments/environment.prod";
+
+const USER_API = environment.apiServerUrl + '/api/user/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiServerUrl = environment.apiServerUrl;
-
-  constructor(private http: HttpClient) { }
-
-  public getUsers(): Observable<User[]>{
-    return this.http.get<User[]>(`${this.apiServerUrl}/user/all`);
+  constructor(private http: HttpClient) {
   }
 
-  public getUserInfo(username: string): Observable<User>{
-    return this.http.get<User>(`${this.apiServerUrl}/user/getUserInfo/`+ username);
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(USER_API + 'all');
   }
 
-  public updateUser(user: User): Observable<User>{
-    return this.http.put<User>(`${this.apiServerUrl}/user/updateByUsername`, user);
+  public getUserInfo(username: string): Observable<User> {
+    return this.http.get<User>(USER_API + 'getUserInfo/' + username);
+  }
+
+  public updateUser(user: User): Observable<User> {
+    return this.http.put<User>(USER_API + 'updateByUsername', user);
   }
 
   updateProfileImage(fd: FormData) {
-    return this.http.post<any>(`${this.apiServerUrl}/user/updateProfileImage`, fd);
+    return this.http.post<any>(USER_API + 'updateProfileImage', fd);
   }
 
+  deleteAccount() {
+    return this.http.delete<String>(USER_API + 'delete/myAccount');
+  }
 }

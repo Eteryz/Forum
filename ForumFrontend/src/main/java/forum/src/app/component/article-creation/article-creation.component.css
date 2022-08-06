@@ -1,0 +1,5 @@
+mat-chip-list input{
+  border: 1px grey dotted;
+  height: 30px;
+  background: white;
+}

@@ -1,14 +1,16 @@
 <div class="container">
-  <!--TODO  Сделать красивый ввод и добавление фотографии к статье-->
-  <div class="card card-container">
+  <!--TODO  Сделать добавление фотографии к статье-->
+  <div class="card card-container text-center mt-2">
     <form
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
       #f="ngForm"
       novalidate
+      style="background: lightgoldenrodyellow"
     >
-      <label>Create article</label>
-      <div class="form-group">
+      <h2><b>Create article</b></h2>
+      <hr>
+      <div class="form-group m-1">
         <label>Title</label>
         <input
           type="text"
@@ -25,7 +27,7 @@
           Title is required!
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group m-1">
         <label>Text</label>
         <textarea
           type="text"
@@ -43,11 +45,12 @@
          Text is required!
         </div>
       </div>
-      <div class="form-group">
-        <mat-form-field class="example-chip-list container m-0 p-0" appearance="standard">
-          <label>Tags</label>
-          <!--<mat-label>Tags</mat-label>-->
-          <mat-chip-list #chipList aria-label="Tag selection" >
+      <hr>
+      <div class="form-group m-1 row">
+        <label style="margin-bottom: -20px">Tags</label>
+        <mat-form-field class="example-chip-list"
+                        appearance="standard">
+          <mat-chip-list #chipList aria-label="Tag selection">
             <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
               {{tag}}
               <button matChipRemove>
@@ -57,7 +60,7 @@
             <input  type="text"
                     class="form-control"
                     name="text"
-                    placeholder="New tag..."
+                    placeholder="Enter tags here! (It's not obligatory)"
                    [matChipInputFor]="chipList"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                    [matChipInputAddOnBlur]="addOnBlur"
@@ -66,8 +69,8 @@
         </mat-form-field>
       </div>
       <div class="form-group text-center">
-        <button class="btn btn-primary btn-block"
-                style="border: none; background: powderblue">Отправить
+        <button class="btn btn-primary btn-block mb-2"
+                style="border: none; background: #834800">Отправить
         </button>
       </div>
     </form>

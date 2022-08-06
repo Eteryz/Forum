@@ -13,6 +13,7 @@ import {forkJoin} from "rxjs";
 })
 export class ArticleComponent implements OnInit {
 
+  private color:any = "#FFBE18";
   article: any;
   colorBookmark: any;
   colorLike: any;
@@ -37,7 +38,7 @@ export class ArticleComponent implements OnInit {
               (data: Article[]) => {
                 data.forEach(value => {
                   if (value.id == this.article.id) {
-                    this.colorBookmark = environment.colorBookmark;
+                    this.colorBookmark = this.color;
                   }
                 })
               });
@@ -61,12 +62,12 @@ export class ArticleComponent implements OnInit {
   }
 
   clickBtnBookmark() {
-    if (this.colorBookmark == environment.colorBookmark) {
+    if (this.colorBookmark == this.color) {
       this.colorBookmark = null;
       this.articleService.deleteArticleFromFavorites(this.article.id).subscribe();
     } else {
       this.articleService.addToFavorites(this.article.id).subscribe();
-      this.colorBookmark = environment.colorBookmark;
+      this.colorBookmark = this.color;
 
     }
   }

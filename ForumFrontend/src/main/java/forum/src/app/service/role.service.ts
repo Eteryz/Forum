@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
+
+const USER_ROLE_API = environment.apiServerUrl + '/api/userRole/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
 
-
-  private apiServerUrl = environment.apiServerUrl;
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   addAdminRoleToUser(username: String) {
-      return this.http.get<any>(`${this.apiServerUrl}/userRole/admin/add/`+ username);
+    return this.http.get<any>(USER_ROLE_API + 'admin/add/' + username);
   }
 }

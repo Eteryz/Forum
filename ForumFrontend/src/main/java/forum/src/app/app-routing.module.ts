@@ -12,7 +12,6 @@ import {FavoritesComponent} from "./component/favorites/favorites.component";
 import {UsersComponent} from "./component/users/users.component";
 import {AdminRouteGuard} from "./model/AdminRouteGuard";
 import {LoginRouteGuard} from "./model/LoginRouteGuard";
-import {ProfileSettingsComponent} from "./component/profile-settings/profile-settings.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -26,7 +25,6 @@ const routes: Routes = [
       { path: 'article-creation', component: ArticleCreationComponent },
       { path: 'my-articles', component: MyArticlesComponent },
       { path: 'favorites', component: FavoritesComponent },
-      { path: 'settings', component: ProfileSettingsComponent },
       { path: 'users', component: UsersComponent , canActivate: [AdminRouteGuard]},
 
     ]},
