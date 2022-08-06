@@ -17,5 +17,4 @@ public interface CommentService {
 
     List<CommentDTO> getAllCommentOnArticle(String articleId) throws CommentNotFoundException;
 
-    Long deleteComment(Long id);
 }

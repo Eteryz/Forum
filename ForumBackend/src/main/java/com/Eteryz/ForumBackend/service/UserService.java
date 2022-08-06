@@ -8,7 +8,6 @@ import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -25,7 +24,7 @@ public interface UserService {
 
     User getOneUserByUsername(String username) throws UserNotFoundException;
 
-    void deleteUser(String id) throws UserNotFoundException;
+    void deleteUserByUsername(String username) throws UserNotFoundException;
 
     void deleteArticleFromFavorites(String username, Article article) throws UserNotFoundException;
 

@@ -72,12 +72,13 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+    @DeleteMapping("/delete/myAccount")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteUserByUsername(HttpServletRequest request) {
         try {
-            userService.deleteUser(id);
-        return ResponseEntity.ok(new MessageResponse("User deleted successfully"));
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            userService.deleteUserByUsername(username);
+            return ResponseEntity.ok(new MessageResponse("User deleted successfully"));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

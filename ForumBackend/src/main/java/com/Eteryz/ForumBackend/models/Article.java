@@ -9,7 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,7 +40,19 @@ public class Article {
     @ToString.Exclude
     private User author;
 
+    @ManyToMany(mappedBy = "favorites")
+    private Set<User> subscribers = new HashSet<>();
+
+    @PreRemove
+    public void preRemove(){
+        subscribers.forEach(user -> user.removeArticleFromFavorites(this));
+    }
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ArticleRating> articleRatings;
 }

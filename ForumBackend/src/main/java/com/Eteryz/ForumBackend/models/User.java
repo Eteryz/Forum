@@ -48,6 +48,46 @@ public class User {
     private byte[] avatar;
     private String city;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Article> articles;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Comment> comments;
+
+    //TODO сделать дату создания аккаунта
+    @Column(updatable=false)
+    private Date createdAt;
+
+
+    //TODO сделать так, чтоб при удалении пользователя,
+    // очищались статьи этого пользователя,
+    // которые добавили в избранное другие пользователи.
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
+    @ToString.Exclude
+    private Set<Article> favorites = new HashSet<>();
+
+    public void addArticleToFavorites(Article article){
+        this.favorites.add(article);
+        article.getSubscribers().add(this);
+    }
+
+    public void removeArticleFromFavorites(Article article){
+        this.favorites.remove(article);
+        article.getSubscribers().remove(this);
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ArticleRating> articleRatings;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -55,22 +95,4 @@ public class User {
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "favorites",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
-    @ToString.Exclude
-    private Set<Article> favorites = new HashSet<>();
-
-    @OneToMany(mappedBy = "author")
-    @ToString.Exclude
-    private List<Article> articles;
-
-    @OneToMany(mappedBy = "user")
-    @ToString.Exclude
-    private List<Comment> comments;
-
-    //TODO сделать дату создания аккаунта
-    @Column(updatable=false)
-    private Date createdAt;
 }

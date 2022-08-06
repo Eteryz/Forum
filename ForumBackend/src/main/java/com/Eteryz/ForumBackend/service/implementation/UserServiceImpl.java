@@ -31,11 +31,26 @@ public class UserServiceImpl implements UserService {
     public void addToFavorites(String username, Article article) throws FavoritesException, UserNotFoundException {
         User user = getOneUserByUsername(username);
         if (!article.getAuthor().equals(user)) {
-            user.getFavorites().add(article);
+            user.addArticleToFavorites(article);
             userRepository.save(user);
         } else {
             throw new FavoritesException("You can't add your article to favorites!");
         }
+    }
+
+    @Override
+    public void deleteArticleFromFavorites(String username, Article article) throws UserNotFoundException {
+        User user = getOneUserByUsername(username);
+        user.removeArticleFromFavorites(article);
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException {
+        User user = getOneUserByUsername(username);
+        return user.getFavorites().stream()
+                .map(ArticleDTO::toModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -63,27 +78,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String id) throws UserNotFoundException {
-        if(userRepository.existsById(id))
-            userRepository.deleteById(id);
-        else
-            throw new UserNotFoundException("User by id " + id + " was not found!");
+    public void deleteUserByUsername(String username) throws UserNotFoundException {
+        User user = getOneUserByUsername(username);
+        userRepository.deleteById(user.getId());
     }
 
-    @Override
-    public void deleteArticleFromFavorites(String username, Article article) throws UserNotFoundException {
-        User user = getOneUserByUsername(username);
-        user.getFavorites().remove(article);
-        userRepository.save(user);
-    }
-
-    @Override
-    public List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException {
-        User user = getOneUserByUsername(username);
-        return user.getFavorites().stream()
-                .map(ArticleDTO::toModel)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public Set<String> addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
