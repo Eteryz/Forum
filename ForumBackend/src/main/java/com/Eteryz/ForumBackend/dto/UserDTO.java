@@ -1,21 +1,16 @@
 package com.Eteryz.ForumBackend.dto;
 
-import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.Role;
 import com.Eteryz.ForumBackend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +30,7 @@ public class UserDTO {
     @Pattern(regexp = "^((\\+7|7|8)+([0-9]){10})$")
     private String phone;
     private byte[] avatar;
-    private String city;
+    private String location;
     private Set<String> roles;
 
     public static UserDTO toModel(User user) {

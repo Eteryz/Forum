@@ -1,6 +1,10 @@
 package com.Eteryz.ForumBackend.models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -9,7 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +50,7 @@ public class User {
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     private byte[] avatar;
-    private String city;
+    private String location;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
@@ -56,9 +60,9 @@ public class User {
     @ToString.Exclude
     private List<Comment> comments;
 
-    //TODO сделать дату создания аккаунта
-    @Column(updatable=false)
-    private Date createdAt;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDate createdAt;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,

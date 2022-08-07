@@ -85,14 +85,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Set<String> addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
+    public void addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
         User user = getOneUserByUsername(username);
         Role role1 = roleRepository.findByName(role)
                 .orElseThrow(() -> new UserRoleNotFoundException("User role " + role + " was not found!"));
         user.getRoles().add(role1);
-        return  userRepository.save(user).getRoles().stream()
-                .map(Role::getName)
-                .map(Enum::name)
-                .collect(Collectors.toSet());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteProfileImage(String username) throws UserNotFoundException {
+        User user = getOneUserByUsername(username);
+        user.setAvatar(null);
+        userRepository.save(user);
     }
 }

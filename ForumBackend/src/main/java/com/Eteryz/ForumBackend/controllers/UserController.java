@@ -2,6 +2,8 @@ package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
+import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
+import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
@@ -80,6 +82,30 @@ public class UserController {
             userService.deleteUserByUsername(username);
             return ResponseEntity.ok(new MessageResponse("User deleted successfully"));
         } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteProfileImage")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteProfileImage(HttpServletRequest request) {
+        try {
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            userService.deleteProfileImage(username);
+            return ResponseEntity.ok(new MessageResponse("ProfileImage deleted successfully"));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/addAdminRole/{username}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> addAdminRoleToUser(@PathVariable String username) {
+        try {
+            userService.addRoleToUser(username, ERole.ROLE_ADMIN);
+            return ResponseEntity.ok().body(new MessageResponse("Role successfully assigned!"));
+        } catch (UserRoleNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

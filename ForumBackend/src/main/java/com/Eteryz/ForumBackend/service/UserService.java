@@ -30,5 +30,7 @@ public interface UserService {
 
     List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException;
 
-    Set<String> addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException;
+    void addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException;
+
+    void deleteProfileImage(String username) throws UserNotFoundException;
 }

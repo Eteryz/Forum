@@ -11,16 +11,16 @@
                        id="file-input"
                        (change)="onFileChange($event)">
                 <label for="file-input" class="m-1">
-                  <a class="btn"><i class="material-icons">photo</i>
-                  </a>
+                  <i type="button" class="material-icons">photo</i>
                 </label>
                 <label (click)="saveProfileImage()" [hidden]="visibleIcon" class="m-1">
-                  <a class="btn"><i class="material-icons">backup</i>
-                  </a>
+                  <i type="button" class="material-icons">backup</i>
                 </label>
                 <label (click)="clickCloseImageEditor()" [hidden]="visibleIcon" class="m-1">
-                  <a class="btn"><i class="material-icons">highlight_off</i>
-                  </a>
+                  <i type="button" class="material-icons">highlight_off</i>
+                </label>
+                <label>
+                  <i type="button" class="material-icons" *ngIf="user.avatar != null" (click)="buttonClickDeleteProfileImage()">delete</i>
                 </label>
                 <div class="mb-2">
                   <image-cropper
@@ -91,7 +91,7 @@
               </div>
               <div class="row mb-3">
                 <div class="col-sm-3">
-                  <label class="mb-0">City</label>
+                  <label class="mb-0">Location</label>
                 </div>
                 <div class="col-sm-9 text-secondary">
                   <input type="text" class="form-control" [(ngModel)]="user.city">
@@ -101,7 +101,6 @@
                 <div class="col-sm-3"></div>
                 <div class="col-sm-9 text-secondary justify-content-center">
                   <button (click)="saveChanges()" class="m-1 btn custom-btn btn-primary px-4">Save changes</button>
-                  <button (click)="cancelChanges()" class="m-1 btn btn-primary custom-btn btn-block px-4">Cancel</button>
                 </div>
               </div>
             </div>

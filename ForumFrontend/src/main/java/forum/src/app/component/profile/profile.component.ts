@@ -22,47 +22,60 @@ export class ProfileComponent implements OnInit {
   cropImgPreview: any;
   img: any; //для отображения
   visibleIcon: boolean = true;
-  errors= false;
+  errors = false;
 
   constructor(private storageService: StorageService,
               private userService: UserService,
               private router: Router,
-              private imageService:ImageService,
+              private imageService: ImageService,
               private dialog: MatDialog) {
   }
+
   //TODO сделать удаление фото профиля!
   //TODO если меняю username нужно сделать автоматический выход на страницу логина
   ngOnInit(): void {
-      this.currentUser = this.storageService.getUser();
-      this.userService.getUserInfo(this.currentUser.username).subscribe(
-        (response: User) => {
-          this.user = response;
-          if(this.user.avatar != null)
-            this.img = this.imageService.showProfileImage(this.user.avatar);
-          else
-            this.img = '../../assets/images/Profile.png'
-        }
-      );
+    this.currentUser = this.storageService.getUser();
+    this.userService.getUserInfo(this.currentUser.username).subscribe(
+      (response: User) => {
+        this.user = response;
+        if (this.user.avatar != null)
+          this.img = this.imageService.showProfileImage(this.user.avatar);
+        else
+          this.img = '../../assets/images/Profile.png'
+      }
+    );
   }
 
   saveChanges() {
-    console.log(this.user);
-    this.userService.updateUser(this.user).subscribe(
-      {
-        next: (data: User) => {
-          this.user = data
-        },
-        error: err => {
+    const dlg = this.dialog.open(ConfirmationDlgComponentComponent, {
+      data: {title: 'Confirmation', msg: 'Are you sure?'}
+    });
+
+    dlg.afterClosed().subscribe((flag: boolean) => {
+      if (flag) {
+        this.userService.updateUser(this.user).subscribe(
+          {
+            next: (data: User) => {
+              this.user = data
+            },
+            error: err => {
+            }
+          });
+        if(this.currentUser.username!= this.user.username){
+          this.storageService.clean();
         }
-      });
-      window.location.reload();
+      }
+      this.userService.getUserInfo(this.currentUser.username).subscribe(
+        (response: User) => {
+          this.user = response;
+        });
+    });
   }
-
-
 
   onFileChange(event: any): void {
     this.imgChangeEvt = event;
   }
+
   cropImg(e: ImageCroppedEvent) {
     this.cropImgPreview = e.base64;
   }
@@ -82,6 +95,7 @@ export class ProfileComponent implements OnInit {
     // display cropper tool
     this.visibleIcon = false;
   }
+
   initCropper() {
     // init cropper
   }
@@ -93,7 +107,7 @@ export class ProfileComponent implements OnInit {
   saveProfileImage() {
     this.image = this.dataURItoBlob(this.cropImgPreview);
     const fd = new FormData();
-    fd.append('image',this.image,'profile.png');
+    fd.append('image', this.image, 'profile.png');
     this.userService.updateProfileImage(fd).subscribe(
       {
         next: () => {
@@ -109,10 +123,6 @@ export class ProfileComponent implements OnInit {
     this.imgChangeEvt = null;
     this.cropImgPreview = null;
     this.visibleIcon = true;
-  }
-
-  cancelChanges() {
-    //TODO реализовать
   }
 
   deleteAccount() {
@@ -135,5 +145,15 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+  }
+
+  buttonClickDeleteProfileImage() {
+    this.userService.deleteProfileImage().subscribe(
+      {
+        next: value => {
+          window.location.reload();
+        }
+      }
+    );
   }
 }

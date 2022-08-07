@@ -10,6 +10,7 @@ export class StorageService {
     window.sessionStorage.clear();
     window.location.reload();
   }
+
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -21,6 +22,7 @@ export class StorageService {
     }
     return {};
   }
+
   public isLoggedIn(): boolean {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

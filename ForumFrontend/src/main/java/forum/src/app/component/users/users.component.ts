@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/User";
 import {StorageService} from "../../service/storage.service";
-import {RoleService} from "../../service/role.service";
 
 @Component({
   selector: 'app-users',
@@ -19,7 +18,6 @@ export class UsersComponent implements OnInit {
 
   constructor(private storageService: StorageService,
               private userService: UserService,
-              private roleService: RoleService
   ) {
   }
 
@@ -54,7 +52,7 @@ export class UsersComponent implements OnInit {
   }
 
   clickButtonAddAdminRole() {
-    this.roleService.addAdminRoleToUser(this.selectUser.username).subscribe();
+    this.userService.addAdminRoleToUser(this.selectUser.username).subscribe();
     this.buttonEnableAddAdminRole = true;
   }
 }

@@ -33,4 +33,12 @@ export class UserService {
   deleteAccount() {
     return this.http.delete<String>(USER_API + 'delete/myAccount');
   }
+
+  addAdminRoleToUser(username: String) {
+    return this.http.get<any>(USER_API + 'addAdminRole/' + username);
+  }
+
+  deleteProfileImage(){
+    return this.http.delete<void>(USER_API + 'deleteProfileImage');
+  }
 }
