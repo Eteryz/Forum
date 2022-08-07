@@ -31,6 +31,10 @@ export class ArticleService {
     return this.http.get<Article[]>(ARTICLE_API + 'my');
   }
 
+  deleteArticleById(articleId: string){
+    return this.http.delete(ARTICLE_API + 'delete/' + articleId);
+  }
+
   addToFavorites(articleId: string) {
     return this.http.get(ARTICLE_API + 'addToFavorites/' + articleId);
   }

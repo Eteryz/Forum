@@ -5,6 +5,8 @@ import {UserService} from "../../service/user.service";
 import {User} from "../../model/User";
 import {ImageCroppedEvent} from "ngx-image-cropper";
 import {ImageService} from "../../service/image.service";
+import {ConfirmationDlgComponentComponent} from "../confirmation-dlg-component/confirmation-dlg-component.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +28,7 @@ export class ProfileComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private imageService:ImageService,
-              ) {
+              private dialog: MatDialog) {
   }
   //TODO сделать удаление фото профиля!
   //TODO если меняю username нужно сделать автоматический выход на страницу логина
@@ -114,15 +116,24 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteAccount() {
-    this.userService.deleteAccount().subscribe(
-      {
-        next: value => {
-          this.storageService.clean();
-        },
-        error: err => {
-          this.errors = true;
-        }
+    const dlg = this.dialog.open(ConfirmationDlgComponentComponent, {
+      data: {title: 'Confirmation', msg: 'Are you sure you want to permanently delete this account?'}
+    });
+
+    dlg.afterClosed().subscribe((flag: boolean) => {
+      if (flag) {
+        this.userService.deleteAccount().subscribe(
+          {
+            next: value => {
+              this.storageService.clean();
+            },
+            error: err => {
+              this.errors = true;
+            }
+          }
+        );
       }
-    );
+    });
+
   }
 }

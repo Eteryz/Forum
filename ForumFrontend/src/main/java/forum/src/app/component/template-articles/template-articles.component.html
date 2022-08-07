@@ -45,6 +45,10 @@
             <i type="button" class="material-icons" *ngIf="articleEntity.author != currentUser.username" [style.color]="getColorBookmark(articleEntity.id)"
                (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
           </label>
+          <label>
+            <i type="button" class="material-icons" *ngIf="articleEntity.author == currentUser.username"
+               (click)="buttonClickDelete(articleEntity.id)">delete</i>
+          </label>
         </div>
       </div>
     </td>

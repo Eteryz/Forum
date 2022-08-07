@@ -28,6 +28,8 @@ import { TemplateArticlesComponent } from './component/template-articles/templat
 import { MyArticlesComponent } from './component/my-articles/my-articles.component';
 import { FavoritesComponent } from './component/favorites/favorites.component';
 import { UsersComponent } from './component/users/users.component';
+import { ConfirmationDlgComponentComponent } from './component/confirmation-dlg-component/confirmation-dlg-component.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -47,20 +49,22 @@ import { UsersComponent } from './component/users/users.component';
     MyArticlesComponent,
     FavoritesComponent,
     UsersComponent,
+    ConfirmationDlgComponentComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatChipsModule,
-    MatIconModule,
-    ImageCropperModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatIconModule,
+        ImageCropperModule,
+        MatDialogModule,
+    ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })

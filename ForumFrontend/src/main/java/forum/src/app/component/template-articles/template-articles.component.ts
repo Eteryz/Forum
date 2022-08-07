@@ -6,6 +6,8 @@ import {Article} from "../../model/Article";
 import {UserService} from "../../service/user.service";
 import {ImageService} from "../../service/image.service";
 import {forkJoin} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDlgComponentComponent} from "../confirmation-dlg-component/confirmation-dlg-component.component";
 
 @Component({
   selector: 'app-template-articles',
@@ -27,7 +29,8 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
               private storageService: StorageService,
               private userService: UserService,
               private imageService: ImageService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
     this.image = '../../assets/images/ang1.jpg';
 
   }
@@ -112,4 +115,23 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
         });
       });
   }
+
+  buttonClickDelete(id:string) {
+    const dlg = this.dialog.open(ConfirmationDlgComponentComponent, {
+      data: {title: 'Confirmation', msg: 'Are you sure you want to permanently delete this article?'}
+    });
+
+    dlg.afterClosed().subscribe((flag: boolean) => {
+      if (flag) {
+        this.articleService.deleteArticleById(id).subscribe({
+          next: value => {
+           this.getArticles();
+          },
+          error: err => {}
+        });
+      }
+    });
+
+  }
 }
+

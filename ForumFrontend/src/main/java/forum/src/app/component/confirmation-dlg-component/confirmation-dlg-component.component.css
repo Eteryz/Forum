@@ -1,0 +1,4 @@
+.title {font-size: large;}
+.msg {font-size: medium;}
+.colors {color: white; background-color: #3f51b5;}
+button {flex-basis: 60px;}

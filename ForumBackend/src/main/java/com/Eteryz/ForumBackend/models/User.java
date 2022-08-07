@@ -48,7 +48,7 @@ public class User {
     private byte[] avatar;
     private String city;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Article> articles;
 
@@ -60,10 +60,6 @@ public class User {
     @Column(updatable=false)
     private Date createdAt;
 
-
-    //TODO сделать так, чтоб при удалении пользователя,
-    // очищались статьи этого пользователя,
-    // которые добавили в избранное другие пользователи.
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE

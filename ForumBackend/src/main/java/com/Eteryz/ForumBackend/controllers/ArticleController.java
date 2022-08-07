@@ -5,7 +5,9 @@ import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
+import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.ArticleService;
 import com.Eteryz.ForumBackend.service.UserService;
@@ -19,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
@@ -91,7 +93,7 @@ public class ArticleController {
             Article article = articleService.getOneById(articleId);
             userService.deleteArticleFromFavorites(username, article);
             return ResponseEntity.ok().build();
-        }  catch (ArticleNotFoundException | UserNotFoundException e) {
+        } catch (ArticleNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -101,7 +103,7 @@ public class ArticleController {
     public ResponseEntity<?> addArticle(HttpServletRequest request, @RequestBody ArticleDTO articleDTO) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            User user  = userService.getOneUserByUsername(username);
+            User user = userService.getOneUserByUsername(username);
             articleService.save(articleDTO, user);
             return ResponseEntity.ok().build();
         } catch (UserNotFoundException e) {
@@ -111,7 +113,20 @@ public class ArticleController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteArticle(@PathVariable String id) {
-            return ResponseEntity.ok(articleService.deleteArticle(id));
+    public ResponseEntity<?> deleteArticle(HttpServletRequest request, @PathVariable String id) {
+        try {
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            User user = userService.getOneUserByUsername(username);
+            if (user.getArticles().stream().anyMatch(x -> x.getId().equals(id)) ||
+                    user.getRoles().stream().anyMatch(x -> x.getName().equals(ERole.ROLE_ADMIN))) {
+                user = articleService.getOneById(id).getAuthor();
+                articleService.deleteArticle(id, user);
+                return ResponseEntity.ok(new MessageResponse("Article deleted successfully!"));
+            } else {
+                return ResponseEntity.badRequest().body(new MessageResponse("Deletion is not possible. You are not the owner of this article or a forum administrator."));
+            }
+        } catch (ArticleNotFoundException | UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

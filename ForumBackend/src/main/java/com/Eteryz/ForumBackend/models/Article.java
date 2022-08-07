@@ -41,6 +41,7 @@ public class Article {
     private User author;
 
     @ManyToMany(mappedBy = "favorites")
+    @ToString.Exclude
     private Set<User> subscribers = new HashSet<>();
 
     @PreRemove

@@ -17,7 +17,9 @@ public interface ArticleService {
 
     List<ArticleDTO> findAllArticlesByAuthor(User user);
 
-    String deleteArticle(String id);
+    void deleteArticle(String articleId, User user) throws ArticleNotFoundException;
+
+    void deleteArticle(String articleId) throws ArticleNotFoundException;
 
     Article getOneById(String id) throws ArticleNotFoundException;
 }
