@@ -1,7 +1,7 @@
 export class User {
 
   public id: string ="";
-  public avatar: any | undefined;
+  public avatar: any = null;
   public name: string ="";
   public username: string ="";
   public email: string ="";

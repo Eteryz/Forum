@@ -26,7 +26,6 @@ const routes: Routes = [
       { path: 'my-articles', component: MyArticlesComponent },
       { path: 'favorites', component: FavoritesComponent },
       { path: 'users', component: UsersComponent , canActivate: [AdminRouteGuard]},
-
     ]},
 
 ];

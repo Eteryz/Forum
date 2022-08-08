@@ -1,55 +1,58 @@
-  <nav class="navbar navbar-light bg-light">
-    <form class="input-group">
-      <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation"
-              style="border: none; background: powderblue">Add article
+<nav class="navbar navbar-light bg-light">
+  <form class="input-group">
+    <button routerLinkActive="active" class="btn btn-primary my-sm-0 m-2 " routerLink="/article-creation"
+            style="border: none; background: powderblue">Add article
+    </button>
+    <!--TODO Реализовать поиск через фильтр ( | filter)-->
+      <input name="search" class="form-control mr-sm-2" [(ngModel)]="this.search"
+             (search)="getArticles()" type="search" placeholder="Enter a query to search" value="{{this.search}}">
+      <button class="btn btn-primary my-sm-0 m-2" (click)="searchArticles()"
+              style="border: none; background: powderblue">Search
       </button>
-      <!--TODO Реализовать поиск через фильтр ( | filter)-->
-        <input name="search" class="form-control mr-sm-2" [(ngModel)]="this.search"
-               (search)="getArticles()" type="search" placeholder="Enter a query to search" value="{{this.search}}">
-        <button class="btn btn-primary my-sm-0 m-2" (click)="searchArticles()"
-                style="border: none; background: powderblue">Search
-        </button>
-    </form>
-  </nav>
-  <table class="row g-4 m-1">
-    <td class="col" *ngFor="let articleEntity of articles">
-      <div class="card h-100" style="width: 15rem;">
-<!--        TODO реализовать просмотр страницы автора-->
-        <img [src]="image" alt="Article image" class="noSelect card-img-top rounded-top">
-        <div class="card-body">
-          <h3 class="card-title fw-bold text-center" type="button" (click)="setArticle(articleEntity.id)">{{articleEntity.title}}</h3>
-          <p class="card-text">{{getTextArticle(articleEntity)}}</p>
-          <label class="noSelect justify-content-between" style="display: flex; align-items:center;">
-            <label class="" style="display: flex; align-items:center;">
-              <i class="material-icons" style="color: greenyellow; margin-right: 2px">thumb_up_alt</i>
-              <span>- {{articleEntity.likes}}</span>
-            </label>
-            <label class="" style="display: flex; align-items:center;">
-              <i class="material-icons" style="color: red; margin-right: 2px">thumb_down_alt</i>
-              <span>- {{articleEntity.dislikes}}</span>
-            </label>
-            <label class="" style="display: flex; align-items:center;">
-              <i class="material-icons" style="color: grey">comments</i>
-              <span style="margin-left: -22px">- {{articleEntity.numberComments}}</span>
-            </label>
+  </form>
+</nav>
+
+<table class="row g-2 m-1">
+  <td class="col" *ngFor="let articleEntity of articles">
+    <div class="card h-100" style="width: 15rem;">
+      <!--        TODO реализовать просмотр страницы автора-->
+      <img [src]="image" alt="Article image" class="noSelect card-img-top rounded-top">
+      <div class="card-body">
+        <h3 class="card-title fw-bold text-center" type="button"
+            (click)="setArticle(articleEntity.id)">{{articleEntity.title}}</h3>
+        <p class="card-text">{{getTextArticle(articleEntity)}}</p>
+        <label class="noSelect justify-content-between" style="display: flex; align-items:center;">
+          <label class="" style="display: flex; align-items:center;">
+            <i class="material-icons" style="color: greenyellow; margin-right: 2px">thumb_up_alt</i>
+            <span>- {{articleEntity.likes}}</span>
           </label>
-        </div>
-        <div class="card-group">
-          <a class="card-link" type="button" (click)="this.search=tag"
-             *ngFor="let tag of getTagsArticle(articleEntity); ">{{tag}}</a>
-        </div>
-        <div class="noSelect card-footer text-center justify-content-between" style="display: flex; align-items:center;">
-          <img class="card-img avatar" [src]="getUserPhoto(articleEntity.author)" alt="Author">
-          <span class="card-text" type="button" (click)="this.search=articleEntity.author">{{articleEntity.author}}</span>
-          <label>
-            <i type="button" class="material-icons" *ngIf="articleEntity.author != currentUser.username" [style.color]="getColorBookmark(articleEntity.id)"
-               (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
+          <label class="" style="display: flex; align-items:center;">
+            <i class="material-icons" style="color: red; margin-right: 2px">thumb_down_alt</i>
+            <span>- {{articleEntity.dislikes}}</span>
           </label>
-          <label>
-            <i type="button" class="material-icons" *ngIf="articleEntity.author == currentUser.username"
-               (click)="buttonClickDelete(articleEntity.id)">delete</i>
+          <label class="" style="display: flex; align-items:center;">
+            <i class="material-icons" style="color: grey">comments</i>
+            <span style="margin-left: -22px">- {{articleEntity.numberComments}}</span>
           </label>
-        </div>
+        </label>
       </div>
-    </td>
-  </table>
+      <div class="card-group">
+        <a class="card-link" type="button" (click)="this.search=tag"
+           *ngFor="let tag of getTagsArticle(articleEntity); ">{{tag}}</a>
+      </div>
+      <div class="noSelect card-footer text-center justify-content-between" style="display: flex; align-items:center;">
+        <img class="card-img avatar" [src]="getUserPhoto(articleEntity.author)" alt="Author">
+        <span class="card-text" type="button" (click)="this.search=articleEntity.author">{{articleEntity.author}}</span>
+        <label>
+          <i type="button" class="material-icons" *ngIf="articleEntity.author != currentUser.username"
+             [style.color]="getColorBookmark(articleEntity.id)"
+             (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
+        </label>
+        <label>
+          <i type="button" class="material-icons" *ngIf="articleEntity.author == currentUser.username"
+             (click)="buttonClickDelete(articleEntity.id)">delete</i>
+        </label>
+      </div>
+    </div>
+  </td>
+</table>

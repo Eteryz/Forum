@@ -14,6 +14,8 @@
           class="form-control"
           name="username"
           [(ngModel)]="form.username"
+          minlength="3"
+          maxlength="20"
           required
           #username="ngModel"
         />
@@ -22,7 +24,9 @@
           role="alert"
           *ngIf="username.errors && f.submitted"
         >
-          Username is required!
+          <div *ngIf="username.errors['required']">Username is required!</div>
+          <div *ngIf="username.errors['minlength']">Username must be at least 3 characters</div>
+          <div *ngIf="username.errors['maxlength']">Username must not exceed 20 characters</div>
         </div>
       </div>
       <div class="form-group m-1">
@@ -34,6 +38,7 @@
           [(ngModel)]="form.password"
           required
           minlength="6"
+          maxlength="40"
           #password="ngModel"
         />
         <div
@@ -41,10 +46,9 @@
           role="alert"
           *ngIf="password.errors && f.submitted"
         >
-          <div *ngIf="password.errors['required']">Password is required</div>
-          <div *ngIf="password.errors['minlength']">
-            Password must be at least 6 characters
-          </div>
+          <div *ngIf="password.errors['required']">Password is required!</div>
+          <div *ngIf="password.errors['minlength']">Password must be at least 6 characters</div>
+          <div *ngIf="password.errors['maxlength']">Password must not exceed 40 characters</div>
         </div>
       </div>
       <div class="m-2 form-group text-center">

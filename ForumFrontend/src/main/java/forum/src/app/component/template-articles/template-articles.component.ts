@@ -104,15 +104,17 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
         response1.forEach(value => {
           this.listColorBookmark.set(value.id, this.color);
         });
-        this.articles.forEach((value: { author: string }) => {
-          this.userService.getUserInfo(value.author).subscribe(
-            data => {
-              if(data.avatar != null){
-                this.listUserPhoto.set(value.author,
-                  this.imageService.showProfileImage(data.avatar));
-              }
-            })
-        });
+        if(this.articles != undefined){
+          this.articles.forEach((value: { author: string }) => {
+            this.userService.getUserInfo(value.author).subscribe(
+              data => {
+                if(data.avatar != null){
+                  this.listUserPhoto.set(value.author,
+                    this.imageService.showProfileImage(data.avatar));
+                }
+              })
+          });
+        }
       });
   }
 

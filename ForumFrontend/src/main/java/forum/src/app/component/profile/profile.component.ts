@@ -16,7 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class ProfileComponent implements OnInit {
 
   currentUser: any;
-  user: any;
+  user: User = new User();
   image: any;
   imgChangeEvt: any = '';
   cropImgPreview: any;
