@@ -31,8 +31,6 @@ export class ProfileComponent implements OnInit {
               private dialog: MatDialog) {
   }
 
-  //TODO сделать удаление фото профиля!
-  //TODO если меняю username нужно сделать автоматический выход на страницу логина
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
     this.userService.getUserInfo(this.currentUser.username).subscribe(
