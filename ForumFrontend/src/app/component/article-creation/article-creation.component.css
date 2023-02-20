@@ -3,3 +3,83 @@ mat-chip-list input{
   height: 30px;
   background: white;
 }
+
+:root {
+  --ck-sample-base-spacing: 2em;
+  --ck-sample-color-white: #fff;
+  --ck-sample-color-green: #279863;
+  --ck-sample-color-blue: #1a9aef;
+  --ck-sample-container-width: 1285px;
+  --ck-sample-sidebar-width: 350px;
+  --ck-sample-editor-min-height: 400px;
+  --ck-sample-editor-z-index: 10;
+}
+
+.centered {
+  /* Hide overlapping comments. */
+  overflow: hidden;
+  max-width: var(--ck-sample-container-width);
+  margin: 0 auto;
+  padding: 0 var(--ck-sample-base-spacing);
+}
+body[data-editor='DecoupledDocumentEditor'] .row-editor .editor {
+  /* A pixel is added for each of the border. */
+  width: calc(21cm + 2px);
+  min-height: calc(29.7cm + 2px);
+  /* To avoid having extra scrolls inside the editor container. */
+  height: fit-content;
+  padding: 2cm 1.2cm;
+  margin: 2.5rem;
+  border: 1px hsl( 0, 0%, 82.7% ) solid;
+  background-color: var(--ck-sample-color-white);
+  box-shadow: 0 0 5px hsla( 0, 0%, 0%, .1 );
+  box-sizing: border-box;
+}
+
+body[data-editor='DecoupledDocumentEditor'] .row-editor {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  overflow-y: auto;
+  background-color: #f2f2f2;
+  border: 1px solid hsl(0, 0%, 77%);
+  /* Limit the max-height of the editor to avoid scrolling from bottom to top to see the toolbar. */
+  max-height: 700px;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  width: 100%;
+  justify-content: center;
+}
+
+.editor__editable,
+  /* Classic build. */
+main .ck-editor[role='application'] .ck.ck-content,
+  /* Decoupled document build. */
+.ck.editor__editable[role='textbox'],
+.ck.ck-editor__editable[role='textbox'],
+  /* Inline & Balloon build. */
+.ck.editor[role='textbox'] {
+  width: 100%;
+  background: #fff;
+  font-size: 1em;
+  line-height: 1.6em;
+  min-height: var(--ck-sample-editor-min-height);
+  padding: 1.5em 2em;
+}
+
+.ck.ck-editor__editable {
+  background: #fff;
+  border: 1px solid hsl(0, 0%, 70%);
+  width: 100%;
+}
+
+/* Because of sidebar `position: relative`, Edge is overriding the outline of a focused editor. */
+.ck.ck-editor__editable {
+  position: relative;
+  z-index: var(--ck-sample-editor-z-index);
+}

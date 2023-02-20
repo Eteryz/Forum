@@ -30,6 +30,7 @@ import { FavoritesComponent } from './component/favorites/favorites.component';
 import { UsersComponent } from './component/users/users.component';
 import { ConfirmationDlgComponentComponent } from './component/confirmation-dlg-component/confirmation-dlg-component.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 
 @NgModule({
   declarations: [
@@ -51,20 +52,21 @@ import {MatDialogModule} from "@angular/material/dialog";
     UsersComponent,
     ConfirmationDlgComponentComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatCardModule,
-        MatButtonModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatChipsModule,
-        MatIconModule,
-        ImageCropperModule,
-        MatDialogModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    ImageCropperModule,
+    MatDialogModule,
+    CKEditorModule,
+  ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
