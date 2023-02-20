@@ -47,10 +47,10 @@
         </div>
         -->
         <ckeditor  (ready)="onReady($event)"
-                   [editor]="Editor"
-                   [(ngModel)]="html">
+                   [editor]="editor"
+                   (change)="onChange($event)"
+        >
         </ckeditor>
-
       </div>
       <hr>
       <div class="form-group m-1 row">

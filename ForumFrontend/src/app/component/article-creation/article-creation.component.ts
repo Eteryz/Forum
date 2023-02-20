@@ -4,9 +4,9 @@ import {ArticleService} from "../../service/article.service";
 import {MatChipInputEvent} from '@angular/material/chips';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 // @ts-ignore
-import * as Editor from "@ckeditor/ckeditor5-36.0.1";
+import * as Editor from "build/ckeditor";
 import {MyUploadAdapter} from "../../my-upload-adapter";
-import {CKEditor5} from "@ckeditor/ckeditor5-angular";
+import {ChangeEvent, CKEditor5} from "@ckeditor/ckeditor5-angular";
 
 @Component({
   selector: 'app-article-creation',
@@ -21,12 +21,10 @@ export class ArticleCreationComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: String[] = [];
-  public Editor: any;
-  public html: string | undefined;
+  public editor: any;
 
   constructor(private articleService: ArticleService) {
-    this.Editor = Editor;
-    this.html = "";
+    this.editor = Editor;
   }
 
   public onReady(editor: CKEditor5.Editor) {
@@ -39,10 +37,15 @@ export class ArticleCreationComponent implements OnInit {
       editor['ui'].view.toolbar.element,
       editor['ui'].getEditableElement()
     );
+  }
 
+  public onChange( { editor }: ChangeEvent ) {
+    const data = editor.getData();
+    console.log( data );
   }
 
   ngOnInit(): void {
+
   }
 
   add(event: MatChipInputEvent): void {
@@ -65,6 +68,7 @@ export class ArticleCreationComponent implements OnInit {
   }
 
   onSubmit() {
+    //TODO реализовать отправку информации в бд
     this.articleService.save(this.form).subscribe(
       {
         next: data => {
@@ -76,6 +80,5 @@ export class ArticleCreationComponent implements OnInit {
         }
       });
 
-    console.log(this.html);
   }
 }

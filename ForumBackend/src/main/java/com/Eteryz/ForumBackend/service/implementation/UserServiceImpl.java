@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    //TODO в методы передаются DTO и возвращаются DTO
+
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
