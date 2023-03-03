@@ -29,28 +29,26 @@
       </div>
       <div class="form-group m-1">
         <label>Text</label>
-        <!--
-        <textarea
-          type="text"
-          class="form-control"
-          name="text"
-          [(ngModel)]="form.text"
-          required
-          minlength="6"
-          #text="ngModel"></textarea>
+        <ckeditor  (ready)="onReady($event)"
+                   [editor]="editor"
+                   (change)="onChange($event)"
+
+                   type="text"
+                   class="form-control"
+                   name="text"
+                   [(ngModel)]="form.text"
+                   required
+                   minlength="6"
+                   #text="ngModel"
+        >
+        </ckeditor>
         <div
           class="alert alert-danger"
           role="alert"
           *ngIf="text.errors && f.submitted"
         >
-         Text is required!
+          Text is required!
         </div>
-        -->
-        <ckeditor  (ready)="onReady($event)"
-                   [editor]="editor"
-                   (change)="onChange($event)"
-        >
-        </ckeditor>
       </div>
       <hr>
       <div class="form-group m-1 row">

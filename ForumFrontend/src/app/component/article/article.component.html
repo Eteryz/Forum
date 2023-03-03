@@ -4,9 +4,7 @@
       <u><h2>Topic: {{article.title}}</h2></u>
       <h5 style="margin-top: -15px">Author: {{article.author}}</h5>
     </div>
-    <div class="p-4 text-black">
-      <span>{{article.text}}</span>
-    </div>
+    <div class="p-4" [innerHTML]="article.text | safeHtml"></div>
     <div class="noSelect justify-content-around"
          style="display: flex; align-items:center; min-height: 30px; border-top: 1px solid #9370DB;">
       <label style="margin-left: 10px; margin-right: 10px; display: flex; align-items:center;">

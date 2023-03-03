@@ -31,6 +31,7 @@ import { UsersComponent } from './component/users/users.component';
 import { ConfirmationDlgComponentComponent } from './component/confirmation-dlg-component/confirmation-dlg-component.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import {SafeHtmlPipe} from "./pipe/safe-html-pipe";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
     FavoritesComponent,
     UsersComponent,
     ConfirmationDlgComponentComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
