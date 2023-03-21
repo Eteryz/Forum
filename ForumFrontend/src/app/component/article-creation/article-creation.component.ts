@@ -42,7 +42,7 @@ export class ArticleCreationComponent implements OnInit {
   public onChange( { editor }: ChangeEvent ) {
     this.editor = editor;
     const data = editor.getData();
-    console.log( data );
+    console.log( data);
   }
 
   ngOnInit(): void {

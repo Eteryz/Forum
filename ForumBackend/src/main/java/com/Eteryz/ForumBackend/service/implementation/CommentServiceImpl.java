@@ -7,10 +7,10 @@ import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.Comment;
 import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.repository.CommentRepository;
-import com.Eteryz.ForumBackend.service.ArticleService;
+import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.CommentService;
-import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +22,15 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final UserService userService;
-    private final ArticleService articleService;
+    private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     @Override
     public CommentDTO save(CommentDTO commentDTO, String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
-        User user = userService.getOneUserByUsername(username);
-        Article article = articleService.getOneById(articleId);
+        User user = getUserByUsername(username);
+        Article article = getArticleById(articleId);
         Comment comment = commentDTO.toEntity(user, article);
         return CommentDTO.toModel(commentRepository.save(comment));
-    }
-
-    @Override
-    public List<CommentDTO> getAllComment() {
-        return commentRepository.findAll().stream()
-                .map(CommentDTO::toModel)
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -47,6 +40,15 @@ public class CommentServiceImpl implements CommentService {
         return comments.stream()
                 .map(CommentDTO::toModel)
                 .collect(Collectors.toList());
+    }
+
+    private User getUserByUsername(String username) throws UserNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
+    }
+    private Article getArticleById(String id) throws ArticleNotFoundException {
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }
 
 }

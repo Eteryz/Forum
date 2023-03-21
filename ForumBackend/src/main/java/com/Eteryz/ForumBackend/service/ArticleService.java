@@ -2,6 +2,9 @@ package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
+import com.Eteryz.ForumBackend.exception.FavoritesException;
+import com.Eteryz.ForumBackend.exception.PermissionException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.User;
 import org.springframework.stereotype.Service;
@@ -11,15 +14,20 @@ import java.util.List;
 
 public interface ArticleService {
 
-    void save(ArticleDTO articleDTO, User user);
+    ArticleDTO save(ArticleDTO articleDTO, String username) throws UserNotFoundException;
 
     List<ArticleDTO> findAllArticle();
 
-    List<ArticleDTO> findAllArticlesByAuthor(User user);
+    List<ArticleDTO> findAllArticlesByAuthor(String username) throws UserNotFoundException;
 
-    void deleteArticle(String articleId, User user) throws ArticleNotFoundException;
+    boolean deleteArticle(String articleId, String username) throws PermissionException, ArticleNotFoundException, UserNotFoundException;
 
-    void deleteArticle(String articleId) throws ArticleNotFoundException;
+    ArticleDTO getOneById(String id) throws ArticleNotFoundException;
 
-    Article getOneById(String id) throws ArticleNotFoundException;
+    void addToFavorites(String username, String articleId) throws FavoritesException, UserNotFoundException, ArticleNotFoundException;
+
+    void deleteArticleFromFavorites(String username, String articleId) throws UserNotFoundException, ArticleNotFoundException;
+
+    List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException;
+
 }

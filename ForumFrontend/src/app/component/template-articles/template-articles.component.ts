@@ -23,6 +23,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   search: string = '';
   currentUser: any;
   private color:any = "#FFBE18";
+  roleAdmin: boolean = false;
 
 
   constructor(private articleService: ArticleService,
@@ -46,6 +47,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
       this.currentUser = this.storageService.getUser();
+      this.roleAdmin = this.currentUser.roles.includes('ROLE_ADMIN');
   }
 
   searchArticles() {

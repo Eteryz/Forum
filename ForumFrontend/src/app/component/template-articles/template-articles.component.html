@@ -49,7 +49,7 @@
              (click)="buttonClickBookmark(articleEntity.id)">bookmark</i>
         </label>
         <label>
-          <i type="button" class="material-icons" *ngIf="articleEntity.author == currentUser.username"
+          <i type="button" class="material-icons" *ngIf="(articleEntity.author == currentUser.username) || roleAdmin"
              (click)="buttonClickDelete(articleEntity.id)">delete</i>
         </label>
       </div>

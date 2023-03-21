@@ -40,7 +40,7 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserInfo(@PathVariable String username) {
         try {
-            return new ResponseEntity<>(UserDTO.toModel(userService.getOneUserByUsername(username)), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getOneUserByUsername(username), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -48,11 +48,10 @@ public class UserController {
 
     @PutMapping("/updateByUsername")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO user) {
+    public ResponseEntity<?> updateUser(HttpServletRequest request,@Valid @RequestBody UserDTO user) {
         try {
-            User currentUser = userService.getOneUserById(user.getId());
-            currentUser = user.toEntity(currentUser);
-            return ResponseEntity.ok(userService.updateUser(currentUser));
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            return ResponseEntity.ok(userService.updateUser(username, user));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -64,9 +63,7 @@ public class UserController {
                                                 @RequestParam("image") MultipartFile file) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            User currentUser = userService.getOneUserByUsername(username);
-            currentUser.setAvatar(file.getBytes());
-            return ResponseEntity.ok(userService.updateUser(currentUser));
+            return ResponseEntity.ok(userService.updateAvatarUser(username, file));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IOException e) {

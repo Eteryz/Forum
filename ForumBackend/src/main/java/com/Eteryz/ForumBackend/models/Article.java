@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -51,9 +52,9 @@ public class Article {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Comment> comments;
+    private List<Comment> comments = new LinkedList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<ArticleRating> articleRatings;
+    private List<ArticleRating> articleRatings = new LinkedList<>();
 }

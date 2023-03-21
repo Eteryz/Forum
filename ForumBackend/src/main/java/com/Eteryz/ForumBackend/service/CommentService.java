@@ -13,8 +13,6 @@ public interface CommentService {
 
     CommentDTO save(CommentDTO commentDTO, String username, String articleId) throws UserNotFoundException, ArticleNotFoundException;
 
-    List<CommentDTO> getAllComment();
-
     List<CommentDTO> getAllCommentOnArticle(String articleId) throws CommentNotFoundException;
 
 }

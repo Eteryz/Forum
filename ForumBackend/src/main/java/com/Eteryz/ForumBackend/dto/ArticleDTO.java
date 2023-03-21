@@ -28,7 +28,6 @@ public class ArticleDTO {
         BeanUtils.copyProperties(article, articleDTO);
         articleDTO.author = article.getAuthor().getUsername();
         articleDTO.numberComments = article.getComments().size();
-
         return articleDTO;
     }
 

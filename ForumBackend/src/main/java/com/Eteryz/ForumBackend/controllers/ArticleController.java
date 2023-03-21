@@ -3,6 +3,7 @@ package com.Eteryz.ForumBackend.controllers;
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
+import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.ERole;
@@ -44,8 +45,7 @@ public class ArticleController {
     public ResponseEntity<?> getAllArticlesByAuthor(HttpServletRequest request) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            User user = userService.getOneUserByUsername(username);
-            return new ResponseEntity<>(articleService.findAllArticlesByAuthor(user), HttpStatus.OK);
+            return new ResponseEntity<>(articleService.findAllArticlesByAuthor(username), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class ArticleController {
     @GetMapping("/findById/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable String id) {
         try {
-            return new ResponseEntity<>(ArticleDTO.toModel(articleService.getOneById(id)), HttpStatus.OK);
+            return new ResponseEntity<>(articleService.getOneById(id), HttpStatus.OK);
         } catch (ArticleNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -66,7 +66,7 @@ public class ArticleController {
     public ResponseEntity<?> getAllArticleIdFromFavorites(HttpServletRequest request) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            return new ResponseEntity<>(userService.getArticleIdFromFavorites(username), HttpStatus.OK);
+            return new ResponseEntity<>(articleService.getArticleIdFromFavorites(username), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -77,8 +77,7 @@ public class ArticleController {
     public ResponseEntity<?> addToFavorites(HttpServletRequest request, @PathVariable String articleId) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            Article article = articleService.getOneById(articleId);
-            userService.addToFavorites(username, article);
+            articleService.addToFavorites(username, articleId);
             return ResponseEntity.ok().build();
         } catch (ArticleNotFoundException | FavoritesException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -90,8 +89,7 @@ public class ArticleController {
     public ResponseEntity<?> deleteArticleFromFavorites(HttpServletRequest request, @PathVariable String articleId) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            Article article = articleService.getOneById(articleId);
-            userService.deleteArticleFromFavorites(username, article);
+            articleService.deleteArticleFromFavorites(username, articleId);
             return ResponseEntity.ok().build();
         } catch (ArticleNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -102,10 +100,9 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addArticle(HttpServletRequest request, @RequestBody ArticleDTO articleDTO) {
         try {
+            System.out.println(articleDTO);
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            User user = userService.getOneUserByUsername(username);
-            articleService.save(articleDTO, user);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(articleService.save(articleDTO, username));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -116,17 +113,11 @@ public class ArticleController {
     public ResponseEntity<?> deleteArticle(HttpServletRequest request, @PathVariable String id) {
         try {
             String username = jwtUtils.getUserNameFromJwtCookies(request);
-            User user = userService.getOneUserByUsername(username);
-            if (user.getArticles().stream().anyMatch(x -> x.getId().equals(id)) ||
-                    user.getRoles().stream().anyMatch(x -> x.getName().equals(ERole.ROLE_ADMIN))) {
-                user = articleService.getOneById(id).getAuthor();
-                articleService.deleteArticle(id, user);
-                return ResponseEntity.ok(new MessageResponse("Article deleted successfully!"));
-            } else {
-                return ResponseEntity.badRequest().body(new MessageResponse("Deletion is not possible. You are not the owner of this article or a forum administrator."));
-            }
+            return ResponseEntity.ok(articleService.deleteArticle(id,username));
         } catch (ArticleNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (PermissionException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
         }
     }
 }
