@@ -10,9 +10,12 @@ import com.Eteryz.ForumBackend.repository.RoleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +24,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    //TODO в методы передаются DTO и возвращаются DTO
-
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
+
+    private final EntityManager entityManager;
+
+    @Override
+    public List<UserDTO> findAllDeleteOrExistsUsers(boolean isDeleted) {
+        Session session = entityManager.unwrap(Session.class);
+        Filter filter = session.enableFilter("deletedUserFilter");
+        filter.setParameter("isDeleted", isDeleted);
+        List<User> users =  userRepository.findAll();
+        session.disableFilter("deletedUserFilter");
+        return users.stream()
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -65,12 +80,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
+    public boolean addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
         User user = getUserByUsername(username);
+        if(user.isDeleted())
+            return false;
         Role role1 = roleRepository.findByName(role)
                 .orElseThrow(() -> new UserRoleNotFoundException("User role " + role + " was not found!"));
         user.getRoles().add(role1);
         userRepository.save(user);
+        return true;
     }
 
     @Override

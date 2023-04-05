@@ -32,6 +32,7 @@ public class UserDTO {
     private String phone;
     private byte[] avatar;
     private String location;
+    private boolean deleted;
     private Set<String> roles = new HashSet<>();
 
     public static UserDTO fromEntity(User user) {

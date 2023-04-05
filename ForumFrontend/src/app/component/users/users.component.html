@@ -1,55 +1,15 @@
-<div class="m-2">
-  <button class="btn" style="background-color: #46b8da" (click)="clickButtonAddAdminRole()"  [hidden]="buttonEnableAddAdminRole">Make admin</button>
-</div>
-<div class="wrap">
-  <table class="w-100 m-1" style="border: 2px black solid;">
-    <thead style="border-bottom: 2px black solid">
-    <tr>
-      <td>
-        <label class="fw-bold">Username</label>
-      </td>
-      <td>
-        <label class="fw-bold">Id</label>
-      </td>
-      <td>
-        <label class="fw-bold">Name</label>
-      </td>
-      <td>
-        <label class="fw-bold">Email</label>
-      </td>
-      <td>
-        <label class="fw-bold">Phone</label>
-      </td>
-      <td>
-        <label class="fw-bold">City</label>
-      </td>
-      <td>
-        <label class="fw-bold">Roles</label>
-      </td>
-    </tr>
-    </thead>
-    <tr [ngClass]="{'active': user.isSelected}" [style.background-color]="getColorRow(user.id)"  (click)="listClick($event, user)" *ngFor="let user of users">
-      <td>
-        <label>{{user.username}}</label>
-      </td>
-      <td>
-        <label>{{user.id}}</label>
-      </td>
-      <td>
-        <label>{{user.name}}</label>
-      </td>
-      <td>
-        <label>{{user.email}}</label>
-      </td>
-      <td>
-        <label>{{user.phone}}</label>
-      </td>
-      <td>
-        <label>{{user.city}}</label>
-      </td>
-      <td>
-        <label>{{user.roles}}</label>
-      </td>
-    </tr>
-  </table>
+
+<ul class="nav nav-tabs justify-content-center mt-2">
+  <li class="nav-item">
+    <a class="nav-link link-info" routerLinkActive="active" routerLink="all">All</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link link-info" routerLinkActive="active" routerLink="delete">Deleted</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link link-info" routerLinkActive="active" routerLink="existing">Exists</a>
+  </li>
+</ul>
+<div class="mt-5 container">
+  <router-outlet></router-outlet>
 </div>

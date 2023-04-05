@@ -3,7 +3,8 @@ import {A} from "@angular/cdk/keycodes";
 export class User {
 
   public id: string ="";
-  public avatar: any = null;
+  public deleted: boolean = false;
+  public avatar: number[] = [];
   public name: string ="";
   public username: string ="";
   public email: string ="";

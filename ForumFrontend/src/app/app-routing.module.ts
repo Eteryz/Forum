@@ -12,6 +12,9 @@ import {FavoritesComponent} from "./component/favorites/favorites.component";
 import {UsersComponent} from "./component/users/users.component";
 import {AdminRouteGuard} from "./model/AdminRouteGuard";
 import {LoginRouteGuard} from "./model/LoginRouteGuard";
+import {AllUsersComponent} from "./component/all-users-component/all-users.component";
+import {DeletedUsersComponent} from "./component/deleted-users-component/deleted-users.component";
+import {ExistingUsersComponent} from "./component/existing-users-component/existing-users.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,7 +28,16 @@ const routes: Routes = [
       { path: 'article-creation', component: ArticleCreationComponent },
       { path: 'my-articles', component: MyArticlesComponent },
       { path: 'favorites', component: FavoritesComponent },
-      { path: 'users', component: UsersComponent , canActivate: [AdminRouteGuard]},
+      { path: 'users',
+        component: UsersComponent ,
+        canActivate: [AdminRouteGuard],
+        children: [
+          { path: '', redirectTo: 'all', pathMatch:'full'},
+          { path: 'all', component: AllUsersComponent },
+          { path: 'delete', component: DeletedUsersComponent },
+          { path: 'existing', component: ExistingUsersComponent },
+        ]
+      },
     ]},
 
 ];

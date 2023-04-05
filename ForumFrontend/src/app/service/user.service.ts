@@ -14,9 +14,6 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(USER_API + 'all');
-  }
 
   public getUserInfo(username: string): Observable<User> {
     return this.http.get<User>(USER_API + 'getUserInfo/' + username);
@@ -40,5 +37,17 @@ export class UserService {
 
   deleteProfileImage(){
     return this.http.delete<void>(USER_API + 'deleteProfileImage');
+  }
+
+  getAllDeleteUsers() {
+    return this.http.get<User[]>(USER_API + 'allDeleted');
+  }
+
+  getAllExistingUsers(){
+    return this.http.get<User[]>(USER_API + 'allExisting');
+  }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(USER_API + 'all');
   }
 }

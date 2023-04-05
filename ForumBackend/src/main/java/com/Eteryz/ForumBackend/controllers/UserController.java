@@ -36,6 +36,18 @@ public class UserController {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/allExisting")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserDTO>> getAllExistingUsers() {
+        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(false), HttpStatus.OK);
+    }
+
+    @GetMapping("/allDeleted")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserDTO>> getAllDeletedUsers() {
+        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(true), HttpStatus.OK);
+    }
+
     @GetMapping("/getUserInfo/{username}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserInfo(@PathVariable String username) {
@@ -100,8 +112,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addAdminRoleToUser(@PathVariable String username) {
         try {
-            userService.addRoleToUser(username, ERole.ROLE_ADMIN);
-            return ResponseEntity.ok().body(new MessageResponse("Role successfully assigned!"));
+            return ResponseEntity.ok().body(new MessageResponse("Role " + userService.addRoleToUser(username, ERole.ROLE_ADMIN)));
         } catch (UserRoleNotFoundException | UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

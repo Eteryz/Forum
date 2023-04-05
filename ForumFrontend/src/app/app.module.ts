@@ -32,6 +32,10 @@ import { ConfirmationDlgComponentComponent } from './component/confirmation-dlg-
 import {MatDialogModule} from "@angular/material/dialog";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {SafeHtmlPipe} from "./pipe/safe-html-pipe";
+import { AllUsersComponent } from './component/all-users-component/all-users.component';
+import { DeletedUsersComponent } from './component/deleted-users-component/deleted-users.component';
+import { ExistingUsersComponent } from './component/existing-users-component/existing-users.component';
+import { TemplateUsersComponent } from './component/template-users/template-users.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,11 @@ import {SafeHtmlPipe} from "./pipe/safe-html-pipe";
     FavoritesComponent,
     UsersComponent,
     ConfirmationDlgComponentComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    AllUsersComponent,
+    DeletedUsersComponent,
+    ExistingUsersComponent,
+    TemplateUsersComponent
   ],
   imports: [
     BrowserModule,
