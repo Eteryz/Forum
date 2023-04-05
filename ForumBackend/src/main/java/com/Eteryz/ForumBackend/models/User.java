@@ -73,7 +73,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     @ToString.Exclude
-    private Set<Article> favorites = new HashSet<>();
+    private List<Article> favorites = new LinkedList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude

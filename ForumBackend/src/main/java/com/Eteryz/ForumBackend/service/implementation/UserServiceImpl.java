@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> findAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserDTO::toModel)
+                .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDTO updateUser(String username, UserDTO user) throws UserNotFoundException {
-        return UserDTO.toModel(
+        return UserDTO.fromEntity(
                 userRepository.save(
                         user.toEntity(
                                 getUserByUsername(username)
@@ -49,12 +49,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateAvatarUser(String username, MultipartFile file) throws UserNotFoundException, IOException {
         User user = getUserByUsername(username);
         user.setAvatar(file.getBytes());
-        return UserDTO.toModel(userRepository.save(user));
+        return UserDTO.fromEntity(userRepository.save(user));
     }
 
     @Override
     public UserDTO getOneUserByUsername(String username) throws UserNotFoundException {
-        return UserDTO.toModel(getUserByUsername(username));
+        return UserDTO.fromEntity(getUserByUsername(username));
     }
 
     @Override

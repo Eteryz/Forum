@@ -23,7 +23,7 @@ public class ArticleDTO {
     private Integer numberComments;
 
 
-    public static ArticleDTO toModel(Article article) {
+    public static ArticleDTO fromEntity(Article article) {
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(article, articleDTO);
         articleDTO.author = article.getAuthor().getUsername();

@@ -24,6 +24,10 @@ export class StorageService {
     return new User();
   }
 
+  public isEmpty(): boolean{
+     return window.sessionStorage.getItem(USER_KEY) == null;
+  }
+
   public isLoggedIn(): boolean {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

@@ -3,11 +3,13 @@ package com.Eteryz.ForumBackend.service;
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
 import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
+import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.payload.request.SignupRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,4 +31,5 @@ public interface UserService {
     void addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException;
 
     void deleteProfileImage(String username) throws UserNotFoundException;
+
 }

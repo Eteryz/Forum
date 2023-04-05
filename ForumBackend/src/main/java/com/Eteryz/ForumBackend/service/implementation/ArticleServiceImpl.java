@@ -8,13 +8,10 @@ import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
-import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.PermissionDeniedDataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,13 +28,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDTO save(ArticleDTO articleDTO,String username) throws UserNotFoundException {
         User user = getUserByUsername(username);
-        return ArticleDTO.toModel(articleRepository.save(articleDTO.toEntity(user)));
+        return ArticleDTO.fromEntity(articleRepository.save(articleDTO.toEntity(user)));
     }
 
     @Override
     public List<ArticleDTO> findAllArticle() {
         return articleRepository.findAll().stream()
-                .map(ArticleDTO::toModel)
+                .map(ArticleDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDTO> findAllArticlesByAuthor(String username) throws UserNotFoundException {
         User user = getUserByUsername(username);
         return articleRepository.findAllByAuthor(user).stream()
-                .map(ArticleDTO::toModel)
+                .map(ArticleDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -68,7 +65,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDTO getOneById(String id) throws ArticleNotFoundException {
-        return ArticleDTO.toModel(getArticleById(id));
+        return ArticleDTO.fromEntity(getArticleById(id));
     }
 
     private Article getArticleById(String id) throws ArticleNotFoundException {
@@ -100,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException {
         User user = getUserByUsername(username);
         return user.getFavorites().stream()
-                .map(ArticleDTO::toModel)
+                .map(ArticleDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 

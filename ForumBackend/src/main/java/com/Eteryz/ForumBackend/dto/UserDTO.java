@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,15 +32,17 @@ public class UserDTO {
     private String phone;
     private byte[] avatar;
     private String location;
-    private Set<String> roles;
+    private Set<String> roles = new HashSet<>();
 
-    public static UserDTO toModel(User user) {
+    public static UserDTO fromEntity(User user) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
-        userDTO.setRoles(user.getRoles().stream()
-                .map(Role::getName)
-                .map(Enum::name)
-                .collect(Collectors.toSet()));
+        userDTO.setRoles(
+                user.getRoles()
+                        .stream()
+                        .map(Role::getName)
+                        .map(Enum::name)
+                        .collect(Collectors.toSet()));
         return userDTO;
     }
 

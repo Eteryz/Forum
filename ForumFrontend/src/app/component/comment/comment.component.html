@@ -51,7 +51,8 @@
             <div class="w-50 d-inline-block text-end">
               <div>
                 <label>
-                  <i type="button" class="material-icons" *ngIf="(comment.author == currentUser.username) || currentUser.roles.includes('ROLE_ADMIN')"
+                  <i type="button" class="material-icons" *ngIf="(comment.author == currentUser.username)
+                  || currentUser.roles.includes('ROLE_ADMIN')"
                      (click)="buttonClickDelete(comment.id)">close</i>
                 </label>
               </div>

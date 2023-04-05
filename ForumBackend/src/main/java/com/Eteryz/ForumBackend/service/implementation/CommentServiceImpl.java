@@ -3,7 +3,6 @@ package com.Eteryz.ForumBackend.service.implementation;
 import com.Eteryz.ForumBackend.dto.CommentDTO;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
-import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.Comment;
@@ -32,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUserByUsername(username);
         Article article = getArticleById(articleId);
         Comment comment = commentDTO.toEntity(user, article);
-        return CommentDTO.toModel(commentRepository.save(comment));
+        return CommentDTO.fromEntity(commentRepository.save(comment));
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findCommentsByArticleId(articleId)
                 .orElseThrow(() -> new CommentNotFoundException(("There are no comments on the article with Id" + articleId)));
         return comments.stream()
-                .map(CommentDTO::toModel)
+                .map(CommentDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 

@@ -25,7 +25,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           },
           error: (err) => {
             if (err instanceof HttpErrorResponse) {
-              if (err.status == 401) {
+              if (err.status == 401 && !this.storageService.isEmpty()) {
                 console.log('Unauthorized');
                 this.storageService.clean();
               }
