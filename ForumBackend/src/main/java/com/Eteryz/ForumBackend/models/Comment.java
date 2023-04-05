@@ -25,11 +25,12 @@ public class Comment {
     private String text;
     private LocalDateTime date_creation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "articles_id")
     private Article article;
 
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
+
 }

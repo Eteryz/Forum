@@ -16,7 +16,7 @@ export class ProfileMenuComponent implements OnInit {
 
   public ava: any;
 
-  private roles: string[] = [];
+  private roles: string[] | undefined;
   showProfileIcon = false;
   showButtonLoginAndLogout = false;
 

@@ -47,4 +47,18 @@ public class CommentController {
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteComment(HttpServletRequest request,
+                                        @PathVariable String id) {
+        try {
+            String username = jwtUtils.getUserNameFromJwtCookies(request);
+            return ResponseEntity.ok(commentService.delete(username, id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+
 }

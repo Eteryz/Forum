@@ -39,12 +39,24 @@
         </td>
         <td class="border-1" style="width: 1000px;border-color: #bce8f1;">
           <div class="p-3" style="background-color: #d9edf7">
-            <div>
-              <b>{{comment.author}}</b>
+            <div class="align-content-center justify-content-center text-center">
+            <div class="w-50 d-inline-block">
+              <div>
+                <b>{{comment.author}}</b>
+              </div>
+              <div>
+                <span>{{comment.date_creation | date:'dd-MM-YYYY in HH:mm '}}</span>
+              </div>
             </div>
-            <div>
-              <span>{{comment.date_creation | date:'yyyy-MM-dd HH:mm:ss '}}</span>
+            <div class="w-50 d-inline-block text-end">
+              <div>
+                <label>
+                  <i type="button" class="material-icons" *ngIf="(comment.author == currentUser.username) || currentUser.roles.includes('ROLE_ADMIN')"
+                     (click)="buttonClickDelete(comment.id)">close</i>
+                </label>
+              </div>
             </div>
+          </div>
           </div>
           <div class="panel-body">
             <div class="media-text text-justify">{{comment.text}}</div>

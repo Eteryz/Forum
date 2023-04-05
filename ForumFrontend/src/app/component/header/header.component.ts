@@ -9,7 +9,7 @@ import {StorageService} from "../../service/storage.service";
 export class HeaderComponent implements OnInit {
 
   showArticles = false;
-  private roles: string[] = [];
+  private roles: string[] | undefined;
   showUsers = false;
 
   constructor(private storageService: StorageService) {

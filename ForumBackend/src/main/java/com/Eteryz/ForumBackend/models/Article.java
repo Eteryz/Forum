@@ -50,11 +50,12 @@ public class Article {
         subscribers.forEach(user -> user.removeArticleFromFavorites(this));
     }
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Comment> comments = new LinkedList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ArticleRating> articleRatings = new LinkedList<>();
+
 }

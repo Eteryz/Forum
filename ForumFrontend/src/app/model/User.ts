@@ -1,3 +1,5 @@
+import {A} from "@angular/cdk/keycodes";
+
 export class User {
 
   public id: string ="";
@@ -7,7 +9,7 @@ export class User {
   public email: string ="";
   public phone: string ="";
   public location: string ="";
-  public roles: Set<string> = new Set<string>();
+  public roles: string[] = new Array<string>();
 
   constructor(
     ) {

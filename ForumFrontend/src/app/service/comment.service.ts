@@ -21,4 +21,8 @@ export class CommentService {
   save(comment: Comment, articleId: string): Observable<Comment> {
     return this.http.post<Comment>(COMMENT_API + articleId + '/add', comment);
   }
+
+  deleteCommentById(id: string) {
+    return this.http.delete(COMMENT_API + 'delete/' + id);
+  }
 }

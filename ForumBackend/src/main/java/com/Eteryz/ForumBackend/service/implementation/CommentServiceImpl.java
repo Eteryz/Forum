@@ -3,9 +3,11 @@ package com.Eteryz.ForumBackend.service.implementation;
 import com.Eteryz.ForumBackend.dto.CommentDTO;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
+import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
 import com.Eteryz.ForumBackend.models.Comment;
+import com.Eteryz.ForumBackend.models.ERole;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.repository.CommentRepository;
@@ -40,6 +42,32 @@ public class CommentServiceImpl implements CommentService {
         return comments.stream()
                 .map(CommentDTO::toModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delete(String username, String commentId) throws UserNotFoundException{
+        User user = getUserByUsername(username);
+        if (user.getComments()
+                .stream()
+                .anyMatch(comment -> comment.getId().equals(commentId)) ||
+                user.getRoles()
+                        .stream()
+                        .anyMatch(x -> x.getName().equals(ERole.ROLE_ADMIN))
+        ) {
+            //Comment comment = getCommentById(commentId);
+            commentRepository.deleteById(commentId);
+            //user = comment.getUser();
+            //user.getComments().remove(comment);
+            userRepository.save(user);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private Comment getCommentById(String id) throws CommentNotFoundException {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new CommentNotFoundException(("Comment by id= " + id + " was not found!")));
     }
 
     private User getUserByUsername(String username) throws UserNotFoundException {
