@@ -32,7 +32,8 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@FilterDef(name = "deletedUserFilter",
+        parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
 public class User {
     @Id

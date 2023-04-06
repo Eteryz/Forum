@@ -9,7 +9,9 @@ import com.Eteryz.ForumBackend.payload.response.UserInfoResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsImpl;
 import com.Eteryz.ForumBackend.service.AuthenticationService;
+import com.Eteryz.ForumBackend.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -18,7 +20,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +30,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Log4j2
 public class AuthController {
 
     private final AuthenticationService authenticationService;
 
     private final JwtUtils jwtUtils;
+
+    private final EmailService emailService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -51,6 +58,7 @@ public class AuthController {
                             )
                     );
         }catch (BadCredentialsException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
@@ -58,12 +66,24 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
+            log.info("Зашел");
             authenticationService.register(signUpRequest);
+            emailService.sendMessageWithAttachment(
+                    signUpRequest.getEmail(),
+                    "Test",
+                    "<h1>You have successfully registered!</h1>",
+                    null
+            );
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         } catch (UserRoleNotFoundException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (UserAlreadyExistException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(e.getMessage());
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.ok().body(e.getMessage());
         }
     }
 
