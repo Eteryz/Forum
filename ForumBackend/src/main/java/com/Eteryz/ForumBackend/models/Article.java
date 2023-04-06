@@ -27,7 +27,7 @@ public class Article {
     @Column(name = "articles_id")
     private String id;
     private String title;
-    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String text;
     @Formula(value = "(select count(a.users_id) from article_rating a where a.status = true and a.articles_id = articles_id)")
     private int likes;
