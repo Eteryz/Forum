@@ -6,11 +6,11 @@ import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.ERole;
+import com.Eteryz.ForumBackend.models.types.ERole;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
-import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.ArticleService;
+import com.Eteryz.ForumBackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +23,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public ArticleDTO save(ArticleDTO articleDTO,String username) throws UserNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         return ArticleDTO.fromEntity(articleRepository.save(articleDTO.toEntity(user)));
     }
 
@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDTO> findAllArticlesByAuthor(String username) throws UserNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         return articleRepository.findAllByAuthor(user).stream()
                 .map(ArticleDTO::fromEntity)
                 .collect(Collectors.toList());
@@ -48,13 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public boolean deleteArticle(String articleId, String username) throws PermissionException, ArticleNotFoundException, UserNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         if (user.getArticles().stream().anyMatch(x -> x.getId().equals(articleId)) ||
                 user.getRoles().stream().anyMatch(x -> x.getName().equals(ERole.ROLE_ADMIN))) {
             user = getArticleById(articleId).getAuthor();
             if (articleRepository.existsById(articleId)) {
                 user.getArticles().remove(getArticleById(articleId));
-                userRepository.save(user);
+                userService.save(user);
                 return true;
             } else
                 return false;
@@ -75,11 +75,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void addToFavorites(String username, String articleId) throws FavoritesException, UserNotFoundException, ArticleNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Article article = getArticleById(articleId);
         if (!article.getAuthor().equals(user)) {
             user.addArticleToFavorites(article);
-            userRepository.save(user);
+            userService.save(user);
         } else {
             throw new FavoritesException("You can't add your article to favorites!");
         }
@@ -87,23 +87,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticleFromFavorites(String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Article article = getArticleById(articleId);
         user.removeArticleFromFavorites(article);
-        userRepository.save(user);
+        userService.save(user);
     }
 
     @Override
     public List<ArticleDTO> getArticleIdFromFavorites(String username) throws UserNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         return user.getFavorites().stream()
                 .map(ArticleDTO::fromEntity)
                 .collect(Collectors.toList());
-    }
-
-    private User getUserByUsername(String username) throws UserNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
     }
 
 }

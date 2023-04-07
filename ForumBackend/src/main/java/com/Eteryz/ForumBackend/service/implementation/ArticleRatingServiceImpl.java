@@ -20,13 +20,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleRatingServiceImpl implements ArticleRatingService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ArticleRepository articleRepository;
     private final ArticleRatingRepository articleRatingRepository;
 
     @Override
     public void likeAndDislikeArticle(String username, String articleId, boolean status) throws ArticleNotFoundException, UserNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Article article = getArticleById(articleId);
         Optional<ArticleRating> articleRating =
                 articleRatingRepository.findArticleRatingByArticleAndUser(article,user);
@@ -49,17 +49,13 @@ public class ArticleRatingServiceImpl implements ArticleRatingService {
 
     @Override
     public Optional<Boolean> getLikeOrDislikeArticleClickedByUser(String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
-        User user = getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Article article = getArticleById(articleId);
         Optional<ArticleRating> articleRating =
                 articleRatingRepository.findArticleRatingByArticleAndUser(article,user);
         return articleRating.map(ArticleRating::isStatus);
     }
 
-    private User getUserByUsername(String username) throws UserNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
-    }
     private Article getArticleById(String id) throws ArticleNotFoundException {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));

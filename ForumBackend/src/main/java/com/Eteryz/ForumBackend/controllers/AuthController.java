@@ -1,6 +1,7 @@
 package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
+import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
 import com.Eteryz.ForumBackend.payload.request.LoginRequest;
 import com.Eteryz.ForumBackend.payload.request.SignupRequest;
@@ -66,7 +67,6 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
-            log.info("Зашел");
             authenticationService.register(signUpRequest);
             emailService.sendMessageWithAttachment(
                     signUpRequest.getEmail(),

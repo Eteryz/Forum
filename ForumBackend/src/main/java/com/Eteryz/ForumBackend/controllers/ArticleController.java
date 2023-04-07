@@ -5,10 +5,6 @@ import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.ERole;
-import com.Eteryz.ForumBackend.models.User;
-import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.ArticleService;
 import com.Eteryz.ForumBackend.service.UserService;
@@ -17,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

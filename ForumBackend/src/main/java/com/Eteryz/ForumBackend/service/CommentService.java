@@ -14,5 +14,5 @@ public interface CommentService {
 
     List<CommentDTO> getAllCommentOnArticle(String articleId) throws CommentNotFoundException;
 
-    boolean delete(String username, String commentId) throws UserNotFoundException;
+    boolean delete(String username, String commentId) throws UserNotFoundException, CommentNotFoundException;
 }

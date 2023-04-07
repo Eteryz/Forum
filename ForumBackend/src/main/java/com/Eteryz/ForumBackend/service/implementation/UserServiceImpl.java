@@ -3,7 +3,7 @@ package com.Eteryz.ForumBackend.service.implementation;
 import com.Eteryz.ForumBackend.dto.UserDTO;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
-import com.Eteryz.ForumBackend.models.ERole;
+import com.Eteryz.ForumBackend.models.types.ERole;
 import com.Eteryz.ForumBackend.models.Role;
 import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.RoleRepository;
@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public  UserDTO save(User user){
+        return UserDTO.fromEntity(userRepository.save(user));
     }
 
     @Override
@@ -98,7 +103,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    private User getUserByUsername(String username) throws UserNotFoundException {
+    @Override
+    public User getUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User by username " + username + " was not found!"));
     }

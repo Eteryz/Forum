@@ -44,7 +44,7 @@ export class ArticleService {
   }
 
   getAllArticlesFromFavorites(): Observable<Article[]> {
-    return this.http.get<Article[]>(ARTICLE_API + 'allArticlesFromFavorites');
+    return this.http.get<Article[]>(ARTICLE_API + 'allArticlesFromFavorites/');
   }
 
   likeAndDislikeArticle(articleId: string, status: boolean) {

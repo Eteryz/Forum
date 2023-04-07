@@ -56,6 +56,8 @@ public class CommentController {
             return ResponseEntity.ok(commentService.delete(username, id));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (CommentNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
