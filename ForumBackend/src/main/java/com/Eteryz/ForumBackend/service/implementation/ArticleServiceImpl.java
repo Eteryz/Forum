@@ -1,16 +1,16 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
 import com.Eteryz.ForumBackend.dto.ArticleDTO;
+import com.Eteryz.ForumBackend.entity.Article;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.FavoritesException;
 import com.Eteryz.ForumBackend.exception.PermissionException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.types.ERole;
-import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.service.ArticleService;
 import com.Eteryz.ForumBackend.service.UserService;
+import com.Eteryz.ForumBackend.types.ERole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +68,8 @@ public class ArticleServiceImpl implements ArticleService {
         return ArticleDTO.fromEntity(getArticleById(id));
     }
 
-    private Article getArticleById(String id) throws ArticleNotFoundException {
+    @Override
+    public Article getArticleById(String id) throws ArticleNotFoundException {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }

@@ -1,7 +1,7 @@
 package com.Eteryz.ForumBackend.repository;
 
-import com.Eteryz.ForumBackend.models.ERole;
-import com.Eteryz.ForumBackend.models.Role;
+import com.Eteryz.ForumBackend.types.ERole;
+import com.Eteryz.ForumBackend.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

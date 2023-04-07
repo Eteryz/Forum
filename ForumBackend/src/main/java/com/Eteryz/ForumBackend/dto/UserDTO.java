@@ -1,7 +1,7 @@
 package com.Eteryz.ForumBackend.dto;
 
-import com.Eteryz.ForumBackend.models.Role;
-import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.entity.Role;
+import com.Eteryz.ForumBackend.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

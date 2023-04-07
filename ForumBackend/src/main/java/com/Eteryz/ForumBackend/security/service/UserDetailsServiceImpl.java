@@ -1,9 +1,8 @@
 package com.Eteryz.ForumBackend.security.service;
 
-import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

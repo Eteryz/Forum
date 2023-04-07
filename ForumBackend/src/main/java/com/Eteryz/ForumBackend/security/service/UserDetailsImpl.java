@@ -1,9 +1,8 @@
 package com.Eteryz.ForumBackend.security.service;
 
-import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

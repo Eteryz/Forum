@@ -1,4 +1,4 @@
-package com.Eteryz.ForumBackend.models;
+package com.Eteryz.ForumBackend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

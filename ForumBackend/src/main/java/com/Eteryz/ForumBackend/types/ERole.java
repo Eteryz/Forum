@@ -1,4 +1,4 @@
-package com.Eteryz.ForumBackend.models;
+package com.Eteryz.ForumBackend.types;
 
 public enum ERole {
     ROLE_USER,

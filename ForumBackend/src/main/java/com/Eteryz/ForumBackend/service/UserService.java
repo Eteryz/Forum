@@ -1,10 +1,10 @@
 package com.Eteryz.ForumBackend.service;
 
 import com.Eteryz.ForumBackend.dto.UserDTO;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
-import com.Eteryz.ForumBackend.models.types.ERole;
-import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.types.ERole;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

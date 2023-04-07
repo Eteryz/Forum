@@ -1,17 +1,18 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
 import com.Eteryz.ForumBackend.dto.CommentDTO;
+import com.Eteryz.ForumBackend.entity.Article;
+import com.Eteryz.ForumBackend.entity.Comment;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.CommentNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.Comment;
-import com.Eteryz.ForumBackend.models.types.ERole;
-import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRepository;
 import com.Eteryz.ForumBackend.repository.CommentRepository;
+import com.Eteryz.ForumBackend.service.ArticleService;
 import com.Eteryz.ForumBackend.service.CommentService;
 import com.Eteryz.ForumBackend.service.UserService;
+import com.Eteryz.ForumBackend.types.ERole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,12 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
     private final UserService userService;
-    private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
 
     @Override
     public CommentDTO save(CommentDTO commentDTO, String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
         User user = userService.getUserByUsername(username);
-        Article article = getArticleById(articleId);
+        Article article = articleService.getArticleById(articleId);
         Comment comment = commentDTO.toEntity(user, article);
         return CommentDTO.fromEntity(commentRepository.save(comment));
     }
@@ -68,10 +69,6 @@ public class CommentServiceImpl implements CommentService {
     private Comment getCommentById(String id) throws CommentNotFoundException {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException(("Comment by id= " + id + " was not found!")));
-    }
-    private Article getArticleById(String id) throws ArticleNotFoundException {
-        return articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }
 
 }

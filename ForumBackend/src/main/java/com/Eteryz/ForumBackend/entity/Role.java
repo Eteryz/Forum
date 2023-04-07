@@ -1,5 +1,6 @@
-package com.Eteryz.ForumBackend.models;
+package com.Eteryz.ForumBackend.entity;
 
+import com.Eteryz.ForumBackend.types.ERole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

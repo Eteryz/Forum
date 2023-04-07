@@ -1,13 +1,11 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
+import com.Eteryz.ForumBackend.entity.Article;
+import com.Eteryz.ForumBackend.entity.ArticleRating;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.ArticleNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.ArticleRating;
-import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.repository.ArticleRatingRepository;
-import com.Eteryz.ForumBackend.repository.ArticleRepository;
-import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.ArticleRatingService;
 import com.Eteryz.ForumBackend.service.ArticleService;
 import com.Eteryz.ForumBackend.service.UserService;
@@ -21,13 +19,13 @@ import java.util.Optional;
 public class ArticleRatingServiceImpl implements ArticleRatingService {
 
     private final UserService userService;
-    private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
     private final ArticleRatingRepository articleRatingRepository;
 
     @Override
     public void likeAndDislikeArticle(String username, String articleId, boolean status) throws ArticleNotFoundException, UserNotFoundException {
         User user = userService.getUserByUsername(username);
-        Article article = getArticleById(articleId);
+        Article article = articleService.getArticleById(articleId);
         Optional<ArticleRating> articleRating =
                 articleRatingRepository.findArticleRatingByArticleAndUser(article,user);
         if(articleRating.isPresent()){
@@ -50,14 +48,9 @@ public class ArticleRatingServiceImpl implements ArticleRatingService {
     @Override
     public Optional<Boolean> getLikeOrDislikeArticleClickedByUser(String username, String articleId) throws UserNotFoundException, ArticleNotFoundException {
         User user = userService.getUserByUsername(username);
-        Article article = getArticleById(articleId);
+        Article article = articleService.getArticleById(articleId);
         Optional<ArticleRating> articleRating =
                 articleRatingRepository.findArticleRatingByArticleAndUser(article,user);
         return articleRating.map(ArticleRating::isStatus);
-    }
-
-    private Article getArticleById(String id) throws ArticleNotFoundException {
-        return articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(("Article by id " + id + " was not found!")));
     }
 }

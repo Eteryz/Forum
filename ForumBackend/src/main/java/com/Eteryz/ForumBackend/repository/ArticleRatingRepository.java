@@ -1,8 +1,8 @@
 package com.Eteryz.ForumBackend.repository;
 
-import com.Eteryz.ForumBackend.models.Article;
-import com.Eteryz.ForumBackend.models.ArticleRating;
-import com.Eteryz.ForumBackend.models.User;
+import com.Eteryz.ForumBackend.entity.Article;
+import com.Eteryz.ForumBackend.entity.ArticleRating;
+import com.Eteryz.ForumBackend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

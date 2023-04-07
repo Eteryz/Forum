@@ -1,31 +1,24 @@
-package com.Eteryz.ForumBackend.models;
+package com.Eteryz.ForumBackend.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "comments")
-public class Comment {
+@Entity
+@Table(name = "article_rating")
+public class ArticleRating {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    @Column(length = 10000)
-    private String text;
-    private LocalDateTime date_creation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "articles_id")
     private Article article;
 
@@ -33,4 +26,5 @@ public class Comment {
     @JoinColumn(name = "users_id")
     private User user;
 
+    private boolean status;
 }

@@ -1,6 +1,6 @@
 package com.Eteryz.ForumBackend.repository;
 
-import com.Eteryz.ForumBackend.models.Comment;
+import com.Eteryz.ForumBackend.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

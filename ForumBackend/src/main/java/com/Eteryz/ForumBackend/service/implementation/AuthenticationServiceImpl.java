@@ -1,16 +1,16 @@
 package com.Eteryz.ForumBackend.service.implementation;
 
+import com.Eteryz.ForumBackend.entity.Role;
+import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
-import com.Eteryz.ForumBackend.models.types.ERole;
-import com.Eteryz.ForumBackend.models.Role;
-import com.Eteryz.ForumBackend.models.User;
 import com.Eteryz.ForumBackend.payload.request.LoginRequest;
 import com.Eteryz.ForumBackend.payload.request.SignupRequest;
 import com.Eteryz.ForumBackend.repository.RoleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.security.service.UserDetailsImpl;
 import com.Eteryz.ForumBackend.service.AuthenticationService;
+import com.Eteryz.ForumBackend.types.ERole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
