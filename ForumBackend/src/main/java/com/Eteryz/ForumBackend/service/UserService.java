@@ -31,4 +31,5 @@ public interface UserService {
     void deleteProfileImage(String username) throws UserNotFoundException;
 
     User getUserByUsername(String username) throws UserNotFoundException;
+
 }

@@ -62,6 +62,7 @@ public class User {
     @Column(updatable = false)
     private LocalDate createdAt;
 
+    // TODO вместо этого сделать поле статус (Enum)
     private boolean deleted = Boolean.FALSE;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)

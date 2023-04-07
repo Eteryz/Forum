@@ -1,5 +1,8 @@
 package com.Eteryz.ForumBackend.controllers;
 
+import com.Eteryz.ForumBackend.entity.ConfirmationToken;
+import com.Eteryz.ForumBackend.entity.User;
+import com.Eteryz.ForumBackend.exception.ConfirmationNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
@@ -7,16 +10,20 @@ import com.Eteryz.ForumBackend.payload.request.LoginRequest;
 import com.Eteryz.ForumBackend.payload.request.SignupRequest;
 import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.payload.response.UserInfoResponse;
+import com.Eteryz.ForumBackend.repository.ConfirmationTokenRepository;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsImpl;
 import com.Eteryz.ForumBackend.service.AuthenticationService;
+import com.Eteryz.ForumBackend.service.ConfirmationTokenService;
 import com.Eteryz.ForumBackend.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +46,11 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     private final EmailService emailService;
+
+    private final ConfirmationTokenService confirmationTokenService;
+
+    @Value("${spring.server.url}")
+    private String baseURL;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -68,14 +80,21 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
             authenticationService.register(signUpRequest);
+
+            ConfirmationToken confirmationToken = confirmationTokenService.save(signUpRequest.getUsername());
+
             emailService.sendMessageWithAttachment(
                     signUpRequest.getEmail(),
-                    "Test",
-                    "<h1>You have successfully registered!</h1>",
+                    "Email Verification",
+                    "<h1>" +
+                            "To confirm your account, please click here: \n" +
+                            baseURL + "api/auth/confirm-account?token=" +
+                            confirmationToken.getConfirmationToken() +
+                         "</h1>",
                     null
             );
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-        } catch (UserRoleNotFoundException e) {
+        } catch (UserRoleNotFoundException | UserNotFoundException e) {
             log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (UserAlreadyExistException e) {
@@ -84,6 +103,17 @@ public class AuthController {
         } catch (MessagingException | UnsupportedEncodingException e) {
             log.error(e.getMessage());
             return ResponseEntity.ok().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/confirm-account")
+    public ResponseEntity<?> confirmAccount(@RequestParam("token") String confirmationToken) {
+        try {
+            confirmationTokenService.activate(confirmationToken);
+            return ResponseEntity.ok()
+                    .body("Mail has been successfully confirmed.");
+        } catch (ConfirmationNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ConfirmationToken");
         }
     }
 
