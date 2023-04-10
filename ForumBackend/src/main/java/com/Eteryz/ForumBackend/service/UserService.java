@@ -5,6 +5,7 @@ import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
 import com.Eteryz.ForumBackend.types.ERole;
+import com.Eteryz.ForumBackend.types.EStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> findAllDeleteOrExistsUsers(boolean isDeleted);
+    List<UserDTO> findAllDeleteOrExistsUsers(EStatus status);
 
     UserDTO save(User user);
 

@@ -2,6 +2,7 @@ package com.Eteryz.ForumBackend.dto;
 
 import com.Eteryz.ForumBackend.entity.Role;
 import com.Eteryz.ForumBackend.entity.User;
+import com.Eteryz.ForumBackend.types.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class UserDTO {
     private String phone;
     private byte[] avatar;
     private String location;
-    private boolean deleted;
+    private EStatus status;
     private Set<String> roles = new HashSet<>();
 
     public static UserDTO fromEntity(User user) {

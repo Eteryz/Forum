@@ -1,6 +1,7 @@
 package com.Eteryz.ForumBackend.security.service;
 
 import com.Eteryz.ForumBackend.entity.User;
+import com.Eteryz.ForumBackend.types.EStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,8 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private EStatus status;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user) {
@@ -37,6 +40,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getStatus(),
                 authorities);
     }
 
@@ -63,6 +67,8 @@ public class UserDetailsImpl implements UserDetails {
         return username;
     }
 
+    public EStatus getStatus(){return status;}
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -80,7 +86,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.status.equals(EStatus.ACTIVE);
     }
 
     @Override

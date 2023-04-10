@@ -7,6 +7,7 @@ import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.repository.ConfirmationTokenRepository;
 import com.Eteryz.ForumBackend.service.ConfirmationTokenService;
 import com.Eteryz.ForumBackend.service.UserService;
+import com.Eteryz.ForumBackend.types.EStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     @Override
     public ConfirmationToken save(String username) throws UserNotFoundException {
         User user = userService.getUserByUsername(username);
-        user.setDeleted(true);
+        user.setStatus(EStatus.CREATED);
         userService.save(user);
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
         return  confirmationTokenRepository.save(confirmationToken);
@@ -36,7 +37,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
                                         ConfirmationNotFoundException::new
                         );
         User user = confirm.getUser();
-        user.setDeleted(false);
+        user.setStatus(EStatus.ACTIVE);
         userService.save(user);
         confirmationTokenRepository.delete(confirm);
     }

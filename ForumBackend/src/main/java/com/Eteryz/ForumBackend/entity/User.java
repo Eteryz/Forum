@@ -1,5 +1,6 @@
 package com.Eteryz.ForumBackend.entity;
 
+import com.Eteryz.ForumBackend.types.EStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,10 +32,10 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE users SET status = 'DELETED' WHERE id=?")
 @FilterDef(name = "deletedUserFilter",
-        parameters = @ParamDef(name = "isDeleted", type = "boolean"))
-@Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
+        parameters = @ParamDef(name = "status", type = "string"))
+@Filter(name = "deletedUserFilter", condition = " :status=status ")
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -62,8 +63,8 @@ public class User {
     @Column(updatable = false)
     private LocalDate createdAt;
 
-    // TODO вместо этого сделать поле статус (Enum)
-    private boolean deleted = Boolean.FALSE;
+    @Enumerated(EnumType.STRING)
+    private EStatus status = EStatus.CREATED;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

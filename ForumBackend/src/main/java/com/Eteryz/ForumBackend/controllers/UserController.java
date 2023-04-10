@@ -7,6 +7,7 @@ import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.service.UserService;
 import com.Eteryz.ForumBackend.types.ERole;
+import com.Eteryz.ForumBackend.types.EStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,13 +39,13 @@ public class UserController {
     @GetMapping("/allExisting")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllExistingUsers() {
-        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(false), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(EStatus.ACTIVE), HttpStatus.OK);
     }
 
     @GetMapping("/allDeleted")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllDeletedUsers() {
-        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(true), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAllDeleteOrExistsUsers(EStatus.DELETED), HttpStatus.OK);
     }
 
     @GetMapping("/getUserInfo/{username}")

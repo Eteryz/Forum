@@ -9,6 +9,7 @@ import com.Eteryz.ForumBackend.repository.RoleRepository;
 import com.Eteryz.ForumBackend.repository.UserRepository;
 import com.Eteryz.ForumBackend.service.UserService;
 import com.Eteryz.ForumBackend.types.ERole;
+import com.Eteryz.ForumBackend.types.EStatus;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Filter;
 import org.hibernate.Session;
@@ -31,10 +32,10 @@ public class UserServiceImpl implements UserService {
     private final EntityManager entityManager;
 
     @Override
-    public List<UserDTO> findAllDeleteOrExistsUsers(boolean isDeleted) {
+    public List<UserDTO> findAllDeleteOrExistsUsers(EStatus status) {
         Session session = entityManager.unwrap(Session.class);
         Filter filter = session.enableFilter("deletedUserFilter");
-        filter.setParameter("isDeleted", isDeleted);
+        filter.setParameter("status", status.name());
         List<User> users =  userRepository.findAll();
         session.disableFilter("deletedUserFilter");
         return users.stream()
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean addRoleToUser(String username, ERole role) throws UserRoleNotFoundException, UserNotFoundException {
         User user = getUserByUsername(username);
-        if(user.isDeleted())
+        if(user.getStatus().equals(EStatus.DELETED))
             return false;
         Role role1 = roleRepository.findByName(role)
                 .orElseThrow(() -> new UserRoleNotFoundException("User role " + role + " was not found!"));
