@@ -55,16 +55,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/articles/**").permitAll()
-                .antMatchers("/api/articleRating/**").permitAll()
-                .antMatchers("/api/user/**").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/auth/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/api/articles/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/api/articleRating/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/api/user/**").hasAnyRole("ADMIN","USER")
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

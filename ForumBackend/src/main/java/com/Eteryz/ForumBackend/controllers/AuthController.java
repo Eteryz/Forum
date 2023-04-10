@@ -1,26 +1,19 @@
 package com.Eteryz.ForumBackend.controllers;
 
-import com.Eteryz.ForumBackend.entity.ConfirmationToken;
-import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.*;
 import com.Eteryz.ForumBackend.payload.request.LoginRequest;
 import com.Eteryz.ForumBackend.payload.request.SignupRequest;
 import com.Eteryz.ForumBackend.payload.response.MessageResponse;
 import com.Eteryz.ForumBackend.payload.response.UserInfoResponse;
-import com.Eteryz.ForumBackend.repository.ConfirmationTokenRepository;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsImpl;
 import com.Eteryz.ForumBackend.service.AuthenticationService;
-import com.Eteryz.ForumBackend.service.ConfirmationTokenService;
-import com.Eteryz.ForumBackend.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
