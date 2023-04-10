@@ -94,7 +94,7 @@ public class AuthController {
                     null
             );
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-        } catch (UserRoleNotFoundException | UserNotFoundException e) {
+        } catch (UserRoleNotFoundException | UserNotFoundException | ConfirmationNotFoundException e) {
             log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (UserAlreadyExistException e) {
@@ -113,7 +113,7 @@ public class AuthController {
             return ResponseEntity.ok()
                     .body("Mail has been successfully confirmed.");
         } catch (ConfirmationNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ConfirmationToken");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ConfirmationToken not found!\n Confirmation timed out.");
         }
     }
 

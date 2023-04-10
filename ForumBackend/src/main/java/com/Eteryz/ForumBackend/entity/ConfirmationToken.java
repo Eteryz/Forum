@@ -19,9 +19,9 @@ public class ConfirmationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="token_id")
-    private long tokenid;
+    private long id;
 
-    @Column(name="confirmation_token")
+    @Column(name="confirmation_token", unique = true, nullable = false)
     private String confirmationToken;
 
     @Temporal(TemporalType.TIMESTAMP)

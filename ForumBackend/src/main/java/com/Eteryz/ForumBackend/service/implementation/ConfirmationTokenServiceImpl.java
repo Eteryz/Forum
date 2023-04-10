@@ -5,6 +5,7 @@ import com.Eteryz.ForumBackend.entity.User;
 import com.Eteryz.ForumBackend.exception.ConfirmationNotFoundException;
 import com.Eteryz.ForumBackend.exception.UserNotFoundException;
 import com.Eteryz.ForumBackend.repository.ConfirmationTokenRepository;
+import com.Eteryz.ForumBackend.runnable.DeleteConfirmationTokenRunnable;
 import com.Eteryz.ForumBackend.service.ConfirmationTokenService;
 import com.Eteryz.ForumBackend.service.UserService;
 import com.Eteryz.ForumBackend.types.EStatus;
@@ -25,6 +26,9 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         user.setStatus(EStatus.CREATED);
         userService.save(user);
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
+        new Thread(
+                new DeleteConfirmationTokenRunnable(confirmationToken,confirmationTokenRepository)
+        ).start();
         return  confirmationTokenRepository.save(confirmationToken);
     }
 
