@@ -2,10 +2,7 @@ package com.Eteryz.ForumBackend.controllers;
 
 import com.Eteryz.ForumBackend.entity.ConfirmationToken;
 import com.Eteryz.ForumBackend.entity.User;
-import com.Eteryz.ForumBackend.exception.ConfirmationNotFoundException;
-import com.Eteryz.ForumBackend.exception.UserAlreadyExistException;
-import com.Eteryz.ForumBackend.exception.UserNotFoundException;
-import com.Eteryz.ForumBackend.exception.UserRoleNotFoundException;
+import com.Eteryz.ForumBackend.exception.*;
 import com.Eteryz.ForumBackend.payload.request.LoginRequest;
 import com.Eteryz.ForumBackend.payload.request.SignupRequest;
 import com.Eteryz.ForumBackend.payload.response.MessageResponse;
@@ -45,13 +42,6 @@ public class AuthController {
 
     private final JwtUtils jwtUtils;
 
-    private final EmailService emailService;
-
-    private final ConfirmationTokenService confirmationTokenService;
-
-    @Value("${spring.server.url}")
-    private String baseURL;
-
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
@@ -80,19 +70,6 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
             authenticationService.register(signUpRequest);
-
-            ConfirmationToken confirmationToken = confirmationTokenService.save(signUpRequest.getUsername());
-
-            emailService.sendMessageWithAttachment(
-                    signUpRequest.getEmail(),
-                    "Email Verification",
-                    "<h1>" +
-                            "To confirm your account, please click here: \n" +
-                            baseURL + "api/auth/confirm-account?token=" +
-                            confirmationToken.getConfirmationToken() +
-                         "</h1>",
-                    null
-            );
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         } catch (UserRoleNotFoundException | UserNotFoundException | ConfirmationNotFoundException e) {
             log.error(e.getMessage());
@@ -106,13 +83,30 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/restore")
+    public ResponseEntity<?> restoreAccount(@Valid @RequestBody LoginRequest loginRequest){
+        try {
+            return ResponseEntity.ok().body(authenticationService.restore(loginRequest)?
+                    "Confirmation email sent to email!"
+                            :
+                    "Account failed to recover! Password error or Account activate"
+                    );
+        } catch (UserNotFoundException | MessagingException | UnsupportedEncodingException | ConfirmationNotFoundException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ConfirmationExistsException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.ok().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/confirm-account")
     public ResponseEntity<?> confirmAccount(@RequestParam("token") String confirmationToken) {
         try {
-            confirmationTokenService.activate(confirmationToken);
+            authenticationService.mailActivate(confirmationToken);
             return ResponseEntity.ok()
                     .body("Mail has been successfully confirmed.");
-        } catch (ConfirmationNotFoundException e) {
+        } catch (ConfirmationNotFoundException | UserRoleNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ConfirmationToken not found!\n Confirmation timed out.");
         }
     }

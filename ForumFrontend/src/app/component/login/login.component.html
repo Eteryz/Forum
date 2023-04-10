@@ -62,9 +62,21 @@
           role="alert"
           *ngIf="f.submitted && isLoginFailed"
         >
-          Login failed: {{ errorMessage }}
+          <span> Login failed: {{ errorMessage }} </span>
         </div>
       </div>
     </form>
+    <div>
+      <input type="checkbox"
+             name="recovery"
+             [(ngModel)]="recovery"
+      >
+      <span class="m-1">Recover account</span>
+    </div>
+    <div *ngIf="recovery && flagResponse"
+    class="alert alert-info">
+      <span>Message: {{this.responseMessage}}</span>
+    </div>
+
   </div>
 </div>

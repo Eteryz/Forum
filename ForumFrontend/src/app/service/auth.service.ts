@@ -42,4 +42,15 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.post(AUTH_API + 'signout', { }, httpOptions);
   }
+
+  recovery(username: string, password: string): Observable<Object> {
+    return this.http.post(
+      AUTH_API + 'restore',
+      {
+        username,
+        password,
+      },
+      httpOptions
+    );
+  }
 }

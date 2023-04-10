@@ -88,12 +88,12 @@ public class User {
     @ToString.Exclude
     private List<ArticleRating> articleRatings = new LinkedList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
     @ToString.Exclude
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     public void addArticleToFavorites(Article article){
         this.favorites.add(article);

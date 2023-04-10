@@ -9,7 +9,7 @@ import {ArticleService} from "../../service/article.service";
 })
 export class ArticlesComponent implements OnInit{
 
-  articles: any;
+  articles: Article[]= [];
 
   constructor(private articleService: ArticleService) {
   }

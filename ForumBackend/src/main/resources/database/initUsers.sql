@@ -5,4 +5,4 @@ select * from user_roles;
 select * from confirmation_token;
 
 
-UPDATE users SET status = 'ACTIVE' WHERE id='63e28dc4-d6ae-451e-93ca-b730f252aba1';
+UPDATE users SET status = 'ACTIVE' WHERE id='40bf7dc5-23fb-41eb-aaac-3678e6ad8a5a';

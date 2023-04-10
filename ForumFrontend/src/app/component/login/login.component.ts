@@ -17,6 +17,10 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
 
+  recovery: boolean = false;
+  flagResponse: boolean = false;
+  responseMessage: string ="";
+
   constructor(private authService: AuthService,
               private storageService: StorageService,
               private router: Router) {
@@ -32,18 +36,36 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     const { username, password } = this.form;
-    this.authService.login(username, password).subscribe({
-      next: data => {
-        this.storageService.saveUser(data);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.reloadPage();
-      },
-      error: err => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
-      }
-    });
+    this.isLoginFailed = false;
+    this.flagResponse = false;
+    if(this.recovery){
+      this.authService.recovery(username,password)
+        .subscribe({
+          next: data => {
+          },
+          error: err => {
+            this.flagResponse = true;
+            this.responseMessage = err.error.text;
+          }
+        });
+    }else{
+      this.authService.login(username, password).subscribe({
+        next: data => {
+          this.storageService.saveUser(data);
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.reloadPage();
+        },
+        error: err => {
+          this.errorMessage = err.error.message;
+          this.isLoginFailed = true;
+        }
+      });
+    }
+  }
+
+  getResponse(username:string,password:string){
+
   }
 
   reloadPage(): void {

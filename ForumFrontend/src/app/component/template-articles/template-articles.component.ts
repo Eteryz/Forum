@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ArticleService} from "../../service/article.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
@@ -15,8 +15,7 @@ import {ConfirmationDlgComponentComponent} from "../confirmation-dlg-component/c
   styleUrls: ['./template-articles.component.css']
 })
 export class TemplateArticlesComponent implements OnInit, OnChanges {
-
-  @Input() articles: any;
+  @Input() articles: Article[] =  [];
   listColorBookmark: Map<String, any> = new Map();
   listUserPhoto: Map<String, any> = new Map();
   public image: string
@@ -43,7 +42,6 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   public getTagsArticle(article: Article): any {
     return article.tag?.split('#');
   }
-
 
   ngOnInit(): void {
       this.currentUser = this.storageService.getUser();
@@ -73,7 +71,6 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
 
   @Input()
   getArticles(): void {
-
   }
 
   buttonClickBookmark(articleId: string) {
@@ -129,10 +126,12 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
       if (flag) {
         this.articleService.deleteArticleById(id).subscribe({
           next: value => {
-           this.getArticles();
+
+            this.getArticles();
           },
           error: err => {}
         });
+        this.articles.splice(this.articles.findIndex(d => d.id === id), 1);
       }
     });
 

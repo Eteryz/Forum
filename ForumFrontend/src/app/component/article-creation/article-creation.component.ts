@@ -69,7 +69,6 @@ export class ArticleCreationComponent implements OnInit {
   }
 
   onSubmit() {
-    //TODO реализовать отправку информации в бд
     this.articleService.save(this.form).subscribe(
       {
         next: data => {
