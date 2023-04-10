@@ -53,6 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
                 user.getRoles().stream().anyMatch(x -> x.getName().equals(ERole.ROLE_ADMIN))) {
             user = getArticleById(articleId).getAuthor();
             if (articleRepository.existsById(articleId)) {
+                articleRepository.delete(getArticleById(articleId));
                 user.getArticles().remove(getArticleById(articleId));
                 userService.save(user);
                 return true;

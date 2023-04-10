@@ -59,6 +59,7 @@ public class CommentServiceImpl implements CommentService {
             commentRepository.deleteById(commentId);
             user = comment.getUser();
             user.getComments().remove(comment);
+            comment.getArticle().getComments().remove(comment);
             userService.save(user);
             return true;
         }else{

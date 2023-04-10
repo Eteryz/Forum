@@ -36,7 +36,7 @@ public class Article {
     @Column(length = 5000)
     private String tag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
     @ToString.Exclude
     private User author;

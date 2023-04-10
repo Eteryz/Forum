@@ -27,6 +27,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "articles_id")
+    @ToString.Exclude
     private Article article;
 
     @ManyToOne

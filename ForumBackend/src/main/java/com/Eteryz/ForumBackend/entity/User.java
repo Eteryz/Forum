@@ -66,11 +66,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private EStatus status = EStatus.CREATED;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "author")
     @ToString.Exclude
     private List<Article> articles = new LinkedList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Comment> comments = new LinkedList<>();
 
