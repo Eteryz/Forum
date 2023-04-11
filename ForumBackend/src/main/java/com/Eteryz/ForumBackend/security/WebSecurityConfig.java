@@ -5,7 +5,6 @@ import com.Eteryz.ForumBackend.security.jwt.AuthTokenFilter;
 import com.Eteryz.ForumBackend.security.jwt.JwtUtils;
 import com.Eteryz.ForumBackend.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,11 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/api/auth/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/articles/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/api/articleRating/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/api/user/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
