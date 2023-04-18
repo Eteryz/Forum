@@ -19,8 +19,8 @@
     </parent>
 
     <modules>
-        <module>ForumBackend</module>
         <module>ForumFrontend</module>
+        <module>ForumBackend</module>
     </modules>
 
     <properties>
