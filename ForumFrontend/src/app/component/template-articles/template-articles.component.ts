@@ -36,7 +36,7 @@ export class TemplateArticlesComponent implements OnInit, OnChanges {
   }
 
   public getTextArticle(article: Article): string {
-    return article.text?.substring(0, 100) + "...";
+    return article.text?.replace(/.*?<h1>(.*?)<\/h1>.*/, '$1').substring(0, 100);
   }
 
   public getTagsArticle(article: Article): any {
